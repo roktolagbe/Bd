@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>???? ?????? | Rokto Lagbe?</title>
+  <link rel="preload" href="fonts/HindSiliguri-Regular.ttf" as="font" type="font/ttf" crossorigin />
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore-compat.js"></script>
+  <script defer src="scripts/app.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="brand">
+        <span class="brand-icon">??</span>
+        <div>
+          <h1>???? ??????</h1>
+          <p class="tagline">???? ?????? ??????</p>
+        </div>
+      </div>
+      <button id="logoutBtn" class="btn ghost" hidden>?????</button>
+    </header>
+
+    <main class="app-main">
+      <!-- Authentication Views -->
+      <section id="authSection" class="card-grid">
+        <article class="card" id="loginCard">
+          <h2>???? ????</h2>
+          <p class="card-subtitle">????? ??? ????? ??? ????????? ???</p>
+          <form id="loginForm" class="form">
+            <label>
+              <span>??? ?????</span>
+              <input type="tel" id="loginPhone" placeholder="01XXXXXXXXX" required />
+            </label>
+            <label>
+              <span>?????????</span>
+              <input type="password" id="loginPassword" placeholder="******" required />
+            </label>
+            <button type="submit" class="btn primary">????</button>
+          </form>
+          <div class="auth-links">
+            <button type="button" id="openRegister" class="link-btn">????? ?????? ???????????? ????</button>
+            <button type="button" id="openReset" class="link-btn">????????? ???? ??????</button>
+          </div>
+        </article>
+
+        <article class="card info-card" id="noticeBoard">
+          <h2>????? ?????</h2>
+          <p id="noticeMessage">??? ?????...</p>
+        </article>
+
+        <article class="card info-card" id="partnerGroups">
+          <h2>?????? ???????? ?????? ?????</h2>
+          <ul id="partnerGroupList" class="group-list"></ul>
+        </article>
+      </section>
+
+      <!-- Registration Modal -->
+      <section id="registerModal" class="modal" hidden>
+        <div class="modal-content large">
+          <header class="modal-header">
+            <h2>????? ????????????</h2>
+            <button type="button" class="icon-btn" data-close="registerModal">?</button>
+          </header>
+          <form id="registerForm" class="form grid">
+            <label>
+              <span>????? ???</span>
+              <input type="text" id="regName" required />
+            </label>
+            <label>
+              <span>??? ?????</span>
+              <input type="tel" id="regPhone" required />
+            </label>
+            <label>
+              <span>???? ?????</span>
+              <input type="date" id="regDob" required />
+            </label>
+            <label>
+              <span>????????? (??????? ? ???????)</span>
+              <input type="password" id="regPassword" minlength="6" required />
+            </label>
+            <label>
+              <span>???</span>
+              <input type="number" id="regAge" min="18" required />
+            </label>
+            <label>
+              <span>???????</span>
+              <select id="regGender" required>
+                <option value="">???????? ????</option>
+                <option value="male">?????</option>
+                <option value="female">?????</option>
+                <option value="other">????????</option>
+              </select>
+            </label>
+            <label>
+              <span>?????? ?????</span>
+              <select id="regBloodGroup" required>
+                <option value="">???????? ????</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+              </select>
+            </label>
+            <fieldset class="address-fieldset">
+              <legend>??????</legend>
+              <label>
+                <span>?????</span>
+                <input type="text" id="regDivision" required />
+              </label>
+              <label>
+                <span>????</span>
+                <input type="text" id="regDistrict" required />
+              </label>
+              <label>
+                <span>????</span>
+                <input type="text" id="regThana" required />
+              </label>
+              <label>
+                <span>??????</span>
+                <input type="text" id="regUpazila" required />
+              </label>
+            </fieldset>
+            <div class="form-actions">
+              <button type="submit" class="btn primary">????????? ????</button>
+              <button type="button" class="btn ghost" data-close="registerModal">?????</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Password Reset Modal -->
+      <section id="resetModal" class="modal" hidden>
+        <div class="modal-content medium">
+          <header class="modal-header">
+            <h2>????????? ?????</h2>
+            <button type="button" class="icon-btn" data-close="resetModal">?</button>
+          </header>
+          <form id="resetForm" class="form">
+            <label>
+              <span>??? ?????</span>
+              <input type="tel" id="resetPhone" required />
+            </label>
+            <label>
+              <span>???? ?????</span>
+              <input type="date" id="resetDob" required />
+            </label>
+            <div id="resetNewPasswordSection" hidden>
+              <label>
+                <span>???? ?????????</span>
+                <input type="password" id="resetNewPassword" minlength="6" />
+              </label>
+            </div>
+            <button type="submit" class="btn primary" id="resetSubmitBtn">??????</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- Donor Dashboard -->
+      <section id="donorDashboard" class="dashboard" hidden>
+        <div class="dashboard-header">
+          <h2>????? ??????????</h2>
+          <p>???????, <span id="donorNameDisplay"></span>!</p>
+        </div>
+
+        <div class="dashboard-grid">
+          <article class="card" id="profileCard">
+            <header class="card-header">
+              <h3>???? ????????</h3>
+              <button type="button" class="btn small" id="editProfileBtn">?????</button>
+            </header>
+            <div class="card-body" id="profileDetails"></div>
+          </article>
+
+          <article class="card" id="donationTracker">
+            <header class="card-header">
+              <h3>??????? ????????????</h3>
+            </header>
+            <div class="card-body">
+              <p>??? ????????? ?????: <span id="lastDonationDate">--</span></p>
+              <p>??????? ??????? ??????? ????: <span id="donationCountdown">--</span></p>
+              <label class="inline">
+                <span>???? ????? ????? ???????? ????</span>
+                <input type="date" id="updateDonationDate" />
+              </label>
+              <button type="button" class="btn primary" id="saveDonationDate">????? ????</button>
+            </div>
+          </article>
+
+          <article class="card" id="bloodRequestCard">
+            <header class="card-header">
+              <h3>????? ?????? ?????</h3>
+            </header>
+            <div class="card-body">
+              <button type="button" class="btn primary" id="openBloodRequestForm">????? ?????? ????? ????</button>
+              <p class="helper-text">????? ?? ?????? ????? ????? ??? ?????</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Blood Request Modal -->
+      <section id="bloodRequestModal" class="modal" hidden>
+        <div class="modal-content large">
+          <header class="modal-header">
+            <h2>????? ?????? ????? ????</h2>
+            <button type="button" class="icon-btn" data-close="bloodRequestModal">?</button>
+          </header>
+          <form id="bloodRequestForm" class="form grid">
+            <label>
+              <span>????? ????</span>
+              <input type="text" id="patientDetails" required />
+            </label>
+            <label>
+              <span>?????? ?????</span>
+              <select id="requestBloodGroup" required></select>
+            </label>
+            <label>
+              <span>?? ????? ?????</span>
+              <input type="number" id="bagsNeeded" min="1" required />
+            </label>
+            <label>
+              <span>?????????? ??????</span>
+              <input type="text" id="hospital" required />
+            </label>
+            <label>
+              <span>????????? ?????</span>
+              <input type="tel" id="contactNumber" required />
+            </label>
+            <fieldset class="address-fieldset">
+              <legend>????? ??????</legend>
+              <label>
+                <span>?????</span>
+                <input type="text" id="requestDivision" required />
+              </label>
+              <label>
+                <span>????</span>
+                <input type="text" id="requestDistrict" required />
+              </label>
+              <label>
+                <span>????</span>
+                <input type="text" id="requestThana" required />
+              </label>
+              <label>
+                <span>??????</span>
+                <input type="text" id="requestUpazila" required />
+              </label>
+            </fieldset>
+            <div class="form-actions">
+              <button type="submit" class="btn primary">??????</button>
+              <button type="button" class="btn ghost" data-close="bloodRequestModal">?????</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Invite Friends Modal -->
+      <section id="inviteModal" class="modal" hidden>
+        <div class="modal-content medium">
+          <header class="modal-header">
+            <h2>??????? ???????? ?????</h2>
+            <button type="button" class="icon-btn" data-close="inviteModal">?</button>
+          </header>
+          <div class="modal-body">
+            <p>?????? ???? ???? ??????? ????????????? ????? ??????? ???? ?????? ????? ????!</p>
+            <textarea id="inviteMessage" readonly>?????? ???? ????????! ???? ?????? ?????? ???????????? ??? ?????? ??????? ????? ???: https://roktolagbe.app/register</textarea>
+            <button type="button" class="btn primary" id="copyInvite">???? ??? ????</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Admin Panel -->
+      <section id="adminPanel" class="dashboard" hidden>
+        <div class="dashboard-header">
+          <h2>???????? ???????</h2>
+          <p>???????, <span id="adminNameDisplay"></span>!</p>
+        </div>
+
+        <div class="dashboard-grid admin-grid">
+          <article class="card">
+            <header class="card-header">
+              <h3>????? ??????????? ?????</h3>
+            </header>
+            <div class="card-body">
+              <p class="stat" id="totalUsers">--</p>
+            </div>
+          </article>
+
+          <article class="card" id="adminNoticeCard">
+            <header class="card-header">
+              <h3>????? ?????</h3>
+            </header>
+            <div class="card-body">
+              <textarea id="adminNoticeInput" rows="4"></textarea>
+              <button type="button" class="btn primary" id="saveNotice">??? ????</button>
+            </div>
+          </article>
+
+          <article class="card" id="partnerManageCard">
+            <header class="card-header">
+              <h3>???????? ????? ????????????</h3>
+            </header>
+            <div class="card-body">
+              <form id="partnerForm" class="form-inline">
+                <input type="text" id="partnerName" placeholder="??????? ???" required />
+                <input type="url" id="partnerLink" placeholder="??????? ?????" required />
+                <button type="submit" class="btn primary">??? ????</button>
+              </form>
+              <ul id="partnerAdminList" class="group-list"></ul>
+            </div>
+          </article>
+
+          <article class="card wide" id="bloodRequestAdminCard">
+            <header class="card-header">
+              <h3>????? ?????? ?????????</h3>
+            </header>
+            <div class="card-body">
+              <div id="bloodRequestList" class="request-list"></div>
+            </div>
+          </article>
+
+          <article class="card wide" id="donorSearchCard">
+            <header class="card-header">
+              <h3>????? ?????</h3>
+            </header>
+            <div class="card-body">
+              <form id="donorSearchForm" class="form-inline">
+                <select id="searchBloodGroup" required></select>
+                <input type="text" id="searchDivision" placeholder="?????" />
+                <input type="text" id="searchDistrict" placeholder="????" />
+                <input type="text" id="searchThana" placeholder="????" />
+                <input type="text" id="searchUpazila" placeholder="??????" />
+                <button type="submit" class="btn primary">?????</button>
+              </form>
+              <div id="donorSearchResults" class="result-list"></div>
+            </div>
+          </article>
+
+          <article class="card" id="donorSuspendCard">
+            <header class="card-header">
+              <h3>????? ????????</h3>
+            </header>
+            <div class="card-body">
+              <form id="suspendForm" class="form-inline">
+                <input type="tel" id="suspendPhone" placeholder="??? ?????" required />
+                <button type="submit" class="btn danger">???????? ????</button>
+              </form>
+              <p id="suspendStatus" class="helper-text"></p>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <div class="ad-placeholder">Google AdSense Placeholder</div>
+      <button class="btn donate" id="donateBtn">?????????? ??????? ????</button>
+    </footer>
+  </div>
+
+  <template id="partnerGroupItemTemplate">
+    <li class="group-item">
+      <a href="#" target="_blank" rel="noopener"></a>
+      <button type="button" class="icon-btn delete" data-id="">???</button>
+    </li>
+  </template>
+
+  <template id="bloodRequestItemTemplate">
+    <div class="request-card">
+      <div class="request-info"></div>
+      <div class="request-actions">
+        <button type="button" class="btn small" data-action="search">????? ??????</button>
+        <button type="button" class="btn small danger" data-action="delete">?????</button>
+      </div>
+      <div class="request-search-results"></div>
+    </div>
+  </template>
+
+  <template id="donorResultTemplate">
+    <div class="donor-card">
+      <div class="donor-info"></div>
+      <div class="donor-actions">
+        <button type="button" class="btn small" data-action="star">?</button>
+        <button type="button" class="btn small" data-action="note">???</button>
+        <button type="button" class="btn small" data-action="updateDonation">??? ?????</button>
+      </div>
+    </div>
+  </template>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
