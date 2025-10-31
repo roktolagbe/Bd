@@ -773,7 +773,7 @@
 
       <footer>
         <div class="ad-placeholder">Google AdSense Placeholder</div>
-        <button class="primary-btn donation-btn">
+        <button id="support-developer" class="primary-btn donation-btn" type="button" data-link="https://buymeacoffee.com/rokto">
           <i class="fa-solid fa-hand-holding-heart"></i> Support the Developer
         </button>
         <small>&copy; <span id="footer-year"></span> Need Blood? | Designed & Developed with &lt;3</small>
@@ -909,7 +909,8 @@
         currentUser: null,
         role: null,
         adminConfig: {
-          whatsappNumber: "+966544575530"
+          whatsappNumber: "+966544575530",
+          donationLink: ""
         },
         partnerGroups: [],
         unsubscribe: {
@@ -1062,6 +1063,8 @@
         }
       };
 
+
+      const DEFAULT_DONATION_URL = "https://buymeacoffee.com/rokto";
 
       const el = (id) => document.getElementById(id);
       const footerYearEl = el("footer-year");
@@ -1485,12 +1488,15 @@
         const configRef = doc(db, "appConfig", "adminConfig");
         state.unsubscribe.adminConfig = onSnapshot(configRef, (snapshot) => {
           if (snapshot.exists()) {
-            const data = snapshot.data();
-            if (data.whatsappNumber) {
-              state.adminConfig.whatsappNumber = data.whatsappNumber;
-            }
+            const data = snapshot.data() || {};
+            state.adminConfig.whatsappNumber = data.whatsappNumber || "+966544575530";
+            state.adminConfig.donationLink = data.donationLink || "";
+          } else {
+            state.adminConfig.whatsappNumber = "+966544575530";
+            state.adminConfig.donationLink = "";
           }
           updateAdminContactLink();
+          updateDonationLink();
         });
       }
 
@@ -1500,10 +1506,19 @@
         contactAdminWhatsappEl.href = `https://wa.me/${sanitized}`;
       }
 
+      function updateDonationLink() {
+        const donationBtn = el("support-developer");
+        if (!donationBtn) return;
+        const configuredLink = state.adminConfig.donationLink?.trim();
+        const fallbackLink = donationBtn.dataset.link || DEFAULT_DONATION_URL;
+        donationBtn.dataset.link = configuredLink || fallbackLink || DEFAULT_DONATION_URL;
+      }
+
       async function afterLogin() {
         persistSession(state.currentUser);
         populatePartnerGroups();
         updateAdminContactLink();
+        updateDonationLink();
         if (state.role === "admin") {
           await loadAdminDashboard();
           views.adminDashboard.classList.remove("hidden");
@@ -2154,12 +2169,13 @@
       }
 
       function bindNavigation() {
-        el("open-register").addEventListener("click", (event) => {
-          event.preventDefault();
+        el("open-register").addEventListener("click", () => {
+          forms.register.reset();
+          bindingMap.register.reset();
           switchAuthView("register");
         });
-        el("open-reset").addEventListener("click", (event) => {
-          event.preventDefault();
+        el("open-reset").addEventListener("click", () => {
+          resetResetForm();
           switchAuthView("reset");
         });
         el("back-to-login").addEventListener("click", () => switchAuthView("login"));
@@ -2198,7 +2214,21 @@
         el("blood-request-modal").addEventListener("submit", hideToast);
         bindPartnerListClicks();
         bindInviteShare();
+        bindDonationButton();
         bindModalClose();
+      }
+
+      function bindDonationButton() {
+        const donationBtn = el("support-developer");
+        if (!donationBtn) return;
+        donationBtn.addEventListener("click", () => {
+          const targetLink = donationBtn.dataset.link || DEFAULT_DONATION_URL;
+          if (!targetLink) {
+            showToast("Donation link not configured yet", "info");
+            return;
+          }
+          window.open(targetLink, "_blank", "noopener");
+        });
       }
 
       function initLocationBindings() {
@@ -2234,6 +2264,7 @@
         bindNavigation();
         bindForms();
         bindMisc();
+        updateDonationLink();
         scheduleCountdownUpdate();
         watchPartnerGroups();
         watchNoticeBoard();
