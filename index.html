@@ -626,13 +626,10 @@
                 <label class="field">Phone Number<input type="tel" id="reset-phone" required /></label>
                 <label class="field">Date of Birth<input type="date" id="reset-dob" required /></label>
               </div>
-              <div class="form-grid" id="reset-new-password" style="display: none">
-                <label class="field">New Password<input type="password" id="reset-password" minlength="6" /></label>
-                <label class="field">Confirm Password<input type="password" id="reset-password-confirm" minlength="6" /></label>
-              </div>
+              <div class="form-grid" id="reset-new-password" style="display: none"></div>
               <div class="actions">
                 <button type="submit" class="primary-btn" id="reset-submit">
-                  <i class="fa-solid fa-magnifying-glass"></i> Verify Details
+                  <i class="fa-solid fa-paper-plane"></i> Send Reset Link
                 </button>
                 <button type="button" class="ghost-btn" id="reset-back"><i class="fa-solid fa-arrow-left"></i> Back to Login</button>
               </div>
@@ -853,6 +850,13 @@
         Timestamp,
         getCountFromServer
       } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+      import {
+        getAuth,
+        createUserWithEmailAndPassword,
+        signInWithEmailAndPassword,
+        sendPasswordResetEmail,
+        signOut as firebaseSignOut
+      } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 
       const firebaseConfig = {
         apiKey: "AIzaSyD8SJhRZknt7s8H9L7ZzglteSCzPK7hFb8",
@@ -866,46 +870,11 @@
 
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
+      const auth = getAuth(app);
 
       const sessionKey = "rokto-lagbe-session";
 
-      const encodedUi = {
-        appName: "%E0%A6%B0%E0%A6%95%E0%A7%8D%E0%A6%A4%20%E0%A6%B2%E0%A6%BE%E0%A6%97%E0%A6%AC%E0%A7%87%3F",
-        loading: "%E0%A6%B2%E0%A7%8B%E0%A6%A1%20%E0%A6%B9%E0%A6%9A%E0%A7%8D%E0%A6%9B%E0%A7%87...",
-        loginHeading: "%E0%A6%B2%E0%A6%97%E0%A6%87%E0%A6%A8%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
-        loginPhoneLabel: "%E0%A6%AB%E0%A7%8B%E0%A6%A8%20%E0%A6%A8%E0%A6%BE%E0%A6%AE%E0%A7%8D%E0%A6%AC%E0%A6%BE%E0%A6%B0",
-        loginPhonePlaceholder: "%E0%A6%89%E0%A6%A6%E0%A6%BE.%20017xxxxxxxx",
-        loginPasswordLabel: "%E0%A6%AA%E0%A6%BE%E0%A6%B8%E0%A6%93%E0%A7%9F%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%A1",
-        loginButton: "%E0%A6%B2%E0%A6%97%E0%A6%87%E0%A6%A8",
-        loginRegisterLink: "%E0%A6%A1%E0%A7%8B%E0%A6%A8%E0%A6%BE%E0%A6%B0%20%E0%A6%B9%E0%A6%BF%E0%A6%B8%E0%A6%BE%E0%A6%AC%E0%A7%87%20%E0%A6%B0%E0%A7%87%E0%A6%9C%E0%A6%BF%E0%A6%B7%E0%A7%8D%E0%A6%9F%E0%A7%8D%E0%A6%B0%E0%A7%87%E0%A6%B6%E0%A6%A8%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
-        loginResetLink: "%E0%A6%AA%E0%A6%BE%E0%A6%B8%E0%A6%93%E0%A7%9F%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%A1%20%E0%A6%AD%E0%A7%81%E0%A6%B2%E0%A7%87%20%E0%A6%97%E0%A7%87%E0%A6%9B%E0%A7%87%E0%A6%A8%3F",
-        noticeTitle: "%E0%A6%A8%E0%A7%8B%E0%A6%9F%E0%A6%BF%E0%A6%B6%20%E0%A6%AC%E0%A7%8B%E0%A6%B0%E0%A7%8D%E0%A6%A1",
-        partnerTitle: "%E0%A6%86%E0%A6%AE%E0%A6%BE%E0%A6%A6%E0%A7%87%E0%A6%B0%20%E0%A6%AA%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%9F%E0%A6%A8%E0%A6%BE%E0%A6%B0%20%E0%A6%AB%E0%A7%87%E0%A6%B8%E0%A6%AC%E0%A7%81%E0%A6%95%20%E0%A6%97%E0%A7%8D%E0%A6%B0%E0%A7%81%E0%A6%AA",
-        registerHeading: "%E0%A6%A1%E0%A7%8B%E0%A6%A8%E0%A6%BE%E0%A6%B0%20%E0%A6%B0%E0%A7%87%E0%A6%9C%E0%A6%BF%E0%A6%B8%E0%A7%8D%E0%A6%9F%E0%A7%8D%E0%A6%B0%E0%A7%87%E0%A6%B6%E0%A6%A8",
-        registerName: "%E0%A6%AA%E0%A7%82%E0%A6%B0%E0%A7%8D%E0%A6%A3%20%E0%A6%A8%E0%A6%BE%E0%A6%AE",
-        registerPhone: "%E0%A6%AB%E0%A7%8B%E0%A6%A8%20%E0%A6%A8%E0%A6%BE%E0%A6%AE%E0%A7%8D%E0%A6%AC%E0%A6%BE%E0%A6%B0",
-        registerDob: "%E0%A6%9C%E0%A6%A8%E0%A7%8D%E0%A6%AE%20%E0%A6%A4%E0%A6%BE%E0%A6%B0%E0%A6%BF%E0%A6%96",
-        registerPassword: "%E0%A6%AA%E0%A6%BE%E0%A6%B8%E0%A6%93%E0%A7%9F%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%A1",
-        registerAge: "%E0%A6%AC%E0%A7%9F%E0%A6%B8",
-        registerGender: "%E0%A6%9C%E0%A7%87%E0%A6%A8%E0%A7%8D%E0%A6%A1%E0%A6%BE%E0%A6%B0",
-        genderPlaceholder: "%E0%A6%9C%E0%A7%87%E0%A6%A8%E0%A7%8D%E0%A6%A1%E0%A6%BE%E0%A6%B0%20%E0%A6%A8%E0%A6%BF%E0%A6%B0%E0%A7%8D%E0%A6%AC%E0%A6%BE%E0%A6%9A%E0%A6%A8%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
-        genderMale: "%E0%A6%AA%E0%A7%81%E0%A6%B0%E0%A7%81%E0%A6%B7",
-        genderFemale: "%E0%A6%AE%E0%A6%B9%E0%A6%BF%E0%A6%B2%E0%A6%BE",
-        genderOther: "%E0%A6%85%E0%A6%A8%E0%A7%8D%E0%A6%AF%E0%A6%BE%E0%A6%A8%E0%A7%8D%E0%A6%AF",
-        registerBlood: "%E0%A6%B0%E0%A6%95%E0%A7%8D%E0%A6%A4%E0%A7%87%E0%A6%B0%20%E0%A6%97%E0%A7%8D%E0%A6%B0%E0%A7%81%E0%A6%AA",
-        bloodPlaceholder: "%E0%A6%B0%E0%A6%95%E0%A7%8D%E0%A6%A4%E0%A7%87%E0%A6%B0%20%E0%A6%97%E0%A7%8D%E0%A6%B0%E0%A7%81%E0%A6%AA%20%E0%A6%A8%E0%A6%BF%E0%A6%B0%E0%A7%8D%E0%A6%AC%E0%A6%BE%E0%A6%9A%E0%A6%A8%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
-        registerDivision: "%E0%A6%AC%E0%A6%BF%E0%A6%AD%E0%A6%BE%E0%A6%97",
-        registerDistrict: "%E0%A6%9C%E0%A7%87%E0%A6%B2%E0%A6%BE",
-        registerThana: "%E0%A6%A5%E0%A6%BE%E0%A6%A8%E0%A6%BE",
-        registerUpazila: "%E0%A6%89%E0%A6%AA%E0%A6%9C%E0%A7%87%E0%A6%B2%E0%A6%BE",
-        divisionPlaceholder: "%E0%A6%AC%E0%A6%BF%E0%A6%AD%E0%A6%BE%E0%A6%97%20%E0%A6%A8%E0%A6%BF%E0%A6%B0%E0%A7%8D%E0%A6%AC%E0%A6%BE%E0%A6%9A%E0%A6%A8%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
-        districtPlaceholder: "%E0%A6%9C%E0%A7%87%E0%A6%B2%E0%A6%BE%20%E0%A6%A8%E0%A6%BF%E0%A6%B0%E0%A7%8D%E0%A6%AC%E0%A6%BE%E0%A6%9A%E0%A6%A8%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
-        thanaPlaceholder: "%E0%A6%A5%E0%A6%BE%E0%A6%A8%E0%A6%BE%20%E0%A6%A8%E0%A6%BF%E0%A6%B0%E0%A7%8D%E0%A6%AC%E0%A6%BE%E0%A6%9A%E0%A6%A8%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
-        upazilaPlaceholder: "%E0%A6%89%E0%A6%AA%E0%A6%9C%E0%A7%87%E0%A6%B2%E0%A6%BE%20%E0%A6%A8%E0%A6%BF%E0%A6%B0%E0%A7%8D%E0%A6%AC%E0%A6%BE%E0%A6%9A%E0%A6%A8%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
-        registerSubmit: "%E0%A6%B0%E0%A7%87%E0%A6%9C%E0%A6%BF%E0%A6%B8%E0%A7%8D%E0%A6%9F%E0%A6%BE%E0%A6%B0%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
-        registerBack: "%E0%A6%B2%E0%A6%97%E0%A6%87%E0%A6%A8%E0%A7%87%20%E0%A6%AB%E0%A6%BF%E0%A6%B0%E0%A7%87%20%E0%A6%AF%E0%A6%BE%E0%A6%A8",
-        resetHeading: "%E0%A6%AA%E0%A6%BE%E0%A6%B8%E0%A6%93%E0%A7%9F%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%A1%20%E0%A6%B0%E0%A6%BF%E0%A6%B8%E0%A7%87%E0%A6%9F",
-        resetPhoneLabel: "%E0%A6%AB%E0%A7%8B%E0%A6%A8%20%E0%A6%A8%E0%A6%BE%E0%A6%AE%E0%A7%8D%E0%A6");
+      const state = {
         currentUser: null,
         role: null,
         adminConfig: {
@@ -1066,6 +1035,22 @@
 
       const DEFAULT_DONATION_URL = "https://buymeacoffee.com/rokto";
 
+      const state = {
+        currentUser: null,
+        role: null,
+        adminConfig: {
+          whatsappNumber: "+966544575530",
+          donationLink: ""
+        },
+        partnerGroups: [],
+        unsubscribe: {
+          requests: null,
+          partnerGroups: null,
+          notice: null,
+          adminConfig: null
+        }
+      };
+
       const el = (id) => document.getElementById(id);
       const footerYearEl = el("footer-year");
       const toastEl = el("toast");
@@ -1124,8 +1109,6 @@
 
       const resetPasswordSection = el("reset-new-password");
       const resetSubmitBtn = el("reset-submit");
-      const resetPasswordField = el("reset-password");
-      const resetPasswordConfirmField = el("reset-password-confirm");
 
       footerYearEl.textContent = new Date().getFullYear();
 
@@ -1303,19 +1286,6 @@
         return `${diffDays} day(s) remaining`;
       }
 
-      async function hashPassword(password) {
-        const data = new TextEncoder().encode(password);
-        const digest = await crypto.subtle.digest("SHA-256", data);
-        return Array.from(new Uint8Array(digest))
-          .map((b) => b.toString(16).padStart(2, "0"))
-          .join("");
-      }
-
-      async function verifyPassword(password, hash) {
-        const hashed = await hashPassword(password);
-        return hashed === hash;
-      }
-
       function switchAuthView(target) {
         views.login.classList.toggle("hidden", target !== "login");
         views.register.classList.toggle("hidden", target !== "register");
@@ -1330,8 +1300,7 @@
       function resetResetForm() {
         forms.reset.reset();
         resetPasswordSection.style.display = "none";
-        resetSubmitBtn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Verify Details';
-        resetSubmitBtn.dataset.stage = "verify";
+        resetSubmitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send Reset Link';
       }
 
       function openModal(key) {
@@ -1344,7 +1313,12 @@
         if (modal) modal.classList.remove("active");
       }
 
-      function signOut() {
+      async function signOut() {
+        try {
+          await firebaseSignOut(auth);
+        } catch (error) {
+          console.error("Sign out error", error);
+        }
         localStorage.removeItem(sessionKey);
         state.currentUser = null;
         state.role = null;
@@ -1637,29 +1611,37 @@
           showToast("Please enter both phone number and password", "error");
           return;
         }
+        const email = phoneToEmail(phone);
         try {
-          const donor = await getDonorDocByPhone(phone);
-          if (!donor) {
-            showToast("No donor found with that phone number", "error");
+          const credential = await signInWithEmailAndPassword(auth, email, password);
+          const user = credential.user;
+          const docSnap = await getDoc(doc(db, "donors", user.uid));
+          if (!docSnap.exists()) {
+            showToast("Account profile not found", "error");
+            await firebaseSignOut(auth);
             return;
           }
-          if (donor.status === "suspended") {
+          const donorData = docSnap.data();
+          if (donorData.status === "suspended") {
             showToast("This account is suspended", "error");
+            await firebaseSignOut(auth);
             return;
           }
-          const ok = await verifyPassword(password, donor.passwordHash);
-          if (!ok) {
-            showToast("Incorrect password", "error");
-            return;
-          }
-          state.currentUser = donor;
-          state.role = donor.role || "donor";
+          state.currentUser = { id: user.uid, ...donorData };
+          state.role = donorData.role || "donor";
           await afterLogin();
           forms.login.reset();
           showToast("Logged in successfully", "success");
         } catch (error) {
           console.error("Login error", error);
-          showToast("Unable to sign in right now", "error");
+          const code = error?.code || "";
+          if (code === "auth/invalid-credential" || code === "auth/wrong-password") {
+            showToast("Incorrect phone number or password", "error");
+          } else if (code === "auth/user-not-found") {
+            showToast("No donor found with that phone number", "error");
+          } else {
+            showToast("Unable to sign in right now", "error");
+          }
         }
       }
 
@@ -1685,14 +1667,14 @@
             showToast("An account already exists with this phone number", "error");
             return;
           }
-          const passwordHash = await hashPassword(password);
-          const donorsRef = collection(db, "donors");
-          await addDoc(donorsRef, {
+          const email = phoneToEmail(phone);
+          const credential = await createUserWithEmailAndPassword(auth, email, password);
+          const user = credential.user;
+          await setDoc(doc(db, "donors", user.uid), {
             name,
             phone,
-            email: phoneToEmail(phone),
+            email,
             dateOfBirth: dob,
-            passwordHash,
             age,
             gender,
             bloodGroup,
@@ -1702,19 +1684,26 @@
             address,
             createdAt: serverTimestamp()
           });
+          await firebaseSignOut(auth);
           showToast("Registration successful, please sign in", "success");
           switchAuthView("login");
           forms.register.reset();
           bindingMap.register.reset();
         } catch (error) {
           console.error("Registration error", error);
-          showToast("Registration failed, please try again", "error");
+          const code = error?.code || "";
+          if (code === "auth/email-already-in-use") {
+            showToast("This phone number is already registered", "error");
+          } else if (code === "auth/weak-password") {
+            showToast("Password must be at least 6 characters", "error");
+          } else {
+            showToast("Registration failed, please try again", "error");
+          }
         }
       }
 
       async function handleReset(event) {
         event.preventDefault();
-        const stage = resetSubmitBtn.dataset.stage || "verify";
         const phone = sanitizePhone(el("reset-phone").value);
         const dob = el("reset-dob").value;
         if (!phone || !dob) {
@@ -1728,34 +1717,18 @@
             showToast("No matching donor found", "error");
             return;
           }
-          if (stage === "verify") {
-            resetPasswordSection.style.display = "grid";
-            resetSubmitBtn.innerHTML = '<i class="fa-solid fa-check"></i> Update Password';
-            resetSubmitBtn.dataset.stage = "update";
-            showToast("Verification successful, set a new password", "success");
-            return;
-          }
-          const password = resetPasswordField.value;
-          const confirm = resetPasswordConfirmField.value;
-          if (!password || password.length < 6) {
-            showToast("Password must be at least 6 characters", "error");
-            return;
-          }
-          if (password !== confirm) {
-            showToast("Passwords do not match", "error");
-            return;
-          }
-          const passwordHash = await hashPassword(password);
-          await updateDoc(doc(db, "donors", donor.id), {
-            passwordHash,
-            passwordUpdatedAt: serverTimestamp()
-          });
-          showToast("Password updated successfully", "success");
+          await sendPasswordResetEmail(auth, phoneToEmail(phone));
+          showToast("Password reset link sent to your email", "success");
           resetResetForm();
           switchAuthView("login");
         } catch (error) {
           console.error("Reset error", error);
-          showToast("Unable to update password right now", "error");
+          const code = error?.code || "";
+          if (code === "auth/invalid-email") {
+            showToast("Unable to send reset email for this phone", "error");
+          } else {
+            showToast("Unable to update password right now", "error");
+          }
         }
       }
 
