@@ -869,58 +869,6 @@
 
       const sessionKey = "rokto-lagbe-session";
 
-      const encodedUi = {
-        appName: "%E0%A6%B0%E0%A6%95%E0%A7%8D%E0%A6%A4%20%E0%A6%B2%E0%A6%BE%E0%A6%97%E0%A6%AC%E0%A7%87%3F",
-        loading: "%E0%A6%B2%E0%A7%8B%E0%A6%A1%20%E0%A6%B9%E0%A6%9A%E0%A7%8D%E0%A6%9B%E0%A7%87...",
-        loginHeading: "%E0%A6%B2%E0%A6%97%E0%A6%87%E0%A6%A8%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
-        loginPhoneLabel: "%E0%A6%AB%E0%A7%8B%E0%A6%A8%20%E0%A6%A8%E0%A6%BE%E0%A6%AE%E0%A7%8D%E0%A6%AC%E0%A6%BE%E0%A6%B0",
-        loginPhonePlaceholder: "%E0%A6%89%E0%A6%A6%E0%A6%BE.%20017xxxxxxxx",
-        loginPasswordLabel: "%E0%A6%AA%E0%A6%BE%E0%A6%B8%E0%A6%93%E0%A7%9F%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%A1",
-        loginButton: "%E0%A6%B2%E0%A6%97%E0%A6%87%E0%A6%A8",
-        loginRegisterLink: "%E0%A6%A1%E0%A7%8B%E0%A6%A8%E0%A6%BE%E0%A6%B0%20%E0%A6%B9%E0%A6%BF%E0%A6%B8%E0%A6%BE%E0%A6%AC%E0%A7%87%20%E0%A6%B0%E0%A7%87%E0%A6%9C%E0%A6%BF%E0%A6%B7%E0%A7%8D%E0%A6%9F%E0%A7%8D%E0%A6%B0%E0%A7%87%E0%A6%B6%E0%A6%A8%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
-        loginResetLink: "%E0%A6%AA%E0%A6%BE%E0%A6%B8%E0%A6%93%E0%A7%9F%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%A1%20%E0%A6%AD%E0%A7%81%E0%A6%B2%E0%A7%87%20%E0%A6%97%E0%A7%87%E0%A6%9B%E0%A7%87%E0%A6%A8%3F",
-        noticeTitle: "%E0%A6%A8%E0%A7%8B%E0%A6%9F%E0%A6%BF%E0%A6%B6%20%E0%A6%AC%E0%A7%8B%E0%A6%B0%E0%A7%8D%E0%A6%A1",
-        partnerTitle: "%E0%A6%86%E0%A6%AE%E0%A6%BE%E0%A6%A6%E0%A7%87%E0%A6%B0%20%E0%A6%AA%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%9F%E0%A6%A8%E0%A6%BE%E0%A6%B0%20%E0%A6%AB%E0%A7%87%E0%A6%B8%E0%A6%AC%E0%A7%81%E0%A6%95%20%E0%A6%97%E0%A7%8D%E0%A6%B0%E0%A7%81%E0%A6%AA",
-        registerHeading: "%E0%A6%A1%E0%A7%8B%E0%A6%A8%E0%A6%BE%E0%A6%B0%20%E0%A6%B0%E0%A7%87%E0%A6%9C%E0%A6%BF%E0%A6%B8%E0%A7%8D%E0%A6%9F%E0%A7%8D%E0%A6%B0%E0%A7%87%E0%A6%B6%E0%A6%A8",
-        registerName: "%E0%A6%AA%E0%A7%82%E0%A6%B0%E0%A7%8D%E0%A6%A3%20%E0%A6%A8%E0%A6%BE%E0%A6%AE",
-        registerPhone: "%E0%A6%AB%E0%A7%8B%E0%A6%A8%20%E0%A6%A8%E0%A6%BE%E0%A6%AE%E0%A7%8D%E0%A6%AC%E0%A6%BE%E0%A6%B0",
-        registerDob: "%E0%A6%9C%E0%A6%A8%E0%A7%8D%E0%A6%AE%20%E0%A6%A4%E0%A6%BE%E0%A6%B0%E0%A6%BF%E0%A6%96",
-        registerPassword: "%E0%A6%AA%E0%A6%BE%E0%A6%B8%E0%A6%93%E0%A7%9F%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%A1",
-        registerAge: "%E0%A6%AC%E0%A7%9F%E0%A6%B8",
-        registerGender: "%E0%A6%9C%E0%A7%87%E0%A6%A8%E0%A7%8D%E0%A6%A1%E0%A6%BE%E0%A6%B0",
-        genderPlaceholder: "%E0%A6%9C%E0%A7%87%E0%A6%A8%E0%A7%8D%E0%A6%A1%E0%A6%BE%E0%A6%B0%20%E0%A6%A8%E0%A6%BF%E0%A6%B0%E0%A7%8D%E0%A6%AC%E0%A6%BE%E0%A6%9A%E0%A6%A8%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
-        genderMale: "%E0%A6%AA%E0%A7%81%E0%A6%B0%E0%A7%81%E0%A6%B7",
-        genderFemale: "%E0%A6%AE%E0%A6%B9%E0%A6%BF%E0%A6%B2%E0%A6%BE",
-        genderOther: "%E0%A6%85%E0%A6%A8%E0%A7%8D%E0%A6%AF%E0%A6%BE%E0%A6%A8%E0%A7%8D%E0%A6%AF",
-        registerBlood: "%E0%A6%B0%E0%A6%95%E0%A7%8D%E0%A6%A4%E0%A7%87%E0%A6%B0%20%E0%A6%97%E0%A7%8D%E0%A6%B0%E0%A7%81%E0%A6%AA",
-        bloodPlaceholder: "%E0%A6%B0%E0%A6%95%E0%A7%8D%E0%A6%A4%E0%A7%87%E0%A6%B0%20%E0%A6%97%E0%A7%8D%E0%A6%B0%E0%A7%81%E0%A6%AA%20%E0%A6%A8%E0%A6%BF%E0%A6%B0%E0%A7%8D%E0%A6%AC%E0%A6%BE%E0%A6%9A%E0%A6%A8%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
-        registerDivision: "%E0%A6%AC%E0%A6%BF%E0%A6%AD%E0%A6%BE%E0%A6%97",
-        registerDistrict: "%E0%A6%9C%E0%A7%87%E0%A6%B2%E0%A6%BE",
-        registerThana: "%E0%A6%A5%E0%A6%BE%E0%A6%A8%E0%A6%BE",
-        registerUpazila: "%E0%A6%89%E0%A6%AA%E0%A6%9C%E0%A7%87%E0%A6%B2%E0%A6%BE",
-        divisionPlaceholder: "%E0%A6%AC%E0%A6%BF%E0%A6%AD%E0%A6%BE%E0%A6%97%20%E0%A6%A8%E0%A6%BF%E0%A6%B0%E0%A7%8D%E0%A6%AC%E0%A6%BE%E0%A6%9A%E0%A6%A8%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
-        districtPlaceholder: "%E0%A6%9C%E0%A7%87%E0%A6%B2%E0%A6%BE%20%E0%A6%A8%E0%A6%BF%E0%A6%B0%E0%A7%8D%E0%A6%AC%E0%A6%BE%E0%A6%9A%E0%A6%A8%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
-        thanaPlaceholder: "%E0%A6%A5%E0%A6%BE%E0%A6%A8%E0%A6%BE%20%E0%A6%A8%E0%A6%BF%E0%A6%B0%E0%A7%8D%E0%A6%AC%E0%A6%BE%E0%A6%9A%E0%A6%A8%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
-        upazilaPlaceholder: "%E0%A6%89%E0%A6%AA%E0%A6%9C%E0%A7%87%E0%A6%B2%E0%A6%BE%20%E0%A6%A8%E0%A6%BF%E0%A6%B0%E0%A7%8D%E0%A6%AC%E0%A6%BE%E0%A6%9A%E0%A6%A8%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
-        registerSubmit: "%E0%A6%B0%E0%A7%87%E0%A6%9C%E0%A6%BF%E0%A6%B8%E0%A7%8D%E0%A6%9F%E0%A6%BE%E0%A6%B0%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
-        registerBack: "%E0%A6%B2%E0%A6%97%E0%A6%87%E0%A6%A8%E0%A7%87%20%E0%A6%AB%E0%A6%BF%E0%A6%B0%E0%A7%87%20%E0%A6%AF%E0%A6%BE%E0%A6%A8",
-        resetHeading: "%E0%A6%AA%E0%A6%BE%E0%A6%B8%E0%A6%93%E0%A7%9F%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%A1%20%E0%A6%B0%E0%A6%BF%E0%A6%B8%E0%A7%87%E0%A6%9F",
-        resetPhoneLabel: "%E0%A6%AB%E0%A7%8B%E0%A6%A8%20%E0%A6%A8%E0%A6%BE%E0%A6%AE%E0%A7%8D%E0%A6");
-        currentUser: null,
-        role: null,
-        adminConfig: {
-          whatsappNumber: "+966544575530",
-          donationLink: ""
-        },
-        partnerGroups: [],
-        unsubscribe: {
-          requests: null,
-          partnerGroups: null,
-          notice: null,
-          adminConfig: null
-        }
-      };
-
       const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
       const genderOptions = [
         { value: "male", label: "Male" },
@@ -1065,6 +1013,22 @@
 
 
       const DEFAULT_DONATION_URL = "https://buymeacoffee.com/rokto";
+
+      const state = {
+        currentUser: null,
+        role: null,
+        adminConfig: {
+          whatsappNumber: "+966544575530",
+          donationLink: ""
+        },
+        partnerGroups: [],
+        unsubscribe: {
+          requests: null,
+          partnerGroups: null,
+          notice: null,
+          adminConfig: null
+        }
+      };
 
       const el = (id) => document.getElementById(id);
       const footerYearEl = el("footer-year");
