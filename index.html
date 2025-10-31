@@ -1,0 +1,2211 @@
+<!DOCTYPE html>
+<html lang="bn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>???? ?????? | Rokto Lagbe?</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-p2ZPp8pU8wEfr2E1VlzDq+W8sELpAo0P5NdQ4KJIp4jOSAmhpN6wX6Z1GDZCBoBPXaG9q4CPGK/cHBXHi6S0AQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <style>
+      :root {
+        --primary: #d62828;
+        --primary-dark: #a71c1c;
+        --accent: #f77f00;
+        --background: #fff7f7;
+        --surface: #ffffff;
+        --text: #2d2d2d;
+        --muted: #5f5f5f;
+        --border: #f0c7c7;
+        --success: #2b9348;
+        --danger: #9d0208;
+        font-family: "Hind Siliguri", "Noto Sans Bengali", system-ui, -apple-system,
+          BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--background);
+        color: var(--text);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .app-shell {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      header.app-header {
+        padding: 1.5rem 1rem;
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        color: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      header.app-header::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.15), transparent 55%),
+          radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.25), transparent 65%);
+        pointer-events: none;
+      }
+
+      .header-logo {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .header-logo .logo-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.18);
+        display: grid;
+        place-items: center;
+        font-size: 1.8rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+      }
+
+      .header-logo h1 {
+        margin: 0;
+        font-size: 1.9rem;
+        line-height: 1.2;
+      }
+
+      main {
+        flex: 1;
+        width: min(100%, 1100px);
+        margin: -3.8rem auto 0;
+        padding: 0 1rem 5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      .card {
+        background: var(--surface);
+        border-radius: 22px;
+        box-shadow: 0 18px 50px rgba(214, 40, 40, 0.12);
+        padding: clamp(1.5rem, 3vw, 2.75rem);
+        position: relative;
+      }
+
+      .card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 22px;
+        border: 2px solid transparent;
+        background: linear-gradient(135deg, rgba(214, 40, 40, 0.18), rgba(247, 127, 0, 0.18)) border-box;
+        -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+      }
+
+      h2.section-title {
+        margin: 0 0 1.5rem;
+        font-size: 1.6rem;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      h2.section-title i {
+        font-size: 1.25rem;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 1rem;
+      }
+
+      label.field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      .field input,
+      .field select,
+      .field textarea {
+        padding: 0.8rem 1rem;
+        border-radius: 12px;
+        border: 1.5px solid rgba(214, 40, 40, 0.35);
+        font-size: 1rem;
+        background: rgba(214, 40, 40, 0.04);
+        transition: border 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      }
+
+      .field input:focus,
+      .field select:focus,
+      .field textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(214, 40, 40, 0.15);
+        background: #fff;
+      }
+
+      .field textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+      }
+
+      .primary-btn,
+      .secondary-btn,
+      .ghost-btn {
+        border: none;
+        border-radius: 14px;
+        padding: 0.9rem 1.6rem;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+      }
+
+      .primary-btn {
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        color: #ffffff;
+        box-shadow: 0 12px 30px rgba(214, 40, 40, 0.3);
+      }
+
+      .primary-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 16px 40px rgba(214, 40, 40, 0.35);
+      }
+
+      .secondary-btn {
+        background: rgba(214, 40, 40, 0.15);
+        color: var(--primary);
+      }
+
+      .secondary-btn:hover {
+        transform: translateY(-1px);
+        background: rgba(214, 40, 40, 0.22);
+      }
+
+      .ghost-btn {
+        background: transparent;
+        color: var(--muted);
+      }
+
+      .ghost-btn:hover {
+        color: var(--primary);
+      }
+
+      a.link {
+        color: var(--primary);
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      a.link:hover {
+        text-decoration: underline;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .split-layout {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        align-items: start;
+      }
+
+      .notice-board {
+        padding: 1.25rem;
+        border-radius: 16px;
+        background: rgba(214, 40, 40, 0.08);
+        border: 1px dashed rgba(214, 40, 40, 0.4);
+      }
+
+      .notice-board h3 {
+        margin: 0 0 0.75rem;
+        font-size: 1.25rem;
+        color: var(--primary);
+      }
+
+      .partner-groups ul {
+        list-style: none;
+        padding: 0;
+        margin: 1rem 0 0;
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .partner-groups li {
+        padding: 0.75rem 1rem;
+        border-radius: 12px;
+        background: rgba(214, 40, 40, 0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .partner-groups li span {
+        font-weight: 600;
+      }
+
+      .dashboard-section {
+        display: grid;
+        gap: 2.25rem;
+      }
+
+      .info-card {
+        border-left: 5px solid var(--primary);
+        padding: 1.25rem 1.5rem;
+        border-radius: 16px;
+        background: #fff;
+        box-shadow: 0 10px 25px rgba(214, 40, 40, 0.1);
+      }
+
+      .info-card h3 {
+        margin: 0 0 0.6rem;
+        color: var(--primary);
+      }
+
+      .profile-grid,
+      .request-grid,
+      .admin-grid,
+      .search-results {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .profile-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      }
+
+      table.data-table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 10px 25px rgba(214, 40, 40, 0.1);
+      }
+
+      table.data-table thead {
+        background: rgba(214, 40, 40, 0.12);
+      }
+
+      table.data-table th,
+      table.data-table td {
+        padding: 0.9rem 0.8rem;
+        text-align: left;
+        border-bottom: 1px solid rgba(214, 40, 40, 0.15);
+      }
+
+      table.data-table tbody tr:hover {
+        background: rgba(214, 40, 40, 0.06);
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.35rem 0.75rem;
+        border-radius: 999px;
+        background: rgba(214, 40, 40, 0.1);
+        color: var(--primary);
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+
+      .status-suspended {
+        color: var(--danger);
+        font-weight: 700;
+      }
+
+      .countdown {
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: var(--primary);
+      }
+
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+        z-index: 99;
+      }
+
+      .modal-backdrop.active {
+        display: flex;
+      }
+
+      .modal {
+        background: #ffffff;
+        border-radius: 22px;
+        padding: 2rem;
+        position: relative;
+        width: min(100%, 420px);
+        box-shadow: 0 18px 60px rgba(214, 40, 40, 0.2);
+      }
+
+      .modal h3 {
+        margin-top: 0;
+        color: var(--primary);
+      }
+
+      .modal-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: transparent;
+        border: none;
+        font-size: 1.2rem;
+        cursor: pointer;
+        color: var(--muted);
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 1.5rem;
+        right: 1.5rem;
+        background: #ffffff;
+        padding: 1rem 1.25rem;
+        border-radius: 14px;
+        box-shadow: 0 12px 35px rgba(214, 40, 40, 0.18);
+        display: none;
+        align-items: center;
+        gap: 0.75rem;
+        border-left: 4px solid var(--primary);
+        z-index: 100;
+      }
+
+      .toast.show {
+        display: inline-flex;
+      }
+
+      footer {
+        margin-top: auto;
+        padding: 2.5rem 1rem;
+        background: #fafafa;
+        border-top: 1px solid rgba(214, 40, 40, 0.15);
+        text-align: center;
+        color: var(--muted);
+        display: grid;
+        gap: 1rem;
+      }
+
+      .ad-placeholder {
+        min-height: 90px;
+        border: 2px dashed rgba(214, 40, 40, 0.4);
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+        color: var(--primary);
+        font-weight: 600;
+      }
+
+      .donation-btn {
+        justify-self: center;
+        max-width: 240px;
+      }
+
+      @media (max-width: 720px) {
+        header.app-header {
+          padding: 1.25rem 1rem 6rem;
+        }
+
+        main {
+          margin-top: -4.5rem;
+          padding: 0 1rem 4rem;
+        }
+
+        .card {
+          padding: 1.5rem;
+        }
+
+        h2.section-title {
+          font-size: 1.4rem;
+        }
+
+        header.app-header h1 {
+          font-size: 1.6rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <div class="header-logo">
+          <div class="logo-icon">
+            <i class="fa-solid fa-droplet"></i>
+          </div>
+          <div>
+            <h1>???? ??????</h1>
+            <p style="margin: 0; font-weight: 500; font-size: 0.95rem">
+              Rokto Lagbe? Blood Donation Network
+            </p>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section id="auth-section" class="card">
+          <div id="login-view">
+            <h2 class="section-title"><i class="fa-solid fa-stethoscope"></i> ???? ????</h2>
+            <form id="login-form" class="dashboard-section">
+              <div class="form-grid">
+                <label class="field">
+                  ??? ???????
+                  <input type="tel" id="login-phone" placeholder="???. 017xxxxxxxx" required />
+                </label>
+                <label class="field">
+                  ?????????
+                  <input type="password" id="login-password" placeholder="********" required />
+                </label>
+              </div>
+              <div class="actions" style="justify-content: space-between">
+                <button type="submit" class="primary-btn">
+                  <i class="fa-solid fa-right-to-bracket"></i> ????
+                </button>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem">
+                  <a href="#" id="open-register" class="link"><i class="fa-solid fa-user-plus"></i> ????? ?????? ???????????? ????</a>
+                  <a href="#" id="open-reset" class="link"><i class="fa-solid fa-unlock-keyhole"></i> ????????? ???? ??????</a>
+                </div>
+              </div>
+            </form>
+
+            <div class="split-layout" style="margin-top: 2.5rem">
+              <div class="notice-board">
+                <h3><i class="fa-solid fa-thumbtack"></i> ????? ?????</h3>
+                <p id="notice-message">??? ?????...</p>
+              </div>
+              <div class="partner-groups">
+                <h3 style="margin: 0 0 0.75rem; color: var(--primary)">
+                  <i class="fa-brands fa-facebook"></i> ?????? ???????? ?????? ?????
+                </h3>
+                <ul id="partner-group-list"></ul>
+              </div>
+            </div>
+          </div>
+
+          <div id="register-view" class="hidden">
+            <h2 class="section-title"><i class="fa-solid fa-id-card"></i> ????? ????????????</h2>
+            <form id="register-form" class="dashboard-section">
+              <div class="form-grid">
+                <label class="field">????? ???<input type="text" id="reg-name" required /></label>
+                <label class="field">??? ???????<input type="tel" id="reg-phone" required /></label>
+                <label class="field">???? ?????<input type="date" id="reg-dob" required /></label>
+                <label class="field">?????????<input type="password" id="reg-password" minlength="6" required /></label>
+                <label class="field">???<input type="number" id="reg-age" min="18" required /></label>
+                <label class="field">
+                  ???????
+                  <select id="reg-gender" required>
+                    <option value="" disabled selected>??????? ???????? ????</option>
+                    <option value="male">?????</option>
+                    <option value="female">?????</option>
+                    <option value="other">????????</option>
+                  </select>
+                </label>
+                <label class="field">
+                  ?????? ?????
+                  <select id="reg-bloodgroup" required>
+                    <option value="" disabled selected>?????? ????? ???????? ????</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                  </select>
+                </label>
+                <label class="field">
+                  ?????
+                  <select id="reg-division" required></select>
+                </label>
+                <label class="field">
+                  ????
+                  <select id="reg-district" required></select>
+                </label>
+                <label class="field">
+                  ????
+                  <select id="reg-thana" required></select>
+                </label>
+                <label class="field">
+                  ??????
+                  <select id="reg-upazila" required></select>
+                </label>
+              </div>
+              <div class="actions">
+                <button type="submit" class="primary-btn"><i class="fa-solid fa-floppy-disk"></i> ????????? ????</button>
+                <button type="button" class="ghost-btn" id="back-to-login"><i class="fa-solid fa-arrow-left"></i> ????? ???? ???</button>
+              </div>
+            </form>
+          </div>
+
+          <div id="reset-view" class="hidden">
+            <h2 class="section-title"><i class="fa-solid fa-shield-heart"></i> ????????? ?????</h2>
+            <form id="reset-form" class="dashboard-section">
+              <div class="form-grid">
+                <label class="field">??? ???????<input type="tel" id="reset-phone" required /></label>
+                <label class="field">???? ?????<input type="date" id="reset-dob" required /></label>
+              </div>
+              <div class="form-grid" id="reset-new-password" style="display: none">
+                <label class="field">???? ?????????<input type="password" id="reset-password" minlength="6" /></label>
+                <label class="field">????????? ??????? ????<input type="password" id="reset-password-confirm" minlength="6" /></label>
+              </div>
+              <div class="actions">
+                <button type="submit" class="primary-btn" id="reset-submit">
+                  <i class="fa-solid fa-magnifying-glass"></i> ???? ?????
+                </button>
+                <button type="button" class="ghost-btn" id="reset-back"><i class="fa-solid fa-arrow-left"></i> ????? ???? ???</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <section id="donor-dashboard" class="card hidden">
+          <div class="dashboard-header" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap">
+            <div>
+              <h2 class="section-title" style="margin-bottom: 0"><i class="fa-solid fa-hand-holding-droplet"></i> ????? ??????????</h2>
+              <p style="margin: 0; color: var(--muted)">???????, <span id="donor-name"></span>!</p>
+            </div>
+            <button id="btn-logout-donor" class="ghost-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> ?????</button>
+          </div>
+
+          <div class="dashboard-section" style="margin-top: 2rem">
+            <div class="info-card">
+              <h3><i class="fa-solid fa-user"></i> ???? ????????</h3>
+              <form id="donor-profile-form" class="profile-grid">
+                <label class="field">????? ???<input type="text" id="donor-profile-name" required /></label>
+                <label class="field">?????/???<span class="badge" id="donor-profile-email"></span></label>
+                <label class="field">???????? ???<input type="tel" id="donor-profile-alt-phone" placeholder="??????" /></label>
+                <label class="field">???<input type="number" id="donor-profile-age" min="18" required /></label>
+                <label class="field">?????? ?????<select id="donor-profile-division" required></select></label>
+                <label class="field">?????? ????<select id="donor-profile-district" required></select></label>
+                <label class="field">?????? ????<select id="donor-profile-thana" required></select></label>
+                <label class="field">?????? ??????<select id="donor-profile-upazila" required></select></label>
+                <label class="field">?????? ?????<select id="donor-profile-blood" required></select></label>
+                <label class="field">???????<select id="donor-profile-gender" required></select></label>
+              </form>
+              <div class="actions" style="margin-top: 1rem">
+                <button type="button" id="donor-profile-save" class="primary-btn"><i class="fa-solid fa-save"></i> ???????? ?????</button>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <h3><i class="fa-solid fa-calendar-heart"></i> ??????? ?????????</h3>
+              <div class="request-grid">
+                <div>
+                  <p style="margin: 0 0 0.75rem; color: var(--muted)">??? ????????? ?????</p>
+                  <input type="date" id="donor-last-donation" class="tracking-input" />
+                </div>
+                <div>
+                  <p style="margin: 0 0 0.75rem; color: var(--muted)">??????? ????????? ???</p>
+                  <p class="countdown" id="donor-countdown">--</p>
+                </div>
+              </div>
+              <div class="actions" style="margin-top: 1rem">
+                <button type="button" id="donor-save-donation" class="secondary-btn">
+                  <i class="fa-solid fa-rotate"></i> ????? ????
+                </button>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap">
+                <h3 style="margin-bottom: 0"><i class="fa-solid fa-triangle-exclamation"></i> ????? ?????? ?????</h3>
+                <button id="open-blood-request" class="primary-btn"><i class="fa-solid fa-siren-on"></i> ????? ?????? ????? ????</button>
+              </div>
+              <p style="margin: 0.75rem 0 0; color: var(--muted)">
+                ????? ?? ?????? ????? ????? ???? ????? ??????
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section id="admin-dashboard" class="card hidden">
+          <div class="dashboard-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem">
+            <div>
+              <h2 class="section-title" style="margin-bottom: 0"><i class="fa-solid fa-user-shield"></i> ???????? ???????</h2>
+              <p style="margin: 0; color: var(--muted)">??????????? ??????????? ?????????</p>
+            </div>
+            <button id="btn-logout-admin" class="ghost-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> ?????</button>
+          </div>
+
+          <div class="dashboard-section" style="margin-top: 2rem">
+            <div class="info-card" style="display: grid; gap: 0.5rem; max-width: 420px">
+              <span class="badge" style="width: fit-content"><i class="fa-solid fa-user-group"></i> ??? ??????????? ?????</span>
+              <h3 style="margin-bottom: 0; font-size: 2rem" id="total-donors">0</h3>
+            </div>
+
+            <div class="info-card">
+              <h3><i class="fa-solid fa-list-check"></i> ??????? ?????? ?????</h3>
+              <div class="search-results" id="admin-request-list"></div>
+            </div>
+
+            <div class="info-card">
+              <h3><i class="fa-solid fa-magnifying-glass-location"></i> ????? ??????</h3>
+              <form id="admin-search-form" class="form-grid">
+                <label class="field">?????? ?????<select id="admin-search-blood" required></select></label>
+                <label class="field">?????<select id="admin-search-division" required></select></label>
+                <label class="field">????<select id="admin-search-district" required></select></label>
+                <label class="field">????<select id="admin-search-thana" required></select></label>
+                <label class="field">??????<select id="admin-search-upazila" required></select></label>
+                <div class="actions" style="grid-column: 1 / -1">
+                  <button type="submit" class="primary-btn"><i class="fa-solid fa-search"></i> ????? ????</button>
+                  <button type="button" id="admin-reset-search" class="ghost-btn"><i class="fa-solid fa-rotate-left"></i> ?????</button>
+                </div>
+              </form>
+              <div class="search-results" id="admin-search-results"></div>
+            </div>
+
+            <div class="info-card">
+              <h3><i class="fa-solid fa-person-circle-xmark"></i> ????? ????????</h3>
+              <form id="admin-suspend-form" class="form-grid">
+                <label class="field">??? ???????<input type="tel" id="admin-suspend-phone" required /></label>
+                <div class="actions">
+                  <button type="submit" class="secondary-btn"><i class="fa-solid fa-user-slash"></i> ???????? ????</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="info-card">
+              <h3><i class="fa-solid fa-message"></i> ????? ????? ?????</h3>
+              <form id="admin-notice-form" class="form-grid">
+                <label class="field">?????<textarea id="admin-notice-message" rows="4"></textarea></label>
+                <div class="actions">
+                  <button type="submit" class="primary-btn"><i class="fa-solid fa-floppy-disk"></i> ??? ????</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="info-card">
+              <h3><i class="fa-brands fa-facebook"></i> ???????? ?????? ?????</h3>
+              <form id="admin-partner-form" class="form-grid">
+                <label class="field">??????? ???<input type="text" id="admin-partner-name" required /></label>
+                <label class="field">????? ????<input type="url" id="admin-partner-link" required /></label>
+                <div class="actions">
+                  <button type="submit" class="secondary-btn"><i class="fa-solid fa-plus"></i> ????? ??? ????</button>
+                </div>
+              </form>
+              <div class="search-results" id="admin-partner-list"></div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <div class="ad-placeholder">Google AdSense Placeholder</div>
+        <button class="primary-btn donation-btn">
+          <i class="fa-solid fa-hand-holding-heart"></i> ?????????? ?????? ????
+        </button>
+        <small>? <span id="footer-year"></span> ???? ?????? | ?????? ? ??????????? with ??</small>
+      </footer>
+    </div>
+
+    <div class="modal-backdrop" id="invite-modal">
+      <div class="modal">
+        <button class="modal-close" data-close="invite-modal"><i class="fa-solid fa-xmark"></i></button>
+        <h3><i class="fa-solid fa-people-group"></i> ???????? ???????? ?????</h3>
+        <p>
+          ???? ????? ??? ???? ??????? ?????????? ???? ????? ????? ????? ? ???????? ?????? ???????? ?????????? ??? ???? ???????? ??????
+        </p>
+        <div class="actions">
+          <button class="primary-btn" id="invite-share"><i class="fa-solid fa-share-nodes"></i> ?????? ????</button>
+          <button class="ghost-btn" data-close="invite-modal"><i class="fa-solid fa-check"></i> ??? ?????</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-backdrop" id="blood-request-modal">
+      <div class="modal" style="width: min(100%, 520px)">
+        <button class="modal-close" data-close="blood-request-modal"><i class="fa-solid fa-xmark"></i></button>
+        <h3><i class="fa-solid fa-suitcase-medical"></i> ????? ?????? ?????</h3>
+        <form id="blood-request-form" class="dashboard-section" style="margin-top: 1rem">
+          <div class="form-grid">
+            <label class="field">????? ????<textarea id="req-patient-details" required></textarea></label>
+            <label class="field">?????? ?????<select id="req-blood-group" required></select></label>
+            <label class="field">?? ????? ?????<input type="number" id="req-bags" min="1" value="1" required /></label>
+            <label class="field">?????????? ??????<input type="text" id="req-hospital" required /></label>
+            <label class="field">????????? ?????<input type="tel" id="req-contact" required /></label>
+            <label class="field">?????<select id="req-division" required></select></label>
+            <label class="field">????<select id="req-district" required></select></label>
+            <label class="field">????<select id="req-thana" required></select></label>
+            <label class="field">??????<select id="req-upazila" required></select></label>
+          </div>
+          <div class="actions">
+            <button type="submit" class="primary-btn"><i class="fa-solid fa-paper-plane"></i> ????? ??????</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal-backdrop" id="request-success-modal">
+      <div class="modal">
+        <button class="modal-close" data-close="request-success-modal"><i class="fa-solid fa-xmark"></i></button>
+        <h3><i class="fa-solid fa-circle-check"></i> ????? ???</h3>
+        <p>????? ??????? ???????? ???????? ?????? ?????? ????? ???????? ????? ????? ????? ??? ?????????? ???? ??????? ?????</p>
+        <div class="actions">
+          <a class="primary-btn" id="contact-admin-whatsapp" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> ?????????? ???? ??????? ????</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast">
+      <i class="fa-solid fa-circle-info"></i>
+      <span id="toast-message"></span>
+    </div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        doc,
+        addDoc,
+        getDoc,
+        getDocs,
+        setDoc,
+        updateDoc,
+        deleteDoc,
+        query,
+        where,
+        onSnapshot,
+        serverTimestamp,
+        orderBy,
+        Timestamp,
+        getCountFromServer
+      } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyD8SJhRZknt7s8H9L7ZzglteSCzPK7hFb8",
+        authDomain: "roktolagbe-356a5.firebaseapp.com",
+        projectId: "roktolagbe-356a5",
+        storageBucket: "roktolagbe-356a5.firebasestorage.app",
+        messagingSenderId: "685449667823",
+        appId: "1:685449667823:web:a082d06c41ad11bff0671a",
+        measurementId: "G-MC1QTXV6SB"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      const sessionKey = "rokto-lagbe-session";
+
+      const encodedUi = {
+        appName: "%E0%A6%B0%E0%A6%95%E0%A7%8D%E0%A6%A4%20%E0%A6%B2%E0%A6%BE%E0%A6%97%E0%A6%AC%E0%A7%87%3F",
+        loading: "%E0%A6%B2%E0%A7%8B%E0%A6%A1%20%E0%A6%B9%E0%A6%9A%E0%A7%8D%E0%A6%9B%E0%A7%87...",
+        loginHeading: "%E0%A6%B2%E0%A6%97%E0%A6%87%E0%A6%A8%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
+        loginPhoneLabel: "%E0%A6%AB%E0%A7%8B%E0%A6%A8%20%E0%A6%A8%E0%A6%BE%E0%A6%AE%E0%A7%8D%E0%A6%AC%E0%A6%BE%E0%A6%B0",
+        loginPhonePlaceholder: "%E0%A6%89%E0%A6%A6%E0%A6%BE.%20017xxxxxxxx",
+        loginPasswordLabel: "%E0%A6%AA%E0%A6%BE%E0%A6%B8%E0%A6%93%E0%A7%9F%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%A1",
+        loginButton: "%E0%A6%B2%E0%A6%97%E0%A6%87%E0%A6%A8",
+        loginRegisterLink: "%E0%A6%A1%E0%A7%8B%E0%A6%A8%E0%A6%BE%E0%A6%B0%20%E0%A6%B9%E0%A6%BF%E0%A6%B8%E0%A6%BE%E0%A6%AC%E0%A7%87%20%E0%A6%B0%E0%A7%87%E0%A6%9C%E0%A6%BF%E0%A6%B7%E0%A7%8D%E0%A6%9F%E0%A7%8D%E0%A6%B0%E0%A7%87%E0%A6%B6%E0%A6%A8%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
+        loginResetLink: "%E0%A6%AA%E0%A6%BE%E0%A6%B8%E0%A6%93%E0%A7%9F%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%A1%20%E0%A6%AD%E0%A7%81%E0%A6%B2%E0%A7%87%20%E0%A6%97%E0%A7%87%E0%A6%9B%E0%A7%87%E0%A6%A8%3F",
+        noticeTitle: "%E0%A6%A8%E0%A7%8B%E0%A6%9F%E0%A6%BF%E0%A6%B6%20%E0%A6%AC%E0%A7%8B%E0%A6%B0%E0%A7%8D%E0%A6%A1",
+        partnerTitle: "%E0%A6%86%E0%A6%AE%E0%A6%BE%E0%A6%A6%E0%A7%87%E0%A6%B0%20%E0%A6%AA%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%9F%E0%A6%A8%E0%A6%BE%E0%A6%B0%20%E0%A6%AB%E0%A7%87%E0%A6%B8%E0%A6%AC%E0%A7%81%E0%A6%95%20%E0%A6%97%E0%A7%8D%E0%A6%B0%E0%A7%81%E0%A6%AA",
+        registerHeading: "%E0%A6%A1%E0%A7%8B%E0%A6%A8%E0%A6%BE%E0%A6%B0%20%E0%A6%B0%E0%A7%87%E0%A6%9C%E0%A6%BF%E0%A6%B8%E0%A7%8D%E0%A6%9F%E0%A7%8D%E0%A6%B0%E0%A7%87%E0%A6%B6%E0%A6%A8",
+        registerName: "%E0%A6%AA%E0%A7%82%E0%A6%B0%E0%A7%8D%E0%A6%A3%20%E0%A6%A8%E0%A6%BE%E0%A6%AE",
+        registerPhone: "%E0%A6%AB%E0%A7%8B%E0%A6%A8%20%E0%A6%A8%E0%A6%BE%E0%A6%AE%E0%A7%8D%E0%A6%AC%E0%A6%BE%E0%A6%B0",
+        registerDob: "%E0%A6%9C%E0%A6%A8%E0%A7%8D%E0%A6%AE%20%E0%A6%A4%E0%A6%BE%E0%A6%B0%E0%A6%BF%E0%A6%96",
+        registerPassword: "%E0%A6%AA%E0%A6%BE%E0%A6%B8%E0%A6%93%E0%A7%9F%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%A1",
+        registerAge: "%E0%A6%AC%E0%A7%9F%E0%A6%B8",
+        registerGender: "%E0%A6%9C%E0%A7%87%E0%A6%A8%E0%A7%8D%E0%A6%A1%E0%A6%BE%E0%A6%B0",
+        genderPlaceholder: "%E0%A6%9C%E0%A7%87%E0%A6%A8%E0%A7%8D%E0%A6%A1%E0%A6%BE%E0%A6%B0%20%E0%A6%A8%E0%A6%BF%E0%A6%B0%E0%A7%8D%E0%A6%AC%E0%A6%BE%E0%A6%9A%E0%A6%A8%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
+        genderMale: "%E0%A6%AA%E0%A7%81%E0%A6%B0%E0%A7%81%E0%A6%B7",
+        genderFemale: "%E0%A6%AE%E0%A6%B9%E0%A6%BF%E0%A6%B2%E0%A6%BE",
+        genderOther: "%E0%A6%85%E0%A6%A8%E0%A7%8D%E0%A6%AF%E0%A6%BE%E0%A6%A8%E0%A7%8D%E0%A6%AF",
+        registerBlood: "%E0%A6%B0%E0%A6%95%E0%A7%8D%E0%A6%A4%E0%A7%87%E0%A6%B0%20%E0%A6%97%E0%A7%8D%E0%A6%B0%E0%A7%81%E0%A6%AA",
+        bloodPlaceholder: "%E0%A6%B0%E0%A6%95%E0%A7%8D%E0%A6%A4%E0%A7%87%E0%A6%B0%20%E0%A6%97%E0%A7%8D%E0%A6%B0%E0%A7%81%E0%A6%AA%20%E0%A6%A8%E0%A6%BF%E0%A6%B0%E0%A7%8D%E0%A6%AC%E0%A6%BE%E0%A6%9A%E0%A6%A8%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
+        registerDivision: "%E0%A6%AC%E0%A6%BF%E0%A6%AD%E0%A6%BE%E0%A6%97",
+        registerDistrict: "%E0%A6%9C%E0%A7%87%E0%A6%B2%E0%A6%BE",
+        registerThana: "%E0%A6%A5%E0%A6%BE%E0%A6%A8%E0%A6%BE",
+        registerUpazila: "%E0%A6%89%E0%A6%AA%E0%A6%9C%E0%A7%87%E0%A6%B2%E0%A6%BE",
+        divisionPlaceholder: "%E0%A6%AC%E0%A6%BF%E0%A6%AD%E0%A6%BE%E0%A6%97%20%E0%A6%A8%E0%A6%BF%E0%A6%B0%E0%A7%8D%E0%A6%AC%E0%A6%BE%E0%A6%9A%E0%A6%A8%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
+        districtPlaceholder: "%E0%A6%9C%E0%A7%87%E0%A6%B2%E0%A6%BE%20%E0%A6%A8%E0%A6%BF%E0%A6%B0%E0%A7%8D%E0%A6%AC%E0%A6%BE%E0%A6%9A%E0%A6%A8%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
+        thanaPlaceholder: "%E0%A6%A5%E0%A6%BE%E0%A6%A8%E0%A6%BE%20%E0%A6%A8%E0%A6%BF%E0%A6%B0%E0%A7%8D%E0%A6%AC%E0%A6%BE%E0%A6%9A%E0%A6%A8%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
+        upazilaPlaceholder: "%E0%A6%89%E0%A6%AA%E0%A6%9C%E0%A7%87%E0%A6%B2%E0%A6%BE%20%E0%A6%A8%E0%A6%BF%E0%A6%B0%E0%A7%8D%E0%A6%AC%E0%A6%BE%E0%A6%9A%E0%A6%A8%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
+        registerSubmit: "%E0%A6%B0%E0%A7%87%E0%A6%9C%E0%A6%BF%E0%A6%B8%E0%A7%8D%E0%A6%9F%E0%A6%BE%E0%A6%B0%20%E0%A6%95%E0%A6%B0%E0%A7%81%E0%A6%A8",
+        registerBack: "%E0%A6%B2%E0%A6%97%E0%A6%87%E0%A6%A8%E0%A7%87%20%E0%A6%AB%E0%A6%BF%E0%A6%B0%E0%A7%87%20%E0%A6%AF%E0%A6%BE%E0%A6%A8",
+        resetHeading: "%E0%A6%AA%E0%A6%BE%E0%A6%B8%E0%A6%93%E0%A7%9F%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%A1%20%E0%A6%B0%E0%A6%BF%E0%A6%B8%E0%A7%87%E0%A6%9F",
+        resetPhoneLabel: "%E0%A6%AB%E0%A7%8B%E0%A6%A8%20%E0%A6%A8%E0%A6%BE%E0%A6%AE%E0%A7%8D%E0%A6");
+        currentUser: null,
+        role: null,
+        adminConfig: {
+          whatsappNumber: "+966544575530"
+        },
+        partnerGroups: [],
+        unsubscribe: {
+          requests: null,
+          partnerGroups: null,
+          notice: null,
+          adminConfig: null
+        }
+      };
+
+      const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+      const genderOptions = [
+        { value: "male", label: "?????" },
+        { value: "female", label: "?????" },
+        { value: "other", label: "????????" }
+      ];
+
+      const locationHierarchy = {
+        "????": {
+          districts: {
+            "????": {
+              thanas: {
+                "???? ?????": ["??????", "??????", "??????"],
+                "???? ??????": ["????????", "??????", "??????"]
+              }
+            },
+            "???????": {
+              thanas: {
+                "??????? ???": ["????????", "?????"],
+                "?????????": ["???????", "?????????"]
+              }
+            },
+            "??????????": {
+              thanas: {
+                "?????????? ???": ["??????????", "???????"],
+                "????????": ["?????????", "???????"]
+              }
+            }
+          }
+        },
+        "?????????": {
+          districts: {
+            "?????????": {
+              thanas: {
+                "????????? ??????": ["???????", "??????????", "????????"],
+                "?????????": ["???????", "????????"]
+              }
+            },
+            "?????????": {
+              thanas: {
+                "????????? ???": ["????????? ???", "??????"],
+                "?????": ["????? ???", "????????"]
+              }
+            }
+          }
+        },
+        "???????": {
+          districts: {
+            "???????": {
+              thanas: {
+                "??????? ??????": ["?????????", "??????????"],
+                "????????": ["????????", "?????????"]
+              }
+            },
+            "?????": {
+              thanas: {
+                "????? ???": ["????????", "??????????"],
+                "??????": ["?????? ???", "?????????"]
+              }
+            }
+          }
+        },
+        "?????": {
+          districts: {
+            "?????": {
+              thanas: {
+                "????? ??????": ["????????", "??????????"],
+                "?????": ["????? ???", "??????????"]
+              }
+            },
+            "????": {
+              thanas: {
+                "???? ???": ["??????", "????"],
+                "?????????": ["??????????", "????????"]
+              }
+            }
+          }
+        },
+        "??????": {
+          districts: {
+            "??????": {
+              thanas: {
+                "?????? ??????": ["????????", "???????"]
+              }
+            },
+            "?????????": {
+              thanas: {
+                "????????? ???": ["??????", "????????"],
+                "???????": ["??????", "???????"]
+              }
+            }
+          }
+        },
+        "?????": {
+          districts: {
+            "?????": {
+              thanas: {
+                "????? ??????": ["?????????", "??????????"],
+                "?????????": ["????????", "??????"],
+              }
+            },
+            "??????????": {
+              thanas: {
+                "?????????? ???": ["???-????????", "???????"],
+                "?????????": ["???????", "?????"]
+              }
+            }
+          }
+        },
+        "?????": {
+          districts: {
+            "?????": {
+              thanas: {
+                "????? ??????": ["????? ????????", "????????"],
+                "???????": ["??????? ???", "????? ???"]
+              }
+            },
+            "????????": {
+              thanas: {
+                "???????? ???": ["???????", "????????"],
+                "???????": ["????????", "????"]
+              }
+            }
+          }
+        },
+        "????????": {
+          districts: {
+            "????????": {
+              thanas: {
+                "???????? ??????": ["?????? ????????", "?????"]
+              }
+            },
+            "??????": {
+              thanas: {
+                "?????? ???": ["?????????", "???????"],
+                "??????????": ["??????", "????????"]
+              }
+            }
+          }
+        }
+      };
+
+      const el = (id) => document.getElementById(id);
+      const footerYearEl = el("footer-year");
+      const toastEl = el("toast");
+      const toastMessageEl = el("toast-message");
+
+      let toastTimer = null;
+
+      const views = {
+        login: el("login-view"),
+        register: el("register-view"),
+        reset: el("reset-view"),
+        donorDashboard: el("donor-dashboard"),
+        adminDashboard: el("admin-dashboard")
+      };
+
+      const modals = {
+        invite: el("invite-modal"),
+        bloodRequest: el("blood-request-modal"),
+        requestSuccess: el("request-success-modal")
+      };
+
+      const forms = {
+        login: el("login-form"),
+        register: el("register-form"),
+        reset: el("reset-form"),
+        donorProfile: el("donor-profile-form"),
+        adminSearch: el("admin-search-form"),
+        adminSuspend: el("admin-suspend-form"),
+        adminNotice: el("admin-notice-form"),
+        adminPartner: el("admin-partner-form"),
+        bloodRequest: el("blood-request-form")
+      };
+
+      const bindingMap = {};
+
+      const partnerGroupListPublic = el("partner-group-list");
+      const partnerGroupListAdmin = el("admin-partner-list");
+      const noticeMessageEl = el("notice-message");
+      const adminNoticeMessageEl = el("admin-notice-message");
+      const adminRequestList = el("admin-request-list");
+      const adminSearchResults = el("admin-search-results");
+      const totalDonorsEl = el("total-donors");
+      const donorNameEl = el("donor-name");
+      const donorCountdownEl = el("donor-countdown");
+      const donorLastDonationEl = el("donor-last-donation");
+      const contactAdminWhatsappEl = el("contact-admin-whatsapp");
+
+      const donorProfileFields = {
+        name: el("donor-profile-name"),
+        emailBadge: el("donor-profile-email"),
+        altPhone: el("donor-profile-alt-phone"),
+        age: el("donor-profile-age"),
+        gender: el("donor-profile-gender"),
+        blood: el("donor-profile-blood")
+      };
+
+      const resetPasswordSection = el("reset-new-password");
+      const resetSubmitBtn = el("reset-submit");
+      const resetPasswordField = el("reset-password");
+      const resetPasswordConfirmField = el("reset-password-confirm");
+
+      footerYearEl.textContent = new Date().getFullYear();
+
+      function showToast(message, type = "info") {
+        toastMessageEl.textContent = message;
+        toastEl.classList.remove("show", "toast-success", "toast-error");
+        if (type === "success") {
+          toastEl.classList.add("toast-success");
+          toastEl.style.borderLeftColor = "var(--success)";
+          toastEl.querySelector("i").className = "fa-solid fa-circle-check";
+        } else if (type === "error") {
+          toastEl.classList.add("toast-error");
+          toastEl.style.borderLeftColor = "var(--danger)";
+          toastEl.querySelector("i").className = "fa-solid fa-triangle-exclamation";
+        } else {
+          toastEl.style.borderLeftColor = "var(--primary)";
+          toastEl.querySelector("i").className = "fa-solid fa-circle-info";
+        }
+        toastEl.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toastEl.classList.remove("show"), 4500);
+      }
+
+      function hideToast() {
+        toastEl.classList.remove("show");
+        clearTimeout(toastTimer);
+      }
+
+      function sanitizePhone(value) {
+        if (!value) return "";
+        return value.replace(/[^0-9+]/g, "").trim();
+      }
+
+      function phoneToEmail(phone) {
+        return `${phone}@rokto.ok`;
+      }
+
+      function escapeHtml(str = "") {
+        return str
+          .toString()
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function resetSelect(select, placeholder) {
+        select.innerHTML = "";
+        const option = document.createElement("option");
+        option.value = "";
+        option.textContent = placeholder;
+        option.disabled = true;
+        option.selected = true;
+        select.appendChild(option);
+      }
+
+      function populateSelect(select, items, placeholder) {
+        resetSelect(select, placeholder);
+        items.forEach((item) => {
+          const option = document.createElement("option");
+          if (typeof item === "string") {
+            option.value = item;
+            option.textContent = item;
+          } else {
+            option.value = item.value;
+            option.textContent = item.label;
+          }
+          select.appendChild(option);
+        });
+      }
+
+      function createLocationBinding({ division, district, thana, upazila }) {
+        populateSelect(division, Object.keys(locationHierarchy), "????? ???????? ????");
+        resetSelect(district, "???? ???????? ????");
+        resetSelect(thana, "???? ???????? ????");
+        resetSelect(upazila, "?????? ???????? ????");
+
+        division.addEventListener("change", () => {
+          const selectedDivision = division.value;
+          const districts = selectedDivision
+            ? Object.keys(locationHierarchy[selectedDivision]?.districts || {})
+            : [];
+          populateSelect(district, districts, "???? ???????? ????");
+          resetSelect(thana, "???? ???????? ????");
+          resetSelect(upazila, "?????? ???????? ????");
+        });
+
+        district.addEventListener("change", () => {
+          const selectedDivision = division.value;
+          const selectedDistrict = district.value;
+          const thanas = selectedDivision && selectedDistrict
+            ? Object.keys(locationHierarchy[selectedDivision]?.districts?.[selectedDistrict]?.thanas || {})
+            : [];
+          populateSelect(thana, thanas, "???? ???????? ????");
+          resetSelect(upazila, "?????? ???????? ????");
+        });
+
+        thana.addEventListener("change", () => {
+          const selectedDivision = division.value;
+          const selectedDistrict = district.value;
+          const selectedThana = thana.value;
+          const upazilas = selectedDivision && selectedDistrict && selectedThana
+            ? locationHierarchy[selectedDivision]?.districts?.[selectedDistrict]?.thanas?.[selectedThana] || []
+            : [];
+          populateSelect(upazila, upazilas, "?????? ???????? ????");
+        });
+
+        return {
+          division,
+          district,
+          thana,
+          upazila,
+          reset() {
+            division.value = "";
+            division.dispatchEvent(new Event("change"));
+          },
+          get() {
+            return {
+              division: division.value,
+              district: district.value,
+              thana: thana.value,
+              upazila: upazila.value
+            };
+          },
+          set(address = {}) {
+            division.value = address.division || "";
+            division.dispatchEvent(new Event("change"));
+            if (address.district) {
+              district.value = address.district;
+              district.dispatchEvent(new Event("change"));
+            }
+            if (address.thana) {
+              thana.value = address.thana;
+              thana.dispatchEvent(new Event("change"));
+            }
+            if (address.upazila) {
+              upazila.value = address.upazila;
+            }
+          }
+        };
+      }
+
+      function setUpSelectOptions() {
+        populateSelect(el("reg-bloodgroup"), bloodGroups, "?????? ????? ???????? ????");
+        populateSelect(el("req-blood-group"), bloodGroups, "?????? ????? ???????? ????");
+        populateSelect(donorProfileFields.blood, bloodGroups, "?????? ????? ???????? ????");
+        populateSelect(el("admin-search-blood"), bloodGroups, "?????? ????? ???????? ????");
+        populateSelect(el("reg-gender"), genderOptions, "??????? ???????? ????");
+        populateSelect(donorProfileFields.gender, genderOptions, "??????? ???????? ????");
+      }
+
+      function formatDate(date) {
+        if (!date) return "--";
+        const d = typeof date === "string" ? new Date(date) : date;
+        if (Number.isNaN(d.getTime())) return "--";
+        return d.toLocaleDateString("bn-BD", {
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        });
+      }
+
+      function calculateCountdown(lastDonation) {
+        if (!lastDonation) return "???? ??????? ???? ??????";
+        const lastDate = typeof lastDonation === "string" ? new Date(lastDonation) : lastDonation;
+        if (Number.isNaN(lastDate.getTime())) return "--";
+        const nextEligible = new Date(lastDate.getTime() + 120 * 24 * 60 * 60 * 1000);
+        const now = new Date();
+        const diffMs = nextEligible.getTime() - now.getTime();
+        if (diffMs <= 0) {
+          return "???? ??????? ???? ??????";
+        }
+        const diffDays = Math.ceil(diffMs / (24 * 60 * 60 * 1000));
+        return `${diffDays} ??? ????`; 
+      }
+
+      async function hashPassword(password) {
+        const data = new TextEncoder().encode(password);
+        const digest = await crypto.subtle.digest("SHA-256", data);
+        return Array.from(new Uint8Array(digest))
+          .map((b) => b.toString(16).padStart(2, "0"))
+          .join("");
+      }
+
+      async function verifyPassword(password, hash) {
+        const hashed = await hashPassword(password);
+        return hashed === hash;
+      }
+
+      function switchAuthView(target) {
+        views.login.classList.toggle("hidden", target !== "login");
+        views.register.classList.toggle("hidden", target !== "register");
+        views.reset.classList.toggle("hidden", target !== "reset");
+      }
+
+      function closeAllDashboards() {
+        views.donorDashboard.classList.add("hidden");
+        views.adminDashboard.classList.add("hidden");
+      }
+
+      function resetResetForm() {
+        forms.reset.reset();
+        resetPasswordSection.style.display = "none";
+        resetSubmitBtn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> ???? ?????';
+        resetSubmitBtn.dataset.stage = "verify";
+      }
+
+      function openModal(key) {
+        const modal = modals[key];
+        if (modal) modal.classList.add("active");
+      }
+
+      function closeModal(key) {
+        const modal = modals[key];
+        if (modal) modal.classList.remove("active");
+      }
+
+      function signOut() {
+        localStorage.removeItem(sessionKey);
+        state.currentUser = null;
+        state.role = null;
+        if (state.unsubscribe.requests) {
+          state.unsubscribe.requests();
+          state.unsubscribe.requests = null;
+        }
+        closeAllDashboards();
+        switchAuthView("login");
+        showToast("??????? ????? ??? ?????", "info");
+      }
+
+      async function getDonorDocByPhone(phone) {
+        const donorsRef = collection(db, "donors");
+        const phoneQuery = query(donorsRef, where("phone", "==", phone));
+        const snapshot = await getDocs(phoneQuery);
+        if (snapshot.empty) return null;
+        const docSnap = snapshot.docs[0];
+        return { id: docSnap.id, ...docSnap.data() };
+      }
+
+      function persistSession(user) {
+        if (!user) return;
+        localStorage.setItem(
+          sessionKey,
+          JSON.stringify({
+            id: user.id,
+            role: user.role,
+            phone: user.phone
+          })
+        );
+      }
+
+      async function restoreSession() {
+        const raw = localStorage.getItem(sessionKey);
+        if (!raw) return;
+        try {
+          const session = JSON.parse(raw);
+          const docRef = doc(db, "donors", session.id);
+          const snap = await getDoc(docRef);
+          if (!snap.exists()) {
+            localStorage.removeItem(sessionKey);
+            return;
+          }
+          const data = snap.data();
+          state.currentUser = { id: snap.id, ...data };
+          state.role = data.role || "donor";
+          await afterLogin();
+        } catch (error) {
+          console.error("Session restore error", error);
+          localStorage.removeItem(sessionKey);
+        }
+      }
+
+      function populatePartnerGroups() {
+        const groups = state.partnerGroups;
+        partnerGroupListPublic.innerHTML = "";
+        if (!groups.length) {
+          const li = document.createElement("li");
+          li.textContent = "???? ????? ????? ?????";
+          partnerGroupListPublic.appendChild(li);
+        } else {
+          groups.forEach((group) => {
+            const li = document.createElement("li");
+            const name = document.createElement("span");
+            name.textContent = group.groupName;
+            const link = document.createElement("a");
+            link.href = group.groupLink;
+            link.target = "_blank";
+            link.rel = "noopener";
+            link.className = "link";
+            link.innerHTML = '<i class="fa-brands fa-facebook"></i> ????? ????';
+            li.appendChild(name);
+            li.appendChild(link);
+            partnerGroupListPublic.appendChild(li);
+          });
+        }
+
+        if (state.role === "admin") {
+          partnerGroupListAdmin.innerHTML = "";
+          groups.forEach((group) => {
+            const row = document.createElement("div");
+            row.className = "info-card";
+            row.style.borderLeftColor = "rgba(214,40,40,0.3)";
+            row.innerHTML = `
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap">
+                <div>
+                  <strong>${escapeHtml(group.groupName)}</strong>
+                  <div><a class="link" href="${escapeHtml(group.groupLink)}" target="_blank" rel="noopener">${escapeHtml(group.groupLink)}</a></div>
+                </div>
+                <button class="ghost-btn" data-delete-partner="${group.id}"><i class="fa-solid fa-trash"></i> ?????</button>
+              </div>
+            `;
+            partnerGroupListAdmin.appendChild(row);
+          });
+        }
+      }
+
+      function bindPartnerListClicks() {
+        partnerGroupListAdmin.addEventListener("click", async (event) => {
+          const target = event.target.closest("[data-delete-partner]");
+          if (!target) return;
+          const id = target.dataset.deletePartner;
+          if (!confirm("???? ?? ??????????? ?? ??????? ????? ???? ????")) return;
+          try {
+            await deleteDoc(doc(db, "partnerGroups", id));
+            showToast("??????? ????? ??? ?????", "success");
+          } catch (error) {
+            console.error(error);
+            showToast("????? ????? ???? ?????? ?????", "error");
+          }
+        });
+      }
+
+      function watchPartnerGroups() {
+        if (state.unsubscribe.partnerGroups) return;
+        const partnerRef = collection(db, "partnerGroups");
+        state.unsubscribe.partnerGroups = onSnapshot(partnerRef, (snapshot) => {
+          state.partnerGroups = snapshot.docs.map((docSnap) => ({ id: docSnap.id, ...docSnap.data() }));
+          populatePartnerGroups();
+        });
+      }
+
+      function watchNoticeBoard() {
+        if (state.unsubscribe.notice) return;
+        const noticeRef = doc(db, "appConfig", "noticeBoard");
+        state.unsubscribe.notice = onSnapshot(noticeRef, (snapshot) => {
+          if (snapshot.exists()) {
+            const { message = "" } = snapshot.data();
+            noticeMessageEl.textContent = message || "????? ???? ???? ????? ???";
+            adminNoticeMessageEl.value = message || "";
+          } else {
+            noticeMessageEl.textContent = "????? ???? ???? ????? ???";
+            adminNoticeMessageEl.value = "";
+          }
+        });
+      }
+
+      function watchAdminConfig() {
+        if (state.unsubscribe.adminConfig) return;
+        const configRef = doc(db, "appConfig", "adminConfig");
+        state.unsubscribe.adminConfig = onSnapshot(configRef, (snapshot) => {
+          if (snapshot.exists()) {
+            const data = snapshot.data();
+            if (data.whatsappNumber) {
+              state.adminConfig.whatsappNumber = data.whatsappNumber;
+            }
+          }
+          updateAdminContactLink();
+        });
+      }
+
+      function updateAdminContactLink() {
+        const number = state.adminConfig.whatsappNumber || "+966544575530";
+        const sanitized = number.replace(/[^0-9]/g, "");
+        contactAdminWhatsappEl.href = `https://wa.me/${sanitized}`;
+      }
+
+      async function afterLogin() {
+        persistSession(state.currentUser);
+        populatePartnerGroups();
+        updateAdminContactLink();
+        if (state.role === "admin") {
+          await loadAdminDashboard();
+          views.adminDashboard.classList.remove("hidden");
+        } else {
+          await loadDonorDashboard();
+          views.donorDashboard.classList.remove("hidden");
+          maybeShowInviteModal();
+        }
+        switchAuthView("login");
+        el("auth-section").classList.add("hidden");
+      }
+
+      function showAuthCard() {
+        el("auth-section").classList.remove("hidden");
+      }
+
+      function maybeShowInviteModal() {
+        const shownKey = `${sessionKey}-invite`; 
+        if (sessionStorage.getItem(shownKey)) return;
+        sessionStorage.setItem(shownKey, "1");
+        openModal("invite");
+      }
+
+      async function loadDonorDashboard() {
+        if (!state.currentUser) return;
+        donorNameEl.textContent = state.currentUser.name || "?????";
+        donorProfileFields.emailBadge.textContent = state.currentUser.phone;
+        donorProfileFields.name.value = state.currentUser.name || "";
+        donorProfileFields.altPhone.value = state.currentUser.altPhone || "";
+        donorProfileFields.age.value = state.currentUser.age || "";
+        donorProfileFields.gender.value = state.currentUser.gender || "";
+        donorProfileFields.blood.value = state.currentUser.bloodGroup || "";
+
+        bindingMap.donorProfile.set(state.currentUser.address || {});
+
+        const lastDonation = state.currentUser.lastDonationDate?.toDate?.() || (state.currentUser.lastDonationDate ? new Date(state.currentUser.lastDonationDate) : null);
+        donorLastDonationEl.value = lastDonation ? new Date(lastDonation.getTime() - lastDonation.getTimezoneOffset() * 60000).toISOString().split("T")[0] : "";
+        donorCountdownEl.textContent = calculateCountdown(lastDonation);
+      }
+
+      async function loadAdminDashboard() {
+        await refreshDonorCount();
+        subscribeToRequests();
+        populatePartnerGroups();
+        adminSearchResults.innerHTML = "";
+      }
+
+      async function refreshDonorCount() {
+        try {
+          const donorsRef = collection(db, "donors");
+          const aggregate = await getCountFromServer(donorsRef);
+          totalDonorsEl.textContent = aggregate.data().count;
+        } catch (error) {
+          console.error("Count fetch error", error);
+        }
+      }
+
+      function renderRequestCard(request) {
+        const createdAt = request.createdAt?.toDate?.() || new Date();
+        const wrapper = document.createElement("div");
+        wrapper.className = "info-card";
+        wrapper.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem">
+            <div>
+              <h4 style="margin:0 0 .5rem; color:var(--primary)">${escapeHtml(request.patientDetails || "")}</h4>
+              <p style="margin:0; color:var(--muted)"><i class="fa-solid fa-droplet" style="color:var(--primary)"></i> ?????? ?????: <strong>${escapeHtml(request.bloodGroup || "")}</strong></p>
+              <p style="margin:0; color:var(--muted)"><i class="fa-solid fa-location-dot" style="color:var(--primary)"></i> ??????: ${escapeHtml(request.address?.division || "")} ? ${escapeHtml(request.address?.district || "")} ? ${escapeHtml(request.address?.thana || "")} ? ${escapeHtml(request.address?.upazila || "")}</p>
+              <p style="margin:0; color:var(--muted)"><i class="fa-solid fa-hospital"></i> ????????: ${escapeHtml(request.hospital || "")}</p>
+              <p style="margin:0; color:var(--muted)"><i class="fa-solid fa-phone"></i> ???????: ${escapeHtml(request.contactNumber || "")} | ${escapeHtml(request.bagsNeeded || "")} ????? ???????</p>
+              <p style="margin:0; color:var(--muted)"><i class="fa-regular fa-clock"></i> ${formatDate(createdAt)}</p>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:0.5rem">
+              <button class="primary-btn" data-request-search="${request.id}"><i class="fa-solid fa-user-magnifying-glass"></i> ????? ??????</button>
+              <button class="ghost-btn" data-request-delete="${request.id}"><i class="fa-solid fa-trash-can"></i> ?????</button>
+            </div>
+          </div>
+        `;
+        return wrapper;
+      }
+
+      function subscribeToRequests() {
+        if (state.unsubscribe.requests) return;
+        const requestsRef = collection(db, "bloodRequests");
+        const requestsQuery = query(requestsRef, orderBy("createdAt", "desc"));
+        state.unsubscribe.requests = onSnapshot(requestsQuery, (snapshot) => {
+          adminRequestList.innerHTML = "";
+          if (snapshot.empty) {
+            const empty = document.createElement("p");
+            empty.style.color = "var(--muted)";
+            empty.textContent = "???? ??????? ????? ???";
+            adminRequestList.appendChild(empty);
+            return;
+          }
+          snapshot.docs.forEach((docSnap) => {
+            const request = { id: docSnap.id, ...docSnap.data() };
+            if (request.status && request.status !== "active") return;
+            const card = renderRequestCard(request);
+            adminRequestList.appendChild(card);
+          });
+        });
+      }
+
+      function scheduleCountdownUpdate() {
+        setInterval(() => {
+          if (!state.currentUser || state.role !== "donor") return;
+          const last = state.currentUser.lastDonationDate?.toDate?.() || (state.currentUser.lastDonationDate ? new Date(state.currentUser.lastDonationDate) : null);
+          donorCountdownEl.textContent = calculateCountdown(last);
+        }, 60 * 60 * 1000);
+      }
+
+      async function handleLogin(event) {
+        event.preventDefault();
+        const phone = sanitizePhone(el("login-phone").value);
+        const password = el("login-password").value;
+        if (!phone || !password) {
+          showToast("??????? ??? ??? ??????? ? ????????? ???", "error");
+          return;
+        }
+        try {
+          const donor = await getDonorDocByPhone(phone);
+          if (!donor) {
+            showToast("?? ??? ???????? ???? ????? ????? ?????", "error");
+            return;
+          }
+          if (donor.status === "suspended") {
+            showToast("?? ???????????? ???????? ??? ?????", "error");
+            return;
+          }
+          const ok = await verifyPassword(password, donor.passwordHash);
+          if (!ok) {
+            showToast("????????? ???? ??", "error");
+            return;
+          }
+          state.currentUser = donor;
+          state.role = donor.role || "donor";
+          await afterLogin();
+          forms.login.reset();
+          showToast("??????? ???? ??????? ?????", "success");
+        } catch (error) {
+          console.error("Login error", error);
+          showToast("???? ???? ?????? ?????", "error");
+        }
+      }
+
+      async function handleRegister(event) {
+        event.preventDefault();
+        const name = el("reg-name").value.trim();
+        const phone = sanitizePhone(el("reg-phone").value);
+        const dob = el("reg-dob").value;
+        const password = el("reg-password").value;
+        const age = parseInt(el("reg-age").value, 10);
+        const gender = el("reg-gender").value;
+        const bloodGroup = el("reg-bloodgroup").value;
+        const address = bindingMap.register.get();
+
+        if (!name || !phone || !dob || !password || !age || !gender || !bloodGroup || !address.division || !address.district || !address.thana || !address.upazila) {
+          showToast("?? ???? ???????? ???? ????", "error");
+          return;
+        }
+
+        try {
+          const existing = await getDonorDocByPhone(phone);
+          if (existing) {
+            showToast("?? ??? ????????? ???? ??????? ??? ?????", "error");
+            return;
+          }
+          const passwordHash = await hashPassword(password);
+          const donorsRef = collection(db, "donors");
+          await addDoc(donorsRef, {
+            name,
+            phone,
+            email: phoneToEmail(phone),
+            dateOfBirth: dob,
+            passwordHash,
+            age,
+            gender,
+            bloodGroup,
+            role: "donor",
+            status: "active",
+            altPhone: "",
+            address,
+            createdAt: serverTimestamp()
+          });
+          showToast("???????????? ??? ?????? ???? ????", "success");
+          switchAuthView("login");
+          forms.register.reset();
+          bindingMap.register.reset();
+        } catch (error) {
+          console.error("Registration error", error);
+          showToast("???????????? ??????? ???? ?????? ?????", "error");
+        }
+      }
+
+      async function handleReset(event) {
+        event.preventDefault();
+        const stage = resetSubmitBtn.dataset.stage || "verify";
+        const phone = sanitizePhone(el("reset-phone").value);
+        const dob = el("reset-dob").value;
+        if (!phone || !dob) {
+          showToast("??? ??? ???? ????? ???", "error");
+          return;
+        }
+
+        try {
+          const donor = await getDonorDocByPhone(phone);
+          if (!donor || donor.dateOfBirth !== dob) {
+            showToast("???? ???? ??", "error");
+            return;
+          }
+          if (stage === "verify") {
+            resetPasswordSection.style.display = "grid";
+            resetSubmitBtn.innerHTML = '<i class="fa-solid fa-check"></i> ????????? ???????? ????';
+            resetSubmitBtn.dataset.stage = "update";
+            showToast("???? ??????? ???? ????????? ???", "success");
+            return;
+          }
+          const password = resetPasswordField.value;
+          const confirm = resetPasswordConfirmField.value;
+          if (!password || password.length < 6) {
+            showToast("??????? ? ??????? ????????? ???", "error");
+            return;
+          }
+          if (password !== confirm) {
+            showToast("????????? ??????", "error");
+            return;
+          }
+          const passwordHash = await hashPassword(password);
+          await updateDoc(doc(db, "donors", donor.id), {
+            passwordHash,
+            passwordUpdatedAt: serverTimestamp()
+          });
+          showToast("????????? ????? ?????", "success");
+          resetResetForm();
+          switchAuthView("login");
+        } catch (error) {
+          console.error("Reset error", error);
+          showToast("????????? ????? ???? ?????? ?????", "error");
+        }
+      }
+
+      async function handleProfileSave() {
+        if (!state.currentUser) return;
+        const name = donorProfileFields.name.value.trim();
+        const altPhone = sanitizePhone(donorProfileFields.altPhone.value);
+        const age = parseInt(donorProfileFields.age.value, 10) || null;
+        const gender = donorProfileFields.gender.value;
+        const bloodGroup = donorProfileFields.blood.value;
+        const address = bindingMap.donorProfile.get();
+
+        if (!name || !age || !gender || !bloodGroup || !address.division || !address.district || !address.thana || !address.upazila) {
+          showToast("?????????? ?? ?????? ???? ???? ????", "error");
+          return;
+        }
+
+        try {
+          const docRef = doc(db, "donors", state.currentUser.id);
+          await updateDoc(docRef, {
+            name,
+            altPhone,
+            age,
+            gender,
+            bloodGroup,
+            address
+          });
+          state.currentUser = {
+            ...state.currentUser,
+            name,
+            altPhone,
+            age,
+            gender,
+            bloodGroup,
+            address
+          };
+          donorNameEl.textContent = name;
+          showToast("???????? ????? ?????", "success");
+        } catch (error) {
+          console.error("Profile update error", error);
+          showToast("???????? ?????? ?????? ?????", "error");
+        }
+      }
+
+      async function handleDonationUpdate() {
+        if (!state.currentUser) return;
+        const dateValue = donorLastDonationEl.value;
+        if (!dateValue) {
+          showToast("????? ???????? ????", "error");
+          return;
+        }
+        try {
+          const docRef = doc(db, "donors", state.currentUser.id);
+          await updateDoc(docRef, {
+            lastDonationDate: Timestamp.fromDate(new Date(dateValue))
+          });
+          state.currentUser.lastDonationDate = Timestamp.fromDate(new Date(dateValue));
+          donorCountdownEl.textContent = calculateCountdown(new Date(dateValue));
+          showToast("??????? ???? ????? ?????", "success");
+        } catch (error) {
+          console.error("Donation update error", error);
+          showToast("??????? ???? ??? ???? ?????? ?????", "error");
+        }
+      }
+
+      async function donorHasRecentRequest() {
+        if (!state.currentUser) return false;
+        const since = Timestamp.fromDate(new Date(Date.now() - 24 * 60 * 60 * 1000));
+        const requestsRef = collection(db, "bloodRequests");
+        const throttleQuery = query(
+          requestsRef,
+          where("donorId", "==", state.currentUser.id),
+          where("createdAt", ">=", since)
+        );
+        const snapshot = await getDocs(throttleQuery);
+        return !snapshot.empty;
+      }
+
+      async function handleOpenBloodRequest() {
+        if (!state.currentUser) return;
+        try {
+          const limited = await donorHasRecentRequest();
+          if (limited) {
+            showToast("???? ????? ?? ?????? ????? ????? ???? ??????", "error");
+            return;
+          }
+          bindingMap.bloodRequest.set(state.currentUser.address || {});
+          el("req-blood-group").value = state.currentUser.bloodGroup || "";
+          openModal("bloodRequest");
+        } catch (error) {
+          console.error(error);
+          showToast("???? ????? ???? ?????? ?????", "error");
+        }
+      }
+
+      async function handleBloodRequestSubmit(event) {
+        event.preventDefault();
+        if (!state.currentUser) return;
+        const patientDetails = el("req-patient-details").value.trim();
+        const bloodGroup = el("req-blood-group").value;
+        const bagsNeeded = parseInt(el("req-bags").value, 10) || 1;
+        const hospital = el("req-hospital").value.trim();
+        const contactNumber = sanitizePhone(el("req-contact").value);
+        const address = bindingMap.bloodRequest.get();
+
+        if (!patientDetails || !bloodGroup || !hospital || !contactNumber || !address.division || !address.district || !address.thana || !address.upazila) {
+          showToast("?? ???? ???????? ???? ????", "error");
+          return;
+        }
+
+        try {
+          const requestsRef = collection(db, "bloodRequests");
+          await addDoc(requestsRef, {
+            donorId: state.currentUser.id,
+            patientDetails,
+            bloodGroup,
+            bagsNeeded,
+            hospital,
+            contactNumber,
+            address,
+            status: "active",
+            createdAt: serverTimestamp()
+          });
+          closeModal("bloodRequest");
+          forms.bloodRequest.reset();
+          bindingMap.bloodRequest.reset();
+          openModal("requestSuccess");
+          showToast("??????? ??????? ?????? ?????", "success");
+        } catch (error) {
+          console.error("Blood request error", error);
+          showToast("????? ?????? ?????? ?????", "error");
+        }
+      }
+
+      async function handleAdminSearch(event, context = null) {
+        if (event) event.preventDefault();
+        const binding = context?.binding || bindingMap.adminSearch;
+        const bloodGroup = (context?.bloodGroupEl || el("admin-search-blood")).value;
+        const address = binding.get();
+        if (!bloodGroup || !address.division) {
+          showToast("?????? ????? ? ?????? ???", "error");
+          return;
+        }
+        try {
+          const results = await hierarchicalDonorSearch({ bloodGroup, address });
+          renderDonorResults(results, adminSearchResults);
+        } catch (error) {
+          console.error(error);
+          showToast("????? ?????? ?????? ?????", "error");
+        }
+      }
+
+      async function hierarchicalDonorSearch({ bloodGroup, address }) {
+        const donorsRef = collection(db, "donors");
+        const queries = [];
+        queries.push(
+          query(
+            donorsRef,
+            where("bloodGroup", "==", bloodGroup),
+            where("status", "==", "active"),
+            where("address.upazila", "==", address.upazila)
+          )
+        );
+        queries.push(
+          query(
+            donorsRef,
+            where("bloodGroup", "==", bloodGroup),
+            where("status", "==", "active"),
+            where("address.thana", "==", address.thana)
+          )
+        );
+        queries.push(
+          query(
+            donorsRef,
+            where("bloodGroup", "==", bloodGroup),
+            where("status", "==", "active"),
+            where("address.district", "==", address.district)
+          )
+        );
+
+        const seen = new Set();
+        const results = [];
+        for (const qRef of queries) {
+          const snap = await getDocs(qRef);
+          snap.forEach((docSnap) => {
+            if (seen.has(docSnap.id)) return;
+            seen.add(docSnap.id);
+            results.push({ id: docSnap.id, ...docSnap.data() });
+          });
+          if (results.length) break;
+        }
+        return results;
+      }
+
+      function renderDonorResults(donors, container) {
+        container.innerHTML = "";
+        if (!donors.length) {
+          const p = document.createElement("p");
+          p.style.color = "var(--muted)";
+          p.textContent = "???? ????? ????? ?????";
+          container.appendChild(p);
+          return;
+        }
+        donors.forEach((donor) => {
+          const card = document.createElement("div");
+          card.className = "info-card";
+          const statusBadge = donor.status === "suspended" ? '<span class="status-suspended">????????</span>' : '<span class="badge"><i class="fa-solid fa-droplet"></i> ????????</span>';
+          const lastDonation = donor.lastDonationDate?.toDate?.() || (donor.lastDonationDate ? new Date(donor.lastDonationDate) : null);
+          card.innerHTML = `
+            <div style="display:flex; flex-direction:column; gap:0.6rem">
+              <div style="display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap">
+                <div>
+                  <strong>${escapeHtml(donor.name || "?????")}</strong>
+                  <div style="color:var(--muted)">${escapeHtml(donor.phone || "")}</div>
+                </div>
+                ${statusBadge}
+              </div>
+              <div style="color:var(--muted); display:grid; gap:0.35rem">
+                <span><i class="fa-solid fa-droplet" style="color:var(--primary)"></i> ${escapeHtml(donor.bloodGroup || "")}</span>
+                <span><i class="fa-solid fa-location-dot" style="color:var(--primary)"></i> ${escapeHtml(donor.address?.division || "")} ? ${escapeHtml(donor.address?.district || "")} ? ${escapeHtml(donor.address?.thana || "")} ? ${escapeHtml(donor.address?.upazila || "")}</span>
+                <span><i class="fa-regular fa-calendar"></i> ??? ???????: ${lastDonation ? formatDate(lastDonation) : "-"}</span>
+              </div>
+              <textarea class="field" data-donor-note="${donor.id}" placeholder="??? ??? ????" style="min-height:80px; padding:0.75rem 1rem; border-radius:12px; border:1px solid rgba(214,40,40,0.2); background:#fff">${escapeHtml(donor.note || "")}</textarea>
+              <div class="actions">
+                <button class="secondary-btn" data-donor-star="${donor.id}" data-starred="${donor.starred ? "1" : "0"}">
+                  <i class="fa-solid ${donor.starred ? "fa-star" : "fa-star-half-stroke"}"></i> ${donor.starred ? "????? ????? ???" : "????? ???"}
+                </button>
+                <button class="ghost-btn" data-donor-note-save="${donor.id}"><i class="fa-solid fa-floppy-disk"></i> ??? ???</button>
+                <button class="ghost-btn" data-donor-update-donation="${donor.id}"><i class="fa-solid fa-calendar-plus"></i> ??????? ?????</button>
+              </div>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      async function handleAdminRequestAction(event) {
+        const searchBtn = event.target.closest("[data-request-search]");
+        const deleteBtn = event.target.closest("[data-request-delete]");
+        if (searchBtn) {
+          const requestId = searchBtn.dataset.requestSearch;
+          const requestDoc = await getDoc(doc(db, "bloodRequests", requestId));
+          if (!requestDoc.exists()) return;
+          const data = requestDoc.data();
+          const results = await hierarchicalDonorSearch({
+            bloodGroup: data.bloodGroup,
+            address: data.address || {}
+          });
+          renderDonorResults(results, adminSearchResults);
+          showToast("????????? ????????? ?????? ???", "success");
+        }
+        if (deleteBtn) {
+          const requestId = deleteBtn.dataset.requestDelete;
+          if (!confirm("??????????? ????? ???? ????")) return;
+          try {
+            await deleteDoc(doc(db, "bloodRequests", requestId));
+            showToast("????????? ????? ?????", "success");
+          } catch (error) {
+            console.error(error);
+            showToast("????????? ????? ???? ?????? ?????", "error");
+          }
+        }
+      }
+
+      async function handleAdminSuspend(event) {
+        event.preventDefault();
+        const phone = sanitizePhone(el("admin-suspend-phone").value);
+        if (!phone) {
+          showToast("??? ??????? ???", "error");
+          return;
+        }
+        try {
+          const donor = await getDonorDocByPhone(phone);
+          if (!donor) {
+            showToast("????? ????? ?????", "error");
+            return;
+          }
+          await updateDoc(doc(db, "donors", donor.id), { status: "suspended" });
+          showToast("????? ???????? ?????", "success");
+          forms.adminSuspend.reset();
+        } catch (error) {
+          console.error(error);
+          showToast("???????? ???? ?????? ?????", "error");
+        }
+      }
+
+      async function handleAdminNotice(event) {
+        event.preventDefault();
+        const message = adminNoticeMessageEl.value.trim();
+        try {
+          await setDoc(doc(db, "appConfig", "noticeBoard"), { message });
+          showToast("????? ????? ?????", "success");
+        } catch (error) {
+          console.error(error);
+          showToast("????? ?????? ?????? ?????", "error");
+        }
+      }
+
+      async function handleAdminPartner(event) {
+        event.preventDefault();
+        const name = el("admin-partner-name").value.trim();
+        const link = el("admin-partner-link").value.trim();
+        if (!name || !link) {
+          showToast("??????? ??? ? ???? ???", "error");
+          return;
+        }
+        try {
+          await addDoc(collection(db, "partnerGroups"), {
+            groupName: name,
+            groupLink: link,
+            createdAt: serverTimestamp()
+          });
+          showToast("????? ??? ?????", "success");
+          forms.adminPartner.reset();
+        } catch (error) {
+          console.error(error);
+          showToast("????? ??? ???? ?????? ?????", "error");
+        }
+      }
+
+      function resetAdminSearch() {
+        forms.adminSearch.reset();
+        bindingMap.adminSearch.reset();
+        adminSearchResults.innerHTML = "";
+      }
+
+      async function handleDonorAction(event) {
+        const starBtn = event.target.closest("[data-donor-star]");
+        const noteBtn = event.target.closest("[data-donor-note-save]");
+        const donationBtn = event.target.closest("[data-donor-update-donation]");
+        if (starBtn) {
+          const donorId = starBtn.dataset.donorStar;
+          const currentlyStarred = starBtn.dataset.starred === "1";
+          try {
+            await updateDoc(doc(db, "donors", donorId), { starred: !currentlyStarred });
+            starBtn.dataset.starred = currentlyStarred ? "0" : "1";
+            starBtn.innerHTML = `<i class="fa-solid ${currentlyStarred ? "fa-star-half-stroke" : "fa-star"}"></i> ${currentlyStarred ? "????? ???" : "????? ????? ???"}`;
+            showToast("????? ????????? ?????", "success");
+          } catch (error) {
+            console.error(error);
+            showToast("????? ????? ???? ??????", "error");
+          }
+        }
+        if (noteBtn) {
+          const donorId = noteBtn.dataset.donorNoteSave;
+          const textarea = adminSearchResults.querySelector(`textarea[data-donor-note="${donorId}"]`);
+          if (!textarea) return;
+          try {
+            await updateDoc(doc(db, "donors", donorId), { note: textarea.value.trim() });
+            showToast("??? ??? ?????", "success");
+          } catch (error) {
+            console.error(error);
+            showToast("??? ??? ???? ??????", "error");
+          }
+        }
+        if (donationBtn) {
+          const donorId = donationBtn.dataset.donorUpdateDonation;
+          const newDate = prompt("????????? ????? ??? (YYYY-MM-DD)");
+          if (!newDate) return;
+          try {
+            await updateDoc(doc(db, "donors", donorId), {
+              lastDonationDate: Timestamp.fromDate(new Date(newDate))
+            });
+            showToast("??????? ????? ????? ?????", "success");
+          } catch (error) {
+            console.error(error);
+            showToast("????? ????? ???? ??????", "error");
+          }
+        }
+      }
+
+      function bindInviteShare() {
+        el("invite-share").addEventListener("click", async () => {
+          const shareData = {
+            title: "???? ??????",
+            text: "???? ?????? ???? ????? ? ????????? ??? ???? ???????????? ????? ????",
+            url: window.location.href
+          };
+          if (navigator.share) {
+            try {
+              await navigator.share(shareData);
+              showToast("????? ??????? ?????", "success");
+            } catch (error) {
+              console.error(error);
+            }
+          } else {
+            try {
+              await navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
+              showToast("???? ??? ?????", "success");
+            } catch (error) {
+              showToast("????? ??? ?????", "error");
+            }
+          }
+        });
+      }
+
+      function bindModalClose() {
+        document.body.addEventListener("click", (event) => {
+          const closeBtn = event.target.closest("[data-close]");
+          if (closeBtn) {
+            closeModal(closeBtn.dataset.close);
+          }
+        });
+        Object.values(modals).forEach((modal) => {
+          modal.addEventListener("click", (event) => {
+            if (event.target === modal) modal.classList.remove("active");
+          });
+        });
+      }
+
+      function bindNavigation() {
+        el("open-register").addEventListener("click", (event) => {
+          event.preventDefault();
+          switchAuthView("register");
+        });
+        el("open-reset").addEventListener("click", (event) => {
+          event.preventDefault();
+          switchAuthView("reset");
+        });
+        el("back-to-login").addEventListener("click", () => switchAuthView("login"));
+        el("reset-back").addEventListener("click", () => {
+          resetResetForm();
+          switchAuthView("login");
+        });
+        el("btn-logout-donor").addEventListener("click", () => {
+          showAuthCard();
+          signOut();
+        });
+        el("btn-logout-admin").addEventListener("click", () => {
+          showAuthCard();
+          signOut();
+        });
+      }
+
+      function bindForms() {
+        forms.login.addEventListener("submit", handleLogin);
+        forms.register.addEventListener("submit", handleRegister);
+        forms.reset.addEventListener("submit", handleReset);
+        el("donor-profile-save").addEventListener("click", handleProfileSave);
+        el("donor-save-donation").addEventListener("click", handleDonationUpdate);
+        el("open-blood-request").addEventListener("click", handleOpenBloodRequest);
+        forms.bloodRequest.addEventListener("submit", handleBloodRequestSubmit);
+        forms.adminSearch.addEventListener("submit", handleAdminSearch);
+        forms.adminSuspend.addEventListener("submit", handleAdminSuspend);
+        forms.adminNotice.addEventListener("submit", handleAdminNotice);
+        forms.adminPartner.addEventListener("submit", handleAdminPartner);
+        el("admin-reset-search").addEventListener("click", resetAdminSearch);
+        adminRequestList.addEventListener("click", handleAdminRequestAction);
+        adminSearchResults.addEventListener("click", handleDonorAction);
+      }
+
+      function bindMisc() {
+        el("blood-request-modal").addEventListener("submit", hideToast);
+        bindPartnerListClicks();
+        bindInviteShare();
+        bindModalClose();
+      }
+
+      function initLocationBindings() {
+        bindingMap.register = createLocationBinding({
+          division: el("reg-division"),
+          district: el("reg-district"),
+          thana: el("reg-thana"),
+          upazila: el("reg-upazila")
+        });
+        bindingMap.donorProfile = createLocationBinding({
+          division: el("donor-profile-division"),
+          district: el("donor-profile-district"),
+          thana: el("donor-profile-thana"),
+          upazila: el("donor-profile-upazila")
+        });
+        bindingMap.adminSearch = createLocationBinding({
+          division: el("admin-search-division"),
+          district: el("admin-search-district"),
+          thana: el("admin-search-thana"),
+          upazila: el("admin-search-upazila")
+        });
+        bindingMap.bloodRequest = createLocationBinding({
+          division: el("req-division"),
+          district: el("req-district"),
+          thana: el("req-thana"),
+          upazila: el("req-upazila")
+        });
+      }
+
+      function init() {
+        setUpSelectOptions();
+        initLocationBindings();
+        bindNavigation();
+        bindForms();
+        bindMisc();
+        scheduleCountdownUpdate();
+        watchPartnerGroups();
+        watchNoticeBoard();
+        watchAdminConfig();
+        restoreSession();
+      }
+
+      init();
+    </script>
+  </body>
+</html>
