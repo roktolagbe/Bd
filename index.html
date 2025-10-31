@@ -1644,14 +1644,22 @@
         }
 
         try {
-          const existing = await getDonorDocByPhone(phone);
-          if (existing) {
-            showToast("An account already exists with this phone number", "error");
-            return;
-          }
           const email = phoneToEmail(phone);
-          const credential = await createUserWithEmailAndPassword(auth, email, password);
-          const user = credential.user;
+          let user;
+          try {
+            const credential = await createUserWithEmailAndPassword(auth, email, password);
+            user = credential.user;
+          } catch (error) {
+            const code = error?.code || "";
+            if (code === "auth/email-already-in-use") {
+              showToast("This phone number is already registered", "error");
+            } else if (code === "auth/weak-password") {
+              showToast("Password must be at least 6 characters", "error");
+            } else {
+              showToast("Registration failed, please try again", "error");
+            }
+            throw error;
+          }
           await setDoc(doc(db, "donors", user.uid), {
             name,
             phone,
