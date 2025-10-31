@@ -7,8 +7,6 @@
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-      integrity="sha512-p2ZPp8pU8wEfr2E1VlzDq+W8sELpAo0P5NdQ4KJIp4jOSAmhpN6wX6Z1GDZCBoBPXaG9q4CPGK/cHBXHi6S0AQ=="
-      crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
     <style>
@@ -1034,22 +1032,6 @@
 
 
       const DEFAULT_DONATION_URL = "https://buymeacoffee.com/rokto";
-
-      const state = {
-        currentUser: null,
-        role: null,
-        adminConfig: {
-          whatsappNumber: "+966544575530",
-          donationLink: ""
-        },
-        partnerGroups: [],
-        unsubscribe: {
-          requests: null,
-          partnerGroups: null,
-          notice: null,
-          adminConfig: null
-        }
-      };
 
       const el = (id) => document.getElementById(id);
       const footerYearEl = el("footer-year");
