@@ -74,7 +74,11 @@
         z-index: 1;
         display: flex;
         align-items: center;
+        justify-content: center;
         gap: 0.75rem;
+        margin-inline: auto;
+        text-align: center;
+        flex-wrap: wrap;
       }
 
       .header-logo .logo-icon {
@@ -182,6 +186,31 @@
         flex-wrap: wrap;
         gap: 0.75rem;
         margin-top: 1.5rem;
+      }
+
+      .auth-actions {
+        flex-direction: column;
+        align-items: stretch;
+        margin-top: 1.5rem;
+      }
+
+      .auth-primary-btn {
+        width: 100%;
+      }
+
+      .auth-switch-card {
+        width: 100%;
+        background: rgba(214, 40, 40, 0.08);
+        border: 1.5px solid rgba(214, 40, 40, 0.2);
+        border-radius: 14px;
+        padding: 1rem;
+        display: grid;
+        gap: 0.65rem;
+      }
+
+      .auth-switch-card button {
+        width: 100%;
+        justify-content: center;
       }
 
       .primary-btn,
@@ -505,13 +534,17 @@
                   <input type="password" id="login-password" placeholder="********" required />
                 </label>
               </div>
-              <div class="actions" style="justify-content: space-between">
-                <button type="submit" class="primary-btn">
+              <div class="actions auth-actions">
+                <button type="submit" class="primary-btn auth-primary-btn">
                   <i class="fa-solid fa-right-to-bracket"></i> Sign In
                 </button>
-                <div style="display: flex; flex-direction: column; gap: 0.5rem">
-                  <a href="#" id="open-register" class="link"><i class="fa-solid fa-user-plus"></i> Register as Donor</a>
-                  <a href="#" id="open-reset" class="link"><i class="fa-solid fa-unlock-keyhole"></i> Forgot Password?</a>
+                <div class="auth-switch-card">
+                  <button type="button" id="open-register" class="secondary-btn">
+                    <i class="fa-solid fa-user-plus"></i> Register as Donor
+                  </button>
+                  <button type="button" id="open-reset" class="ghost-btn">
+                    <i class="fa-solid fa-unlock-keyhole"></i> Forgot Password?
+                  </button>
                 </div>
               </div>
             </form>
