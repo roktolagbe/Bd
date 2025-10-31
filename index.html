@@ -524,8 +524,8 @@
             <form id="login-form" class="dashboard-section">
               <div class="form-grid">
                 <label class="field">
-                  Phone Number
-                  <input type="tel" id="login-phone" placeholder="e.g. 017xxxxxxxx" required />
+                  Email Address
+                  <input type="email" id="login-email" placeholder="you@example.com" required />
                 </label>
                 <label class="field">
                   Password
@@ -567,6 +567,7 @@
               <div class="form-grid">
                 <label class="field">Full Name<input type="text" id="reg-name" required /></label>
                 <label class="field">Phone Number<input type="tel" id="reg-phone" required /></label>
+                <label class="field">Email Address<input type="email" id="reg-email" required /></label>
                 <label class="field">Date of Birth<input type="date" id="reg-dob" required /></label>
                 <label class="field">Password<input type="password" id="reg-password" minlength="6" required /></label>
                 <label class="field">Age<input type="number" id="reg-age" min="18" required /></label>
@@ -621,8 +622,7 @@
             <h2 class="section-title"><i class="fa-solid fa-shield-heart"></i> Reset Password</h2>
             <form id="reset-form" class="dashboard-section">
               <div class="form-grid">
-                <label class="field">Phone Number<input type="tel" id="reset-phone" required /></label>
-                <label class="field">Date of Birth<input type="date" id="reset-dob" required /></label>
+                <label class="field">Email Address<input type="email" id="reset-email" required /></label>
               </div>
               <div class="form-grid" id="reset-new-password" style="display: none"></div>
               <div class="actions">
@@ -1124,8 +1124,8 @@
         return value.replace(/[^0-9+]/g, "").trim();
       }
 
-      function phoneToEmail(phone) {
-        return `${phone}@rokto.ok`;
+      function validateEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
       }
 
       function escapeHtml(str = "") {
@@ -1247,7 +1247,7 @@
         if (!date) return "--";
         const d = typeof date === "string" ? new Date(date) : date;
         if (Number.isNaN(d.getTime())) return "--";
-        return d.toLocaleDateString("bn-BD", {
+        return d.toLocaleDateString("en-US", {
           year: "numeric",
           month: "long",
           day: "numeric"
@@ -1255,7 +1255,7 @@
       }
 
       function calculateCountdown(lastDonation) {
-        if (!lastDonation) return "???? ??????? ???? ??????";
+        if (!lastDonation) return "No donation record";
         const lastDate = typeof lastDonation === "string" ? new Date(lastDonation) : lastDonation;
         if (Number.isNaN(lastDate.getTime())) return "--";
         const nextEligible = new Date(lastDate.getTime() + 120 * 24 * 60 * 60 * 1000);
@@ -1308,6 +1308,10 @@
           state.unsubscribe.requests();
           state.unsubscribe.requests = null;
         }
+        if (state.unsubscribe.adminConfig) {
+          state.unsubscribe.adminConfig();
+          state.unsubscribe.adminConfig = null;
+        }
         closeAllDashboards();
         switchAuthView("login");
         showToast("Signed out successfully", "info");
@@ -1329,7 +1333,8 @@
           JSON.stringify({
             id: user.id,
             role: user.role,
-            phone: user.phone
+            phone: user.phone,
+            email: user.email || ""
           })
         );
       }
@@ -1476,9 +1481,14 @@
         updateAdminContactLink();
         updateDonationLink();
         if (state.role === "admin") {
+          watchAdminConfig();
           await loadAdminDashboard();
           views.adminDashboard.classList.remove("hidden");
         } else {
+          if (state.unsubscribe.adminConfig) {
+            state.unsubscribe.adminConfig();
+            state.unsubscribe.adminConfig = null;
+          }
           await loadDonorDashboard();
           views.donorDashboard.classList.remove("hidden");
           maybeShowInviteModal();
@@ -1501,7 +1511,7 @@
       async function loadDonorDashboard() {
         if (!state.currentUser) return;
         donorNameEl.textContent = state.currentUser.name || "Donor";
-        donorProfileFields.emailBadge.textContent = state.currentUser.phone;
+        donorProfileFields.emailBadge.textContent = state.currentUser.email || state.currentUser.phone || "-";
         donorProfileFields.name.value = state.currentUser.name || "";
         donorProfileFields.altPhone.value = state.currentUser.altPhone || "";
         donorProfileFields.age.value = state.currentUser.age || "";
@@ -1587,13 +1597,16 @@
 
       async function handleLogin(event) {
         event.preventDefault();
-        const phone = sanitizePhone(el("login-phone").value);
+        const email = el("login-email").value.trim().toLowerCase();
         const password = el("login-password").value;
-        if (!phone || !password) {
-          showToast("Please enter both phone number and password", "error");
+        if (!email || !password) {
+          showToast("Please enter both email and password", "error");
           return;
         }
-        const email = phoneToEmail(phone);
+        if (!validateEmail(email)) {
+          showToast("Please enter a valid email address", "error");
+          return;
+        }
         try {
           const credential = await signInWithEmailAndPassword(auth, email, password);
           const user = credential.user;
@@ -1609,7 +1622,7 @@
             await firebaseSignOut(auth);
             return;
           }
-          state.currentUser = { id: user.uid, ...donorData };
+          state.currentUser = { id: docSnap.id, ...donorData };
           state.role = donorData.role || "donor";
           await afterLogin();
           forms.login.reset();
@@ -1618,9 +1631,9 @@
           console.error("Login error", error);
           const code = error?.code || "";
           if (code === "auth/invalid-credential" || code === "auth/wrong-password") {
-            showToast("Incorrect phone number or password", "error");
+            showToast("Incorrect email or password", "error");
           } else if (code === "auth/user-not-found") {
-            showToast("No donor found with that phone number", "error");
+            showToast("No donor found with that email address", "error");
           } else {
             showToast("Unable to sign in right now", "error");
           }
@@ -1631,6 +1644,7 @@
         event.preventDefault();
         const name = el("reg-name").value.trim();
         const phone = sanitizePhone(el("reg-phone").value);
+        const email = el("reg-email").value.trim().toLowerCase();
         const dob = el("reg-dob").value;
         const password = el("reg-password").value;
         const age = parseInt(el("reg-age").value, 10);
@@ -1638,13 +1652,17 @@
         const bloodGroup = el("reg-bloodgroup").value;
         const address = bindingMap.register.get();
 
-        if (!name || !phone || !dob || !password || !age || !gender || !bloodGroup || !address.division || !address.district || !address.thana || !address.upazila) {
+        if (!name || !phone || !email || !dob || !password || !age || !gender || !bloodGroup || !address.division || !address.district || !address.thana || !address.upazila) {
           showToast("Please fill in all required fields", "error");
           return;
         }
 
+        if (!validateEmail(email)) {
+          showToast("Please enter a valid email address", "error");
+          return;
+        }
+
         try {
-          const email = phoneToEmail(phone);
           let user;
           try {
             const credential = await createUserWithEmailAndPassword(auth, email, password);
@@ -1652,7 +1670,7 @@
           } catch (error) {
             const code = error?.code || "";
             if (code === "auth/email-already-in-use") {
-              showToast("This phone number is already registered", "error");
+              showToast("This email is already registered", "error");
             } else if (code === "auth/weak-password") {
               showToast("Password must be at least 6 characters", "error");
             } else {
@@ -1694,20 +1712,18 @@
 
       async function handleReset(event) {
         event.preventDefault();
-        const phone = sanitizePhone(el("reset-phone").value);
-        const dob = el("reset-dob").value;
-        if (!phone || !dob) {
-          showToast("Please provide phone number and date of birth", "error");
+        const email = el("reset-email").value.trim().toLowerCase();
+        if (!email) {
+          showToast("Please provide the email address used at registration", "error");
+          return;
+        }
+        if (!validateEmail(email)) {
+          showToast("Please enter a valid email address", "error");
           return;
         }
 
         try {
-          const donor = await getDonorDocByPhone(phone);
-          if (!donor || donor.dateOfBirth !== dob) {
-            showToast("No matching donor found", "error");
-            return;
-          }
-          await sendPasswordResetEmail(auth, phoneToEmail(phone));
+          await sendPasswordResetEmail(auth, email);
           showToast("Password reset link sent to your email", "success");
           resetResetForm();
           switchAuthView("login");
@@ -1715,7 +1731,7 @@
           console.error("Reset error", error);
           const code = error?.code || "";
           if (code === "auth/invalid-email") {
-            showToast("Unable to send reset email for this phone", "error");
+            showToast("Unable to send reset email for this address", "error");
           } else {
             showToast("Unable to update password right now", "error");
           }
@@ -2231,7 +2247,6 @@
         scheduleCountdownUpdate();
         watchPartnerGroups();
         watchNoticeBoard();
-        watchAdminConfig();
         restoreSession();
       }
 
