@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>???? ?????? | Rokto Lagbe?</title>
+    <title>Need Blood? | Donor Network</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
@@ -482,9 +482,9 @@
             <i class="fa-solid fa-droplet"></i>
           </div>
           <div>
-            <h1>???? ??????</h1>
+            <h1>Need Blood?</h1>
             <p style="margin: 0; font-weight: 500; font-size: 0.95rem">
-              Rokto Lagbe? Blood Donation Network
+              Need Blood? | Blood Donation Network
             </p>
           </div>
         </div>
@@ -493,37 +493,37 @@
       <main>
         <section id="auth-section" class="card">
           <div id="login-view">
-            <h2 class="section-title"><i class="fa-solid fa-stethoscope"></i> ???? ????</h2>
+            <h2 class="section-title"><i class="fa-solid fa-stethoscope"></i> Sign In</h2>
             <form id="login-form" class="dashboard-section">
               <div class="form-grid">
                 <label class="field">
-                  ??? ???????
-                  <input type="tel" id="login-phone" placeholder="???. 017xxxxxxxx" required />
+                  Phone Number
+                  <input type="tel" id="login-phone" placeholder="e.g. 017xxxxxxxx" required />
                 </label>
                 <label class="field">
-                  ?????????
+                  Password
                   <input type="password" id="login-password" placeholder="********" required />
                 </label>
               </div>
               <div class="actions" style="justify-content: space-between">
                 <button type="submit" class="primary-btn">
-                  <i class="fa-solid fa-right-to-bracket"></i> ????
+                  <i class="fa-solid fa-right-to-bracket"></i> Sign In
                 </button>
                 <div style="display: flex; flex-direction: column; gap: 0.5rem">
-                  <a href="#" id="open-register" class="link"><i class="fa-solid fa-user-plus"></i> ????? ?????? ???????????? ????</a>
-                  <a href="#" id="open-reset" class="link"><i class="fa-solid fa-unlock-keyhole"></i> ????????? ???? ??????</a>
+                  <a href="#" id="open-register" class="link"><i class="fa-solid fa-user-plus"></i> Register as Donor</a>
+                  <a href="#" id="open-reset" class="link"><i class="fa-solid fa-unlock-keyhole"></i> Forgot Password?</a>
                 </div>
               </div>
             </form>
 
             <div class="split-layout" style="margin-top: 2.5rem">
               <div class="notice-board">
-                <h3><i class="fa-solid fa-thumbtack"></i> ????? ?????</h3>
-                <p id="notice-message">??? ?????...</p>
+                <h3><i class="fa-solid fa-thumbtack"></i> Notice Board</h3>
+                <p id="notice-message">Loading...</p>
               </div>
               <div class="partner-groups">
                 <h3 style="margin: 0 0 0.75rem; color: var(--primary)">
-                  <i class="fa-brands fa-facebook"></i> ?????? ???????? ?????? ?????
+                  <i class="fa-brands fa-facebook"></i> Our Partner Facebook Groups
                 </h3>
                 <ul id="partner-group-list"></ul>
               </div>
@@ -531,27 +531,27 @@
           </div>
 
           <div id="register-view" class="hidden">
-            <h2 class="section-title"><i class="fa-solid fa-id-card"></i> ????? ????????????</h2>
+            <h2 class="section-title"><i class="fa-solid fa-id-card"></i> Donor Registration</h2>
             <form id="register-form" class="dashboard-section">
               <div class="form-grid">
-                <label class="field">????? ???<input type="text" id="reg-name" required /></label>
-                <label class="field">??? ???????<input type="tel" id="reg-phone" required /></label>
-                <label class="field">???? ?????<input type="date" id="reg-dob" required /></label>
-                <label class="field">?????????<input type="password" id="reg-password" minlength="6" required /></label>
-                <label class="field">???<input type="number" id="reg-age" min="18" required /></label>
+                <label class="field">Full Name<input type="text" id="reg-name" required /></label>
+                <label class="field">Phone Number<input type="tel" id="reg-phone" required /></label>
+                <label class="field">Date of Birth<input type="date" id="reg-dob" required /></label>
+                <label class="field">Password<input type="password" id="reg-password" minlength="6" required /></label>
+                <label class="field">Age<input type="number" id="reg-age" min="18" required /></label>
                 <label class="field">
-                  ???????
+                  Gender
                   <select id="reg-gender" required>
-                    <option value="" disabled selected>??????? ???????? ????</option>
-                    <option value="male">?????</option>
-                    <option value="female">?????</option>
-                    <option value="other">????????</option>
+                    <option value="" disabled selected>Select gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
                   </select>
                 </label>
                 <label class="field">
-                  ?????? ?????
+                  Blood Group
                   <select id="reg-bloodgroup" required>
-                    <option value="" disabled selected>?????? ????? ???????? ????</option>
+                    <option value="" disabled selected>Select blood group</option>
                     <option value="A+">A+</option>
                     <option value="A-">A-</option>
                     <option value="B+">B+</option>
@@ -563,45 +563,45 @@
                   </select>
                 </label>
                 <label class="field">
-                  ?????
+                  Division
                   <select id="reg-division" required></select>
                 </label>
                 <label class="field">
-                  ????
+                  District
                   <select id="reg-district" required></select>
                 </label>
                 <label class="field">
-                  ????
+                  Thana
                   <select id="reg-thana" required></select>
                 </label>
                 <label class="field">
-                  ??????
+                  Upazila
                   <select id="reg-upazila" required></select>
                 </label>
               </div>
               <div class="actions">
-                <button type="submit" class="primary-btn"><i class="fa-solid fa-floppy-disk"></i> ????????? ????</button>
-                <button type="button" class="ghost-btn" id="back-to-login"><i class="fa-solid fa-arrow-left"></i> ????? ???? ???</button>
+                <button type="submit" class="primary-btn"><i class="fa-solid fa-floppy-disk"></i> Register</button>
+                <button type="button" class="ghost-btn" id="back-to-login"><i class="fa-solid fa-arrow-left"></i> Back to Login</button>
               </div>
             </form>
           </div>
 
           <div id="reset-view" class="hidden">
-            <h2 class="section-title"><i class="fa-solid fa-shield-heart"></i> ????????? ?????</h2>
+            <h2 class="section-title"><i class="fa-solid fa-shield-heart"></i> Reset Password</h2>
             <form id="reset-form" class="dashboard-section">
               <div class="form-grid">
-                <label class="field">??? ???????<input type="tel" id="reset-phone" required /></label>
-                <label class="field">???? ?????<input type="date" id="reset-dob" required /></label>
+                <label class="field">Phone Number<input type="tel" id="reset-phone" required /></label>
+                <label class="field">Date of Birth<input type="date" id="reset-dob" required /></label>
               </div>
               <div class="form-grid" id="reset-new-password" style="display: none">
-                <label class="field">???? ?????????<input type="password" id="reset-password" minlength="6" /></label>
-                <label class="field">????????? ??????? ????<input type="password" id="reset-password-confirm" minlength="6" /></label>
+                <label class="field">New Password<input type="password" id="reset-password" minlength="6" /></label>
+                <label class="field">Confirm Password<input type="password" id="reset-password-confirm" minlength="6" /></label>
               </div>
               <div class="actions">
                 <button type="submit" class="primary-btn" id="reset-submit">
-                  <i class="fa-solid fa-magnifying-glass"></i> ???? ?????
+                  <i class="fa-solid fa-magnifying-glass"></i> Verify Details
                 </button>
-                <button type="button" class="ghost-btn" id="reset-back"><i class="fa-solid fa-arrow-left"></i> ????? ???? ???</button>
+                <button type="button" class="ghost-btn" id="reset-back"><i class="fa-solid fa-arrow-left"></i> Back to Login</button>
               </div>
             </form>
           </div>
@@ -610,58 +610,58 @@
         <section id="donor-dashboard" class="card hidden">
           <div class="dashboard-header" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap">
             <div>
-              <h2 class="section-title" style="margin-bottom: 0"><i class="fa-solid fa-hand-holding-droplet"></i> ????? ??????????</h2>
-              <p style="margin: 0; color: var(--muted)">???????, <span id="donor-name"></span>!</p>
+              <h2 class="section-title" style="margin-bottom: 0"><i class="fa-solid fa-hand-holding-droplet"></i> Donor Dashboard</h2>
+              <p style="margin: 0; color: var(--muted)">Welcome, <span id="donor-name"></span>!</p>
             </div>
-            <button id="btn-logout-donor" class="ghost-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> ?????</button>
+            <button id="btn-logout-donor" class="ghost-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
           </div>
 
           <div class="dashboard-section" style="margin-top: 2rem">
             <div class="info-card">
-              <h3><i class="fa-solid fa-user"></i> ???? ????????</h3>
+              <h3><i class="fa-solid fa-user"></i> My Profile</h3>
               <form id="donor-profile-form" class="profile-grid">
-                <label class="field">????? ???<input type="text" id="donor-profile-name" required /></label>
-                <label class="field">?????/???<span class="badge" id="donor-profile-email"></span></label>
-                <label class="field">???????? ???<input type="tel" id="donor-profile-alt-phone" placeholder="??????" /></label>
-                <label class="field">???<input type="number" id="donor-profile-age" min="18" required /></label>
-                <label class="field">?????? ?????<select id="donor-profile-division" required></select></label>
-                <label class="field">?????? ????<select id="donor-profile-district" required></select></label>
-                <label class="field">?????? ????<select id="donor-profile-thana" required></select></label>
-                <label class="field">?????? ??????<select id="donor-profile-upazila" required></select></label>
-                <label class="field">?????? ?????<select id="donor-profile-blood" required></select></label>
-                <label class="field">???????<select id="donor-profile-gender" required></select></label>
+                <label class="field">Full Name<input type="text" id="donor-profile-name" required /></label>
+                <label class="field">Email/Phone<span class="badge" id="donor-profile-email"></span></label>
+                <label class="field">Alternate Phone<input type="tel" id="donor-profile-alt-phone" placeholder="Optional" /></label>
+                <label class="field">Age<input type="number" id="donor-profile-age" min="18" required /></label>
+                <label class="field">Address Division<select id="donor-profile-division" required></select></label>
+                <label class="field">Address District<select id="donor-profile-district" required></select></label>
+                <label class="field">Address Thana<select id="donor-profile-thana" required></select></label>
+                <label class="field">Address Upazila<select id="donor-profile-upazila" required></select></label>
+                <label class="field">Blood Group<select id="donor-profile-blood" required></select></label>
+                <label class="field">Gender<select id="donor-profile-gender" required></select></label>
               </form>
               <div class="actions" style="margin-top: 1rem">
-                <button type="button" id="donor-profile-save" class="primary-btn"><i class="fa-solid fa-save"></i> ???????? ?????</button>
+                <button type="button" id="donor-profile-save" class="primary-btn"><i class="fa-solid fa-save"></i> Save Profile</button>
               </div>
             </div>
 
             <div class="info-card">
-              <h3><i class="fa-solid fa-calendar-heart"></i> ??????? ?????????</h3>
+              <h3><i class="fa-solid fa-calendar-heart"></i> Donation Tracking</h3>
               <div class="request-grid">
                 <div>
-                  <p style="margin: 0 0 0.75rem; color: var(--muted)">??? ????????? ?????</p>
+                  <p style="margin: 0 0 0.75rem; color: var(--muted)">Last Donation Date</p>
                   <input type="date" id="donor-last-donation" class="tracking-input" />
                 </div>
                 <div>
-                  <p style="margin: 0 0 0.75rem; color: var(--muted)">??????? ????????? ???</p>
+                  <p style="margin: 0 0 0.75rem; color: var(--muted)">Next Eligible Date</p>
                   <p class="countdown" id="donor-countdown">--</p>
                 </div>
               </div>
               <div class="actions" style="margin-top: 1rem">
                 <button type="button" id="donor-save-donation" class="secondary-btn">
-                  <i class="fa-solid fa-rotate"></i> ????? ????
+                  <i class="fa-solid fa-rotate"></i> Update
                 </button>
               </div>
             </div>
 
             <div class="info-card">
               <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap">
-                <h3 style="margin-bottom: 0"><i class="fa-solid fa-triangle-exclamation"></i> ????? ?????? ?????</h3>
-                <button id="open-blood-request" class="primary-btn"><i class="fa-solid fa-siren-on"></i> ????? ?????? ????? ????</button>
+                <h3 style="margin-bottom: 0"><i class="fa-solid fa-triangle-exclamation"></i> Emergency Blood Request</h3>
+                <button id="open-blood-request" class="primary-btn"><i class="fa-solid fa-siren-on"></i> Request Emergency Blood</button>
               </div>
               <p style="margin: 0.75rem 0 0; color: var(--muted)">
-                ????? ?? ?????? ????? ????? ???? ????? ??????
+                You can submit one request every 24 hours.
               </p>
             </div>
           </div>
@@ -670,66 +670,66 @@
         <section id="admin-dashboard" class="card hidden">
           <div class="dashboard-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem">
             <div>
-              <h2 class="section-title" style="margin-bottom: 0"><i class="fa-solid fa-user-shield"></i> ???????? ???????</h2>
-              <p style="margin: 0; color: var(--muted)">??????????? ??????????? ?????????</p>
+              <h2 class="section-title" style="margin-bottom: 0"><i class="fa-solid fa-user-shield"></i> Admin Panel</h2>
+              <p style="margin: 0; color: var(--muted)">Centralized administration controls</p>
             </div>
-            <button id="btn-logout-admin" class="ghost-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> ?????</button>
+            <button id="btn-logout-admin" class="ghost-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
           </div>
 
           <div class="dashboard-section" style="margin-top: 2rem">
             <div class="info-card" style="display: grid; gap: 0.5rem; max-width: 420px">
-              <span class="badge" style="width: fit-content"><i class="fa-solid fa-user-group"></i> ??? ??????????? ?????</span>
+              <span class="badge" style="width: fit-content"><i class="fa-solid fa-user-group"></i> Total Registered Donors</span>
               <h3 style="margin-bottom: 0; font-size: 2rem" id="total-donors">0</h3>
             </div>
 
             <div class="info-card">
-              <h3><i class="fa-solid fa-list-check"></i> ??????? ?????? ?????</h3>
+              <h3><i class="fa-solid fa-list-check"></i> Pending Blood Requests</h3>
               <div class="search-results" id="admin-request-list"></div>
             </div>
 
             <div class="info-card">
-              <h3><i class="fa-solid fa-magnifying-glass-location"></i> ????? ??????</h3>
+              <h3><i class="fa-solid fa-magnifying-glass-location"></i> Search Donors</h3>
               <form id="admin-search-form" class="form-grid">
-                <label class="field">?????? ?????<select id="admin-search-blood" required></select></label>
-                <label class="field">?????<select id="admin-search-division" required></select></label>
-                <label class="field">????<select id="admin-search-district" required></select></label>
-                <label class="field">????<select id="admin-search-thana" required></select></label>
-                <label class="field">??????<select id="admin-search-upazila" required></select></label>
+                <label class="field">Blood Group<select id="admin-search-blood" required></select></label>
+                <label class="field">Division<select id="admin-search-division" required></select></label>
+                <label class="field">District<select id="admin-search-district" required></select></label>
+                <label class="field">Thana<select id="admin-search-thana" required></select></label>
+                <label class="field">Upazila<select id="admin-search-upazila" required></select></label>
                 <div class="actions" style="grid-column: 1 / -1">
-                  <button type="submit" class="primary-btn"><i class="fa-solid fa-search"></i> ????? ????</button>
-                  <button type="button" id="admin-reset-search" class="ghost-btn"><i class="fa-solid fa-rotate-left"></i> ?????</button>
+                  <button type="submit" class="primary-btn"><i class="fa-solid fa-search"></i> Search</button>
+                  <button type="button" id="admin-reset-search" class="ghost-btn"><i class="fa-solid fa-rotate-left"></i> Reset</button>
                 </div>
               </form>
               <div class="search-results" id="admin-search-results"></div>
             </div>
 
             <div class="info-card">
-              <h3><i class="fa-solid fa-person-circle-xmark"></i> ????? ????????</h3>
+              <h3><i class="fa-solid fa-person-circle-xmark"></i> Suspend Donor</h3>
               <form id="admin-suspend-form" class="form-grid">
-                <label class="field">??? ???????<input type="tel" id="admin-suspend-phone" required /></label>
+                <label class="field">Phone Number<input type="tel" id="admin-suspend-phone" required /></label>
                 <div class="actions">
-                  <button type="submit" class="secondary-btn"><i class="fa-solid fa-user-slash"></i> ???????? ????</button>
+                  <button type="submit" class="secondary-btn"><i class="fa-solid fa-user-slash"></i> Suspend</button>
                 </div>
               </form>
             </div>
 
             <div class="info-card">
-              <h3><i class="fa-solid fa-message"></i> ????? ????? ?????</h3>
+              <h3><i class="fa-solid fa-message"></i> Notice Board Update</h3>
               <form id="admin-notice-form" class="form-grid">
-                <label class="field">?????<textarea id="admin-notice-message" rows="4"></textarea></label>
+                <label class="field">Message<textarea id="admin-notice-message" rows="4"></textarea></label>
                 <div class="actions">
-                  <button type="submit" class="primary-btn"><i class="fa-solid fa-floppy-disk"></i> ??? ????</button>
+                  <button type="submit" class="primary-btn"><i class="fa-solid fa-floppy-disk"></i> Save</button>
                 </div>
               </form>
             </div>
 
             <div class="info-card">
-              <h3><i class="fa-brands fa-facebook"></i> ???????? ?????? ?????</h3>
+              <h3><i class="fa-brands fa-facebook"></i> Partner Facebook Groups</h3>
               <form id="admin-partner-form" class="form-grid">
-                <label class="field">??????? ???<input type="text" id="admin-partner-name" required /></label>
-                <label class="field">????? ????<input type="url" id="admin-partner-link" required /></label>
+                <label class="field">Group Name<input type="text" id="admin-partner-name" required /></label>
+                <label class="field">Group Link<input type="url" id="admin-partner-link" required /></label>
                 <div class="actions">
-                  <button type="submit" class="secondary-btn"><i class="fa-solid fa-plus"></i> ????? ??? ????</button>
+                  <button type="submit" class="secondary-btn"><i class="fa-solid fa-plus"></i> Add Group</button>
                 </div>
               </form>
               <div class="search-results" id="admin-partner-list"></div>
@@ -741,22 +741,22 @@
       <footer>
         <div class="ad-placeholder">Google AdSense Placeholder</div>
         <button class="primary-btn donation-btn">
-          <i class="fa-solid fa-hand-holding-heart"></i> ?????????? ?????? ????
+          <i class="fa-solid fa-hand-holding-heart"></i> Support the Developer
         </button>
-        <small>? <span id="footer-year"></span> ???? ?????? | ?????? ? ??????????? with ??</small>
+        <small>&copy; <span id="footer-year"></span> Need Blood? | Designed & Developed with &lt;3</small>
       </footer>
     </div>
 
     <div class="modal-backdrop" id="invite-modal">
       <div class="modal">
         <button class="modal-close" data-close="invite-modal"><i class="fa-solid fa-xmark"></i></button>
-        <h3><i class="fa-solid fa-people-group"></i> ???????? ???????? ?????</h3>
+        <h3><i class="fa-solid fa-people-group"></i> Invite Your Friends</h3>
         <p>
-          ???? ????? ??? ???? ??????? ?????????? ???? ????? ????? ????? ? ???????? ?????? ???????? ?????????? ??? ???? ???????? ??????
+          A single donor can inspire many others. Invite your friends and family to join our donor network.
         </p>
         <div class="actions">
-          <button class="primary-btn" id="invite-share"><i class="fa-solid fa-share-nodes"></i> ?????? ????</button>
-          <button class="ghost-btn" data-close="invite-modal"><i class="fa-solid fa-check"></i> ??? ?????</button>
+          <button class="primary-btn" id="invite-share"><i class="fa-solid fa-share-nodes"></i> Share Invite</button>
+          <button class="ghost-btn" data-close="invite-modal"><i class="fa-solid fa-check"></i> Maybe Later</button>
         </div>
       </div>
     </div>
@@ -764,21 +764,21 @@
     <div class="modal-backdrop" id="blood-request-modal">
       <div class="modal" style="width: min(100%, 520px)">
         <button class="modal-close" data-close="blood-request-modal"><i class="fa-solid fa-xmark"></i></button>
-        <h3><i class="fa-solid fa-suitcase-medical"></i> ????? ?????? ?????</h3>
+        <h3><i class="fa-solid fa-suitcase-medical"></i> Emergency Blood Request</h3>
         <form id="blood-request-form" class="dashboard-section" style="margin-top: 1rem">
           <div class="form-grid">
-            <label class="field">????? ????<textarea id="req-patient-details" required></textarea></label>
-            <label class="field">?????? ?????<select id="req-blood-group" required></select></label>
-            <label class="field">?? ????? ?????<input type="number" id="req-bags" min="1" value="1" required /></label>
-            <label class="field">?????????? ??????<input type="text" id="req-hospital" required /></label>
-            <label class="field">????????? ?????<input type="tel" id="req-contact" required /></label>
-            <label class="field">?????<select id="req-division" required></select></label>
-            <label class="field">????<select id="req-district" required></select></label>
-            <label class="field">????<select id="req-thana" required></select></label>
-            <label class="field">??????<select id="req-upazila" required></select></label>
+            <label class="field">Patient Details<textarea id="req-patient-details" required></textarea></label>
+            <label class="field">Blood Group<select id="req-blood-group" required></select></label>
+            <label class="field">Bags Needed<input type="number" id="req-bags" min="1" value="1" required /></label>
+            <label class="field">Hospital Address<input type="text" id="req-hospital" required /></label>
+            <label class="field">Contact Number<input type="tel" id="req-contact" required /></label>
+            <label class="field">Division<select id="req-division" required></select></label>
+            <label class="field">District<select id="req-district" required></select></label>
+            <label class="field">Thana<select id="req-thana" required></select></label>
+            <label class="field">Upazila<select id="req-upazila" required></select></label>
           </div>
           <div class="actions">
-            <button type="submit" class="primary-btn"><i class="fa-solid fa-paper-plane"></i> ????? ??????</button>
+            <button type="submit" class="primary-btn"><i class="fa-solid fa-paper-plane"></i> Submit Request</button>
           </div>
         </form>
       </div>
@@ -787,10 +787,10 @@
     <div class="modal-backdrop" id="request-success-modal">
       <div class="modal">
         <button class="modal-close" data-close="request-success-modal"><i class="fa-solid fa-xmark"></i></button>
-        <h3><i class="fa-solid fa-circle-check"></i> ????? ???</h3>
-        <p>????? ??????? ???????? ???????? ?????? ?????? ????? ???????? ????? ????? ????? ??? ?????????? ???? ??????? ?????</p>
+        <h3><i class="fa-solid fa-circle-check"></i> Request Submitted</h3>
+        <p>Your request has been sent to the admin panel. For urgent help tap below to contact the admin via WhatsApp.</p>
         <div class="actions">
-          <a class="primary-btn" id="contact-admin-whatsapp" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> ?????????? ???? ??????? ????</a>
+          <a class="primary-btn" id="contact-admin-whatsapp" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Contact Admin on WhatsApp</a>
         </div>
       </div>
     </div>
@@ -889,145 +889,146 @@
 
       const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
       const genderOptions = [
-        { value: "male", label: "?????" },
-        { value: "female", label: "?????" },
-        { value: "other", label: "????????" }
+        { value: "male", label: "Male" },
+        { value: "female", label: "Female" },
+        { value: "other", label: "Other" }
       ];
 
       const locationHierarchy = {
-        "????": {
+        Dhaka: {
           districts: {
-            "????": {
+            Dhaka: {
               thanas: {
-                "???? ?????": ["??????", "??????", "??????"],
-                "???? ??????": ["????????", "??????", "??????"]
+                "Dhaka North": ["Uttara", "Mirpur", "Gulshan"],
+                "Dhaka South": ["Dhanmondi", "Shahbag", "Motijheel"]
               }
             },
-            "???????": {
+            Gazipur: {
               thanas: {
-                "??????? ???": ["????????", "?????"],
-                "?????????": ["???????", "?????????"]
+                "Gazipur Sadar": ["Joydebpur", "Bhogra"],
+                Kaliakair: ["Chandra", "Fulbaria"]
               }
             },
-            "??????????": {
+            Narayanganj: {
               thanas: {
-                "?????????? ???": ["??????????", "???????"],
-                "????????": ["?????????", "???????"]
+                "Narayanganj Sadar": ["Narayanganj Zoo", "Fatullah"],
+                Sonargaon: ["Mograpara", "Kanchpur"]
               }
             }
           }
         },
-        "?????????": {
+        Chattogram: {
           districts: {
-            "?????????": {
+            Chattogram: {
               thanas: {
-                "????????? ??????": ["???????", "??????????", "????????"],
-                "?????????": ["???????", "????????"]
+                "Chattogram Metropolitan": ["Patenga", "Bahaddarhat", "Agrabad"],
+                Hathazari: ["Fatehpur", "Shikarpur"]
               }
             },
-            "?????????": {
+            "Cox's Bazar": {
               thanas: {
-                "????????? ???": ["????????? ???", "??????"],
-                "?????": ["????? ???", "????????"]
+                "Cox's Bazar Sadar": ["Cox's Bazar Town", "Jhilongja"],
+                Ukhiya: ["Ukhiya Sadar", "Palongkhali"]
               }
             }
           }
         },
-        "???????": {
+        Rajshahi: {
           districts: {
-            "???????": {
+            Rajshahi: {
               thanas: {
-                "??????? ??????": ["?????????", "??????????"],
-                "????????": ["????????", "?????????"]
+                "Rajshahi Metropolitan": ["Shaheb Bazar", "Boalia"],
+                Godagari: ["Godagari", "Pakuria"]
               }
             },
-            "?????": {
+            Bogura: {
               thanas: {
-                "????? ???": ["????????", "??????????"],
-                "??????": ["?????? ???", "?????????"]
+                "Bogura Sadar": ["Nagar Bangla", "Shajahanpur"],
+                Sherpur: ["Sherpur Town", "Mirzapur"]
               }
             }
           }
         },
-        "?????": {
+        Khulna: {
           districts: {
-            "?????": {
+            Khulna: {
               thanas: {
-                "????? ??????": ["????????", "??????????"],
-                "?????": ["????? ???", "??????????"]
+                "Khulna Metropolitan": ["Khalishpur", "Sonadanga"],
+                Dacope: ["Dacope Sadar", "Bashbunia"]
               }
             },
-            "????": {
+            Jashore: {
               thanas: {
-                "???? ???": ["??????", "????"],
-                "?????????": ["??????????", "????????"]
+                "Jashore Sadar": ["Chachra", "Kasba"],
+                Monirampur: ["Horidaskati", "Khedapara"]
               }
             }
           }
         },
-        "??????": {
+        Barishal: {
           districts: {
-            "??????": {
+            Barishal: {
               thanas: {
-                "?????? ??????": ["????????", "???????"]
+                "Barishal Metropolitan": ["Band Road", "Kaukhali"]
               }
             },
-            "?????????": {
+            Patuakhali: {
               thanas: {
-                "????????? ???": ["??????", "????????"],
-                "???????": ["??????", "???????"]
+                "Patuakhali Sadar": ["Lalua", "Itbaria"],
+                Kalapara: ["Mohipur", "Dhulasar"]
               }
             }
           }
         },
-        "?????": {
+        Sylhet: {
           districts: {
-            "?????": {
+            Sylhet: {
               thanas: {
-                "????? ??????": ["?????????", "??????????"],
-                "?????????": ["????????", "??????"],
+                "Sylhet Metropolitan": ["Ambar Khana", "Bandar Bazar"],
+                Jaintapur: ["Charikata", "Dorbost"]
               }
             },
-            "??????????": {
+            Moulvibazar: {
               thanas: {
-                "?????????? ???": ["???-????????", "???????"],
-                "?????????": ["???????", "?????"]
+                "Moulvibazar Sadar": ["Manu Shahjalal", "Kheya Ghat"],
+                Sreemangal: ["Bhanugach", "Kashban"]
               }
             }
           }
         },
-        "?????": {
+        Rangpur: {
           districts: {
-            "?????": {
+            Rangpur: {
               thanas: {
-                "????? ??????": ["????? ????????", "????????"],
-                "???????": ["??????? ???", "????? ???"]
+                "Rangpur Metropolitan": ["Jhaj Company", "Parkmore"],
+                Pirgacha: ["Pirgacha Sadar", "Kailash Sadar"]
               }
             },
-            "????????": {
+            Dinajpur: {
               thanas: {
-                "???????? ???": ["???????", "????????"],
-                "???????": ["????????", "????"]
+                "Dinajpur Sadar": ["Birganj", "Balubari"],
+                Saidpur: ["Boalia", "Uthhan"]
               }
             }
           }
         },
-        "????????": {
+        Mymensingh: {
           districts: {
-            "????????": {
+            Mymensingh: {
               thanas: {
-                "???????? ??????": ["?????? ????????", "?????"]
+                "Mymensingh Metropolitan": ["South Mymensingh", "Ashandi"]
               }
             },
-            "??????": {
+            Sherpur: {
               thanas: {
-                "?????? ???": ["?????????", "???????"],
-                "??????????": ["??????", "????????"]
+                "Sherpur Sadar": ["Kamarpara", "Gorjoripa"],
+                Nalitabari: ["Baghber", "Baroshia"]
               }
             }
           }
         }
       };
+
 
       const el = (id) => document.getElementById(id);
       const footerYearEl = el("footer-year");
@@ -1162,19 +1163,19 @@
       }
 
       function createLocationBinding({ division, district, thana, upazila }) {
-        populateSelect(division, Object.keys(locationHierarchy), "????? ???????? ????");
-        resetSelect(district, "???? ???????? ????");
-        resetSelect(thana, "???? ???????? ????");
-        resetSelect(upazila, "?????? ???????? ????");
+        populateSelect(division, Object.keys(locationHierarchy), "Select division");
+        resetSelect(district, "Select district");
+        resetSelect(thana, "Select thana");
+        resetSelect(upazila, "Select upazila");
 
         division.addEventListener("change", () => {
           const selectedDivision = division.value;
           const districts = selectedDivision
             ? Object.keys(locationHierarchy[selectedDivision]?.districts || {})
             : [];
-          populateSelect(district, districts, "???? ???????? ????");
-          resetSelect(thana, "???? ???????? ????");
-          resetSelect(upazila, "?????? ???????? ????");
+          populateSelect(district, districts, "Select district");
+          resetSelect(thana, "Select thana");
+          resetSelect(upazila, "Select upazila");
         });
 
         district.addEventListener("change", () => {
@@ -1183,8 +1184,8 @@
           const thanas = selectedDivision && selectedDistrict
             ? Object.keys(locationHierarchy[selectedDivision]?.districts?.[selectedDistrict]?.thanas || {})
             : [];
-          populateSelect(thana, thanas, "???? ???????? ????");
-          resetSelect(upazila, "?????? ???????? ????");
+          populateSelect(thana, thanas, "Select thana");
+          resetSelect(upazila, "Select upazila");
         });
 
         thana.addEventListener("change", () => {
@@ -1194,7 +1195,7 @@
           const upazilas = selectedDivision && selectedDistrict && selectedThana
             ? locationHierarchy[selectedDivision]?.districts?.[selectedDistrict]?.thanas?.[selectedThana] || []
             : [];
-          populateSelect(upazila, upazilas, "?????? ???????? ????");
+          populateSelect(upazila, upazilas, "Select upazila");
         });
 
         return {
@@ -1233,12 +1234,12 @@
       }
 
       function setUpSelectOptions() {
-        populateSelect(el("reg-bloodgroup"), bloodGroups, "?????? ????? ???????? ????");
-        populateSelect(el("req-blood-group"), bloodGroups, "?????? ????? ???????? ????");
-        populateSelect(donorProfileFields.blood, bloodGroups, "?????? ????? ???????? ????");
-        populateSelect(el("admin-search-blood"), bloodGroups, "?????? ????? ???????? ????");
-        populateSelect(el("reg-gender"), genderOptions, "??????? ???????? ????");
-        populateSelect(donorProfileFields.gender, genderOptions, "??????? ???????? ????");
+        populateSelect(el("reg-bloodgroup"), bloodGroups, "Select blood group");
+        populateSelect(el("req-blood-group"), bloodGroups, "Select blood group");
+        populateSelect(donorProfileFields.blood, bloodGroups, "Select blood group");
+        populateSelect(el("admin-search-blood"), bloodGroups, "Select blood group");
+        populateSelect(el("reg-gender"), genderOptions, "Select gender");
+        populateSelect(donorProfileFields.gender, genderOptions, "Select gender");
       }
 
       function formatDate(date) {
@@ -1260,10 +1261,10 @@
         const now = new Date();
         const diffMs = nextEligible.getTime() - now.getTime();
         if (diffMs <= 0) {
-          return "???? ??????? ???? ??????";
+          return "Eligible to donate now";
         }
         const diffDays = Math.ceil(diffMs / (24 * 60 * 60 * 1000));
-        return `${diffDays} ??? ????`; 
+        return `${diffDays} day(s) remaining`;
       }
 
       async function hashPassword(password) {
@@ -1293,7 +1294,7 @@
       function resetResetForm() {
         forms.reset.reset();
         resetPasswordSection.style.display = "none";
-        resetSubmitBtn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> ???? ?????';
+        resetSubmitBtn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Verify Details';
         resetSubmitBtn.dataset.stage = "verify";
       }
 
@@ -1317,7 +1318,7 @@
         }
         closeAllDashboards();
         switchAuthView("login");
-        showToast("??????? ????? ??? ?????", "info");
+        showToast("Signed out successfully", "info");
       }
 
       async function getDonorDocByPhone(phone) {
@@ -1367,7 +1368,7 @@
         partnerGroupListPublic.innerHTML = "";
         if (!groups.length) {
           const li = document.createElement("li");
-          li.textContent = "???? ????? ????? ?????";
+          li.textContent = "No partner groups available";
           partnerGroupListPublic.appendChild(li);
         } else {
           groups.forEach((group) => {
@@ -1379,7 +1380,7 @@
             link.target = "_blank";
             link.rel = "noopener";
             link.className = "link";
-            link.innerHTML = '<i class="fa-brands fa-facebook"></i> ????? ????';
+            link.innerHTML = '<i class="fa-brands fa-facebook"></i> View Group';
             li.appendChild(name);
             li.appendChild(link);
             partnerGroupListPublic.appendChild(li);
@@ -1398,7 +1399,7 @@
                   <strong>${escapeHtml(group.groupName)}</strong>
                   <div><a class="link" href="${escapeHtml(group.groupLink)}" target="_blank" rel="noopener">${escapeHtml(group.groupLink)}</a></div>
                 </div>
-                <button class="ghost-btn" data-delete-partner="${group.id}"><i class="fa-solid fa-trash"></i> ?????</button>
+                <button class="ghost-btn" data-delete-partner="${group.id}"><i class="fa-solid fa-trash"></i> Delete</button>
               </div>
             `;
             partnerGroupListAdmin.appendChild(row);
@@ -1411,13 +1412,13 @@
           const target = event.target.closest("[data-delete-partner]");
           if (!target) return;
           const id = target.dataset.deletePartner;
-          if (!confirm("???? ?? ??????????? ?? ??????? ????? ???? ????")) return;
+          if (!confirm("Are you sure you want to delete this group?")) return;
           try {
             await deleteDoc(doc(db, "partnerGroups", id));
-            showToast("??????? ????? ??? ?????", "success");
+            showToast("Partner group removed", "success");
           } catch (error) {
             console.error(error);
-            showToast("????? ????? ???? ?????? ?????", "error");
+            showToast("Failed to remove group", "error");
           }
         });
       }
@@ -1437,10 +1438,10 @@
         state.unsubscribe.notice = onSnapshot(noticeRef, (snapshot) => {
           if (snapshot.exists()) {
             const { message = "" } = snapshot.data();
-            noticeMessageEl.textContent = message || "????? ???? ???? ????? ???";
+            noticeMessageEl.textContent = message || "No notice available today";
             adminNoticeMessageEl.value = message || "";
           } else {
-            noticeMessageEl.textContent = "????? ???? ???? ????? ???";
+            noticeMessageEl.textContent = "No notice available today";
             adminNoticeMessageEl.value = "";
           }
         });
@@ -1495,7 +1496,7 @@
 
       async function loadDonorDashboard() {
         if (!state.currentUser) return;
-        donorNameEl.textContent = state.currentUser.name || "?????";
+        donorNameEl.textContent = state.currentUser.name || "Donor";
         donorProfileFields.emailBadge.textContent = state.currentUser.phone;
         donorProfileFields.name.value = state.currentUser.name || "";
         donorProfileFields.altPhone.value = state.currentUser.altPhone || "";
@@ -1535,15 +1536,15 @@
           <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem">
             <div>
               <h4 style="margin:0 0 .5rem; color:var(--primary)">${escapeHtml(request.patientDetails || "")}</h4>
-              <p style="margin:0; color:var(--muted)"><i class="fa-solid fa-droplet" style="color:var(--primary)"></i> ?????? ?????: <strong>${escapeHtml(request.bloodGroup || "")}</strong></p>
-              <p style="margin:0; color:var(--muted)"><i class="fa-solid fa-location-dot" style="color:var(--primary)"></i> ??????: ${escapeHtml(request.address?.division || "")} ? ${escapeHtml(request.address?.district || "")} ? ${escapeHtml(request.address?.thana || "")} ? ${escapeHtml(request.address?.upazila || "")}</p>
-              <p style="margin:0; color:var(--muted)"><i class="fa-solid fa-hospital"></i> ????????: ${escapeHtml(request.hospital || "")}</p>
-              <p style="margin:0; color:var(--muted)"><i class="fa-solid fa-phone"></i> ???????: ${escapeHtml(request.contactNumber || "")} | ${escapeHtml(request.bagsNeeded || "")} ????? ???????</p>
+              <p style="margin:0; color:var(--muted)"><i class="fa-solid fa-droplet" style="color:var(--primary)"></i> Blood Group: <strong>${escapeHtml(request.bloodGroup || "")}</strong></p>
+              <p style="margin:0; color:var(--muted)"><i class="fa-solid fa-location-dot" style="color:var(--primary)"></i> Address: ${escapeHtml(request.address?.division || "")} ? ${escapeHtml(request.address?.district || "")} ? ${escapeHtml(request.address?.thana || "")} ? ${escapeHtml(request.address?.upazila || "")}</p>
+              <p style="margin:0; color:var(--muted)"><i class="fa-solid fa-hospital"></i> Hospital: ${escapeHtml(request.hospital || "")}</p>
+              <p style="margin:0; color:var(--muted)"><i class="fa-solid fa-phone"></i> Contact: ${escapeHtml(request.contactNumber || "")} | ${escapeHtml(request.bagsNeeded || "")} bag(s) needed</p>
               <p style="margin:0; color:var(--muted)"><i class="fa-regular fa-clock"></i> ${formatDate(createdAt)}</p>
             </div>
             <div style="display:flex; flex-direction:column; gap:0.5rem">
-              <button class="primary-btn" data-request-search="${request.id}"><i class="fa-solid fa-user-magnifying-glass"></i> ????? ??????</button>
-              <button class="ghost-btn" data-request-delete="${request.id}"><i class="fa-solid fa-trash-can"></i> ?????</button>
+              <button class="primary-btn" data-request-search="${request.id}"><i class="fa-solid fa-user-magnifying-glass"></i> Find Matching Donors</button>
+              <button class="ghost-btn" data-request-delete="${request.id}"><i class="fa-solid fa-trash-can"></i> Delete</button>
             </div>
           </div>
         `;
@@ -1559,7 +1560,7 @@
           if (snapshot.empty) {
             const empty = document.createElement("p");
             empty.style.color = "var(--muted)";
-            empty.textContent = "???? ??????? ????? ???";
+            empty.textContent = "No pending requests";
             adminRequestList.appendChild(empty);
             return;
           }
@@ -1585,32 +1586,32 @@
         const phone = sanitizePhone(el("login-phone").value);
         const password = el("login-password").value;
         if (!phone || !password) {
-          showToast("??????? ??? ??? ??????? ? ????????? ???", "error");
+          showToast("Please enter both phone number and password", "error");
           return;
         }
         try {
           const donor = await getDonorDocByPhone(phone);
           if (!donor) {
-            showToast("?? ??? ???????? ???? ????? ????? ?????", "error");
+            showToast("No donor found with that phone number", "error");
             return;
           }
           if (donor.status === "suspended") {
-            showToast("?? ???????????? ???????? ??? ?????", "error");
+            showToast("This account is suspended", "error");
             return;
           }
           const ok = await verifyPassword(password, donor.passwordHash);
           if (!ok) {
-            showToast("????????? ???? ??", "error");
+            showToast("Incorrect password", "error");
             return;
           }
           state.currentUser = donor;
           state.role = donor.role || "donor";
           await afterLogin();
           forms.login.reset();
-          showToast("??????? ???? ??????? ?????", "success");
+          showToast("Logged in successfully", "success");
         } catch (error) {
           console.error("Login error", error);
-          showToast("???? ???? ?????? ?????", "error");
+          showToast("Unable to sign in right now", "error");
         }
       }
 
@@ -1626,14 +1627,14 @@
         const address = bindingMap.register.get();
 
         if (!name || !phone || !dob || !password || !age || !gender || !bloodGroup || !address.division || !address.district || !address.thana || !address.upazila) {
-          showToast("?? ???? ???????? ???? ????", "error");
+          showToast("Please fill in all required fields", "error");
           return;
         }
 
         try {
           const existing = await getDonorDocByPhone(phone);
           if (existing) {
-            showToast("?? ??? ????????? ???? ??????? ??? ?????", "error");
+            showToast("An account already exists with this phone number", "error");
             return;
           }
           const passwordHash = await hashPassword(password);
@@ -1653,13 +1654,13 @@
             address,
             createdAt: serverTimestamp()
           });
-          showToast("???????????? ??? ?????? ???? ????", "success");
+          showToast("Registration successful, please sign in", "success");
           switchAuthView("login");
           forms.register.reset();
           bindingMap.register.reset();
         } catch (error) {
           console.error("Registration error", error);
-          showToast("???????????? ??????? ???? ?????? ?????", "error");
+          showToast("Registration failed, please try again", "error");
         }
       }
 
@@ -1669,31 +1670,31 @@
         const phone = sanitizePhone(el("reset-phone").value);
         const dob = el("reset-dob").value;
         if (!phone || !dob) {
-          showToast("??? ??? ???? ????? ???", "error");
+          showToast("Please provide phone number and date of birth", "error");
           return;
         }
 
         try {
           const donor = await getDonorDocByPhone(phone);
           if (!donor || donor.dateOfBirth !== dob) {
-            showToast("???? ???? ??", "error");
+            showToast("No matching donor found", "error");
             return;
           }
           if (stage === "verify") {
             resetPasswordSection.style.display = "grid";
-            resetSubmitBtn.innerHTML = '<i class="fa-solid fa-check"></i> ????????? ???????? ????';
+            resetSubmitBtn.innerHTML = '<i class="fa-solid fa-check"></i> Update Password';
             resetSubmitBtn.dataset.stage = "update";
-            showToast("???? ??????? ???? ????????? ???", "success");
+            showToast("Verification successful, set a new password", "success");
             return;
           }
           const password = resetPasswordField.value;
           const confirm = resetPasswordConfirmField.value;
           if (!password || password.length < 6) {
-            showToast("??????? ? ??????? ????????? ???", "error");
+            showToast("Password must be at least 6 characters", "error");
             return;
           }
           if (password !== confirm) {
-            showToast("????????? ??????", "error");
+            showToast("Passwords do not match", "error");
             return;
           }
           const passwordHash = await hashPassword(password);
@@ -1701,12 +1702,12 @@
             passwordHash,
             passwordUpdatedAt: serverTimestamp()
           });
-          showToast("????????? ????? ?????", "success");
+          showToast("Password updated successfully", "success");
           resetResetForm();
           switchAuthView("login");
         } catch (error) {
           console.error("Reset error", error);
-          showToast("????????? ????? ???? ?????? ?????", "error");
+          showToast("Unable to update password right now", "error");
         }
       }
 
@@ -1720,7 +1721,7 @@
         const address = bindingMap.donorProfile.get();
 
         if (!name || !age || !gender || !bloodGroup || !address.division || !address.district || !address.thana || !address.upazila) {
-          showToast("?????????? ?? ?????? ???? ???? ????", "error");
+          showToast("Please complete all profile details", "error");
           return;
         }
 
@@ -1744,10 +1745,10 @@
             address
           };
           donorNameEl.textContent = name;
-          showToast("???????? ????? ?????", "success");
+          showToast("Profile updated successfully", "success");
         } catch (error) {
           console.error("Profile update error", error);
-          showToast("???????? ?????? ?????? ?????", "error");
+          showToast("Failed to update profile", "error");
         }
       }
 
@@ -1755,7 +1756,7 @@
         if (!state.currentUser) return;
         const dateValue = donorLastDonationEl.value;
         if (!dateValue) {
-          showToast("????? ???????? ????", "error");
+          showToast("Please choose a donation date", "error");
           return;
         }
         try {
@@ -1765,10 +1766,10 @@
           });
           state.currentUser.lastDonationDate = Timestamp.fromDate(new Date(dateValue));
           donorCountdownEl.textContent = calculateCountdown(new Date(dateValue));
-          showToast("??????? ???? ????? ?????", "success");
+          showToast("Donation date saved", "success");
         } catch (error) {
           console.error("Donation update error", error);
-          showToast("??????? ???? ??? ???? ?????? ?????", "error");
+          showToast("Unable to save donation date", "error");
         }
       }
 
@@ -1790,7 +1791,7 @@
         try {
           const limited = await donorHasRecentRequest();
           if (limited) {
-            showToast("???? ????? ?? ?????? ????? ????? ???? ??????", "error");
+            showToast("You can submit only one request every 24 hours", "error");
             return;
           }
           bindingMap.bloodRequest.set(state.currentUser.address || {});
@@ -1798,7 +1799,7 @@
           openModal("bloodRequest");
         } catch (error) {
           console.error(error);
-          showToast("???? ????? ???? ?????? ?????", "error");
+          showToast("Unable to open request form", "error");
         }
       }
 
@@ -1813,7 +1814,7 @@
         const address = bindingMap.bloodRequest.get();
 
         if (!patientDetails || !bloodGroup || !hospital || !contactNumber || !address.division || !address.district || !address.thana || !address.upazila) {
-          showToast("?? ???? ???????? ???? ????", "error");
+          showToast("Please complete all request details", "error");
           return;
         }
 
@@ -1834,10 +1835,10 @@
           forms.bloodRequest.reset();
           bindingMap.bloodRequest.reset();
           openModal("requestSuccess");
-          showToast("??????? ??????? ?????? ?????", "success");
+          showToast("Request submitted successfully", "success");
         } catch (error) {
           console.error("Blood request error", error);
-          showToast("????? ?????? ?????? ?????", "error");
+          showToast("Unable to submit request", "error");
         }
       }
 
@@ -1847,7 +1848,7 @@
         const bloodGroup = (context?.bloodGroupEl || el("admin-search-blood")).value;
         const address = binding.get();
         if (!bloodGroup || !address.division) {
-          showToast("?????? ????? ? ?????? ???", "error");
+          showToast("Please select blood group and location", "error");
           return;
         }
         try {
@@ -1855,7 +1856,7 @@
           renderDonorResults(results, adminSearchResults);
         } catch (error) {
           console.error(error);
-          showToast("????? ?????? ?????? ?????", "error");
+          showToast("Unable to search donors", "error");
         }
       }
 
@@ -1906,20 +1907,20 @@
         if (!donors.length) {
           const p = document.createElement("p");
           p.style.color = "var(--muted)";
-          p.textContent = "???? ????? ????? ?????";
+          p.textContent = "No donors found";
           container.appendChild(p);
           return;
         }
         donors.forEach((donor) => {
           const card = document.createElement("div");
           card.className = "info-card";
-          const statusBadge = donor.status === "suspended" ? '<span class="status-suspended">????????</span>' : '<span class="badge"><i class="fa-solid fa-droplet"></i> ????????</span>';
+          const statusBadge = donor.status === "suspended" ? '<span class="status-suspended">Suspended</span>' : '<span class="badge"><i class="fa-solid fa-droplet"></i> Active</span>';
           const lastDonation = donor.lastDonationDate?.toDate?.() || (donor.lastDonationDate ? new Date(donor.lastDonationDate) : null);
           card.innerHTML = `
             <div style="display:flex; flex-direction:column; gap:0.6rem">
               <div style="display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap">
                 <div>
-                  <strong>${escapeHtml(donor.name || "?????")}</strong>
+                  <strong>${escapeHtml(donor.name || "Donor")}</strong>
                   <div style="color:var(--muted)">${escapeHtml(donor.phone || "")}</div>
                 </div>
                 ${statusBadge}
@@ -1927,15 +1928,15 @@
               <div style="color:var(--muted); display:grid; gap:0.35rem">
                 <span><i class="fa-solid fa-droplet" style="color:var(--primary)"></i> ${escapeHtml(donor.bloodGroup || "")}</span>
                 <span><i class="fa-solid fa-location-dot" style="color:var(--primary)"></i> ${escapeHtml(donor.address?.division || "")} ? ${escapeHtml(donor.address?.district || "")} ? ${escapeHtml(donor.address?.thana || "")} ? ${escapeHtml(donor.address?.upazila || "")}</span>
-                <span><i class="fa-regular fa-calendar"></i> ??? ???????: ${lastDonation ? formatDate(lastDonation) : "-"}</span>
+                <span><i class="fa-regular fa-calendar"></i> Last donation: ${lastDonation ? formatDate(lastDonation) : "-"}</span>
               </div>
-              <textarea class="field" data-donor-note="${donor.id}" placeholder="??? ??? ????" style="min-height:80px; padding:0.75rem 1rem; border-radius:12px; border:1px solid rgba(214,40,40,0.2); background:#fff">${escapeHtml(donor.note || "")}</textarea>
+              <textarea class="field" data-donor-note="${donor.id}" placeholder="Write note here" style="min-height:80px; padding:0.75rem 1rem; border-radius:12px; border:1px solid rgba(214,40,40,0.2); background:#fff">${escapeHtml(donor.note || "")}</textarea>
               <div class="actions">
                 <button class="secondary-btn" data-donor-star="${donor.id}" data-starred="${donor.starred ? "1" : "0"}">
-                  <i class="fa-solid ${donor.starred ? "fa-star" : "fa-star-half-stroke"}"></i> ${donor.starred ? "????? ????? ???" : "????? ???"}
+                  <i class="fa-solid ${donor.starred ? "fa-star" : "fa-star-half-stroke"}"></i> ${donor.starred ? "Unstar Donor" : "Star Donor"}
                 </button>
-                <button class="ghost-btn" data-donor-note-save="${donor.id}"><i class="fa-solid fa-floppy-disk"></i> ??? ???</button>
-                <button class="ghost-btn" data-donor-update-donation="${donor.id}"><i class="fa-solid fa-calendar-plus"></i> ??????? ?????</button>
+                <button class="ghost-btn" data-donor-note-save="${donor.id}"><i class="fa-solid fa-floppy-disk"></i> Save Note</button>
+                <button class="ghost-btn" data-donor-update-donation="${donor.id}"><i class="fa-solid fa-calendar-plus"></i> Update Donation</button>
               </div>
             </div>
           `;
@@ -1956,17 +1957,17 @@
             address: data.address || {}
           });
           renderDonorResults(results, adminSearchResults);
-          showToast("????????? ????????? ?????? ???", "success");
+          showToast("Matching donors loaded", "success");
         }
         if (deleteBtn) {
           const requestId = deleteBtn.dataset.requestDelete;
-          if (!confirm("??????????? ????? ???? ????")) return;
+          if (!confirm("Delete this request?")) return;
           try {
             await deleteDoc(doc(db, "bloodRequests", requestId));
-            showToast("????????? ????? ?????", "success");
+            showToast("Request removed", "success");
           } catch (error) {
             console.error(error);
-            showToast("????????? ????? ???? ?????? ?????", "error");
+            showToast("Failed to remove request", "error");
           }
         }
       }
@@ -1975,21 +1976,21 @@
         event.preventDefault();
         const phone = sanitizePhone(el("admin-suspend-phone").value);
         if (!phone) {
-          showToast("??? ??????? ???", "error");
+          showToast("Please enter a phone number", "error");
           return;
         }
         try {
           const donor = await getDonorDocByPhone(phone);
           if (!donor) {
-            showToast("????? ????? ?????", "error");
+            showToast("No donor found", "error");
             return;
           }
           await updateDoc(doc(db, "donors", donor.id), { status: "suspended" });
-          showToast("????? ???????? ?????", "success");
+          showToast("Donor suspended", "success");
           forms.adminSuspend.reset();
         } catch (error) {
           console.error(error);
-          showToast("???????? ???? ?????? ?????", "error");
+          showToast("Unable to suspend donor", "error");
         }
       }
 
@@ -1998,10 +1999,10 @@
         const message = adminNoticeMessageEl.value.trim();
         try {
           await setDoc(doc(db, "appConfig", "noticeBoard"), { message });
-          showToast("????? ????? ?????", "success");
+          showToast("Notice updated", "success");
         } catch (error) {
           console.error(error);
-          showToast("????? ?????? ?????? ?????", "error");
+          showToast("Failed to update notice", "error");
         }
       }
 
@@ -2010,7 +2011,7 @@
         const name = el("admin-partner-name").value.trim();
         const link = el("admin-partner-link").value.trim();
         if (!name || !link) {
-          showToast("??????? ??? ? ???? ???", "error");
+          showToast("Please enter group name and link", "error");
           return;
         }
         try {
@@ -2019,11 +2020,11 @@
             groupLink: link,
             createdAt: serverTimestamp()
           });
-          showToast("????? ??? ?????", "success");
+          showToast("Partner group added", "success");
           forms.adminPartner.reset();
         } catch (error) {
           console.error(error);
-          showToast("????? ??? ???? ?????? ?????", "error");
+          showToast("Failed to add partner group", "error");
         }
       }
 
@@ -2043,11 +2044,13 @@
           try {
             await updateDoc(doc(db, "donors", donorId), { starred: !currentlyStarred });
             starBtn.dataset.starred = currentlyStarred ? "0" : "1";
-            starBtn.innerHTML = `<i class="fa-solid ${currentlyStarred ? "fa-star-half-stroke" : "fa-star"}"></i> ${currentlyStarred ? "????? ???" : "????? ????? ???"}`;
-            showToast("????? ????????? ?????", "success");
+            const label = currentlyStarred ? "Star Donor" : "Unstar Donor";
+            const icon = currentlyStarred ? "fa-star-half-stroke" : "fa-star";
+            starBtn.innerHTML = `<i class="fa-solid ${icon}"></i> ${label}`;
+            showToast("Star status updated", "success");
           } catch (error) {
             console.error(error);
-            showToast("????? ????? ???? ??????", "error");
+            showToast("Unable to update star status", "error");
           }
         }
         if (noteBtn) {
@@ -2056,24 +2059,24 @@
           if (!textarea) return;
           try {
             await updateDoc(doc(db, "donors", donorId), { note: textarea.value.trim() });
-            showToast("??? ??? ?????", "success");
+            showToast("Note saved", "success");
           } catch (error) {
             console.error(error);
-            showToast("??? ??? ???? ??????", "error");
+            showToast("Failed to save note", "error");
           }
         }
         if (donationBtn) {
           const donorId = donationBtn.dataset.donorUpdateDonation;
-          const newDate = prompt("????????? ????? ??? (YYYY-MM-DD)");
+          const newDate = prompt("Enter donation date (YYYY-MM-DD)");
           if (!newDate) return;
           try {
             await updateDoc(doc(db, "donors", donorId), {
               lastDonationDate: Timestamp.fromDate(new Date(newDate))
             });
-            showToast("??????? ????? ????? ?????", "success");
+            showToast("Donation date updated", "success");
           } catch (error) {
             console.error(error);
-            showToast("????? ????? ???? ??????", "error");
+            showToast("Failed to update donation date", "error");
           }
         }
       }
@@ -2081,23 +2084,23 @@
       function bindInviteShare() {
         el("invite-share").addEventListener("click", async () => {
           const shareData = {
-            title: "???? ??????",
-            text: "???? ?????? ???? ????? ? ????????? ??? ???? ???????????? ????? ????",
+            title: "Need Blood?",
+            text: "Join the Need Blood? donor network and help save lives.",
             url: window.location.href
           };
           if (navigator.share) {
             try {
               await navigator.share(shareData);
-              showToast("????? ??????? ?????", "success");
+              showToast("Invite shared", "success");
             } catch (error) {
               console.error(error);
             }
           } else {
             try {
               await navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
-              showToast("???? ??? ?????", "success");
+              showToast("Link copied", "success");
             } catch (error) {
-              showToast("????? ??? ?????", "error");
+              showToast("Unable to copy link", "error");
             }
           }
         });
