@@ -524,8 +524,8 @@
             <form id="login-form" class="dashboard-section">
               <div class="form-grid">
                 <label class="field">
-                  Email Address
-                  <input type="email" id="login-email" placeholder="you@example.com" required />
+                  Phone Number
+                  <input type="tel" id="login-phone" placeholder="e.g. 017xxxxxxxx" required />
                 </label>
                 <label class="field">
                   Password
@@ -617,21 +617,7 @@
             </form>
           </div>
 
-          <div id="reset-view" class="hidden">
-            <h2 class="section-title"><i class="fa-solid fa-shield-heart"></i> Reset Password</h2>
-            <form id="reset-form" class="dashboard-section">
-              <div class="form-grid">
-                <label class="field">Email Address<input type="email" id="reset-email" required /></label>
-              </div>
-              <div class="form-grid" id="reset-new-password" style="display: none"></div>
-              <div class="actions">
-                <button type="submit" class="primary-btn" id="reset-submit">
-                  <i class="fa-solid fa-paper-plane"></i> Send Reset Link
-                </button>
-                <button type="button" class="ghost-btn" id="reset-back"><i class="fa-solid fa-arrow-left"></i> Back to Login</button>
-              </div>
-            </form>
-          </div>
+          <!-- Forgot password handled via modal -->
         </section>
 
         <section id="donor-dashboard" class="card hidden">
@@ -648,7 +634,7 @@
               <h3><i class="fa-solid fa-user"></i> My Profile</h3>
               <form id="donor-profile-form" class="profile-grid">
                 <label class="field">Full Name<input type="text" id="donor-profile-name" required /></label>
-                <label class="field">Email/Phone<span class="badge" id="donor-profile-email"></span></label>
+                <label class="field">Primary Phone<span class="badge" id="donor-profile-email"></span></label>
                 <label class="field">Alternate Phone<input type="tel" id="donor-profile-alt-phone" placeholder="Optional" /></label>
                 <label class="field">Address Division<select id="donor-profile-division" required></select></label>
                 <label class="field">Address District<select id="donor-profile-district" required></select></label>
@@ -821,6 +807,19 @@
       </div>
     </div>
 
+    <div class="modal-backdrop" id="reset-info-modal">
+      <div class="modal">
+        <button class="modal-close" data-close="reset-info-modal"><i class="fa-solid fa-xmark"></i></button>
+        <h3><i class="fa-solid fa-lock"></i> Need Password Help?</h3>
+        <p>
+          To update your password please reach out to the administrator with your phone number and date of birth.
+        </p>
+        <div class="actions">
+          <a class="primary-btn" id="password-help-whatsapp" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> WhatsApp Admin</a>
+        </div>
+      </div>
+    </div>
+
     <div class="toast" id="toast">
       <i class="fa-solid fa-circle-info"></i>
       <span id="toast-message"></span>
@@ -850,7 +849,6 @@
         getAuth,
         createUserWithEmailAndPassword,
         signInWithEmailAndPassword,
-        sendPasswordResetEmail,
         signOut as firebaseSignOut
       } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 
@@ -1041,7 +1039,6 @@
       const views = {
         login: el("login-view"),
         register: el("register-view"),
-        reset: el("reset-view"),
         donorDashboard: el("donor-dashboard"),
         adminDashboard: el("admin-dashboard")
       };
@@ -1049,13 +1046,13 @@
       const modals = {
         invite: el("invite-modal"),
         bloodRequest: el("blood-request-modal"),
-        requestSuccess: el("request-success-modal")
+        requestSuccess: el("request-success-modal"),
+        passwordHelp: el("reset-info-modal")
       };
 
       const forms = {
         login: el("login-form"),
         register: el("register-form"),
-        reset: el("reset-form"),
         donorProfile: el("donor-profile-form"),
         adminSearch: el("admin-search-form"),
         adminSuspend: el("admin-suspend-form"),
@@ -1077,6 +1074,7 @@
       const donorCountdownEl = el("donor-countdown");
       const donorLastDonationEl = el("donor-last-donation");
       const contactAdminWhatsappEl = el("contact-admin-whatsapp");
+      const passwordHelpWhatsappEl = el("password-help-whatsapp");
 
       const donorProfileFields = {
         name: el("donor-profile-name"),
@@ -1085,9 +1083,6 @@
         gender: el("donor-profile-gender"),
         blood: el("donor-profile-blood")
       };
-
-      const resetPasswordSection = el("reset-new-password");
-      const resetSubmitBtn = el("reset-submit");
 
       footerYearEl.textContent = new Date().getFullYear();
 
@@ -1121,8 +1116,10 @@
         return value.replace(/[^0-9+]/g, "").trim();
       }
 
-      function validateEmail(email) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      function phoneToEmail(phone) {
+        const clean = sanitizePhone(phone).replace(/^\+/, "");
+        if (!clean) return "";
+        return `${clean}@rokto.ok`;
       }
 
       function escapeHtml(str = "") {
@@ -1268,18 +1265,11 @@
       function switchAuthView(target) {
         views.login.classList.toggle("hidden", target !== "login");
         views.register.classList.toggle("hidden", target !== "register");
-        views.reset.classList.toggle("hidden", target !== "reset");
       }
 
       function closeAllDashboards() {
         views.donorDashboard.classList.add("hidden");
         views.adminDashboard.classList.add("hidden");
-      }
-
-      function resetResetForm() {
-        forms.reset.reset();
-        resetPasswordSection.style.display = "none";
-        resetSubmitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send Reset Link';
       }
 
       function openModal(key) {
@@ -1331,7 +1321,7 @@
             id: user.id,
             role: user.role,
             phone: user.phone,
-            email: user.email || ""
+            email: user.email || phoneToEmail(user.phone || "")
           })
         );
       }
@@ -1349,6 +1339,9 @@
           }
           const data = snap.data();
           state.currentUser = { id: snap.id, ...data };
+          if (!state.currentUser.email) {
+            state.currentUser.email = phoneToEmail(state.currentUser.phone || "");
+          }
           state.role = data.role || "donor";
           await afterLogin();
         } catch (error) {
@@ -1462,6 +1455,9 @@
         const number = state.adminConfig.whatsappNumber || "+966544575530";
         const sanitized = number.replace(/[^0-9]/g, "");
         contactAdminWhatsappEl.href = `https://wa.me/${sanitized}`;
+        if (passwordHelpWhatsappEl) {
+          passwordHelpWhatsappEl.href = `https://wa.me/${sanitized}`;
+        }
       }
 
       function updateDonationLink() {
@@ -1508,7 +1504,7 @@
       async function loadDonorDashboard() {
         if (!state.currentUser) return;
         donorNameEl.textContent = state.currentUser.name || "Donor";
-        donorProfileFields.emailBadge.textContent = state.currentUser.email || state.currentUser.phone || "-";
+        donorProfileFields.emailBadge.textContent = state.currentUser.phone || "-";
         donorProfileFields.name.value = state.currentUser.name || "";
         donorProfileFields.altPhone.value = state.currentUser.altPhone || "";
         donorProfileFields.gender.value = state.currentUser.gender || "";
@@ -1594,18 +1590,14 @@
       async function handleLogin(event) {
         event.preventDefault();
         const phone = sanitizePhone(el("login-phone").value);
-        const email = el("login-email").value.trim().toLowerCase();
         const password = el("login-password").value;
-        if (!phone || !email || !password) {
-          showToast("Please enter phone number, email, and password", "error");
+        if (!phone || !password) {
+          showToast("Please enter both phone number and password", "error");
           return;
         }
-        if (!validateEmail(email)) {
-          showToast("Please enter a valid email address", "error");
-          return;
-        }
+        const authEmail = phoneToEmail(phone);
         try {
-          const credential = await signInWithEmailAndPassword(auth, email, password);
+          const credential = await signInWithEmailAndPassword(auth, authEmail, password);
           const user = credential.user;
           const docSnap = await getDoc(doc(db, "donors", user.uid));
           if (!docSnap.exists()) {
@@ -1624,7 +1616,7 @@
             await firebaseSignOut(auth);
             return;
           }
-          state.currentUser = { id: docSnap.id, ...donorData };
+          state.currentUser = { id: docSnap.id, email: authEmail, ...donorData };
           state.role = donorData.role || "donor";
           await afterLogin();
           forms.login.reset();
@@ -1633,9 +1625,9 @@
           console.error("Login error", error);
           const code = error?.code || "";
           if (code === "auth/invalid-credential" || code === "auth/wrong-password") {
-            showToast("Incorrect email or password", "error");
+            showToast("Incorrect phone number or password", "error");
           } else if (code === "auth/user-not-found") {
-            showToast("No donor found with that email address", "error");
+            showToast("No donor found with that phone number", "error");
           } else {
             showToast("Unable to sign in right now", "error");
           }
@@ -1646,33 +1638,27 @@
         event.preventDefault();
         const name = el("reg-name").value.trim();
         const phone = sanitizePhone(el("reg-phone").value);
-        const email = el("reg-email").value.trim().toLowerCase();
         const dob = el("reg-dob").value;
         const password = el("reg-password").value;
-        const age = parseInt(el("reg-age").value, 10);
         const gender = el("reg-gender").value;
         const bloodGroup = el("reg-bloodgroup").value;
         const address = bindingMap.register.get();
 
-        if (!name || !phone || !email || !dob || !password || !age || !gender || !bloodGroup || !address.division || !address.district || !address.thana || !address.upazila) {
+        if (!name || !phone || !dob || !password || !gender || !bloodGroup || !address.division || !address.district || !address.thana || !address.upazila) {
           showToast("Please fill in all required fields", "error");
           return;
         }
 
-        if (!validateEmail(email)) {
-          showToast("Please enter a valid email address", "error");
-          return;
-        }
-
         try {
+          const authEmail = phoneToEmail(phone);
           let user;
           try {
-            const credential = await createUserWithEmailAndPassword(auth, email, password);
+            const credential = await createUserWithEmailAndPassword(auth, authEmail, password);
             user = credential.user;
           } catch (error) {
             const code = error?.code || "";
             if (code === "auth/email-already-in-use") {
-              showToast("This email is already registered", "error");
+              showToast("This phone number is already registered", "error");
             } else if (code === "auth/weak-password") {
               showToast("Password must be at least 6 characters", "error");
             } else {
@@ -1683,7 +1669,7 @@
           await setDoc(doc(db, "donors", user.uid), {
             name,
             phone,
-            email,
+            email: authEmail,
             dateOfBirth: dob,
             gender,
             bloodGroup,
@@ -1707,34 +1693,6 @@
             showToast("Password must be at least 6 characters", "error");
           } else {
             showToast("Registration failed, please try again", "error");
-          }
-        }
-      }
-
-      async function handleReset(event) {
-        event.preventDefault();
-        const email = el("reset-email").value.trim().toLowerCase();
-        if (!email) {
-          showToast("Please provide the email address used at registration", "error");
-          return;
-        }
-        if (!validateEmail(email)) {
-          showToast("Please enter a valid email address", "error");
-          return;
-        }
-
-        try {
-          await sendPasswordResetEmail(auth, email);
-          showToast("Password reset link sent to your email", "success");
-          resetResetForm();
-          switchAuthView("login");
-        } catch (error) {
-          console.error("Reset error", error);
-          const code = error?.code || "";
-          if (code === "auth/invalid-email") {
-            showToast("Unable to send reset email for this address", "error");
-          } else {
-            showToast("Unable to update password right now", "error");
           }
         }
       }
@@ -2152,14 +2110,9 @@
           switchAuthView("register");
         });
         el("open-reset").addEventListener("click", () => {
-          resetResetForm();
-          switchAuthView("reset");
+          openModal("passwordHelp");
         });
         el("back-to-login").addEventListener("click", () => switchAuthView("login"));
-        el("reset-back").addEventListener("click", () => {
-          resetResetForm();
-          switchAuthView("login");
-        });
         el("btn-logout-donor").addEventListener("click", () => {
           showAuthCard();
           signOut();
@@ -2173,7 +2126,6 @@
       function bindForms() {
         forms.login.addEventListener("submit", handleLogin);
         forms.register.addEventListener("submit", handleRegister);
-        forms.reset.addEventListener("submit", handleReset);
         el("donor-profile-save").addEventListener("click", handleProfileSave);
         el("donor-save-donation").addEventListener("click", handleDonationUpdate);
         el("open-blood-request").addEventListener("click", handleOpenBloodRequest);
@@ -2241,6 +2193,7 @@
         bindNavigation();
         bindForms();
         bindMisc();
+        updateAdminContactLink();
         updateDonationLink();
         scheduleCountdownUpdate();
         watchPartnerGroups();
