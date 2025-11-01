@@ -316,22 +316,39 @@
         font-weight: 600;
       }
 
+      .muted-text {
+        color: var(--muted);
+      }
+
       .dashboard-section {
         display: grid;
-        gap: 2.25rem;
+        gap: 1.85rem;
+      }
+
+      .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1.25rem;
+        flex-wrap: wrap;
+      }
+
+      .dashboard-header .section-title {
+        margin-bottom: 0;
       }
 
       .info-card {
-        border-left: 5px solid var(--primary);
-        padding: 1.25rem 1.5rem;
-        border-radius: 16px;
-        background: #fff;
-        box-shadow: 0 10px 25px rgba(214, 40, 40, 0.1);
+        padding: 1.6rem 1.8rem;
+        border-radius: 20px;
+        background: linear-gradient(160deg, rgba(255, 255, 255, 0.97), rgba(255, 255, 255, 0.9));
+        border: 1px solid rgba(17, 24, 39, 0.08);
+        box-shadow: 0 20px 45px rgba(17, 24, 39, 0.08);
       }
 
       .info-card h3 {
-        margin: 0 0 0.6rem;
-        color: var(--primary);
+        margin: 0 0 0.75rem;
+        color: #1f2937;
+        font-weight: 700;
       }
 
       .profile-grid,
@@ -456,25 +473,82 @@
         padding: 2.5rem 1rem;
         background: #fafafa;
         border-top: 1px solid rgba(214, 40, 40, 0.15);
-        text-align: center;
         color: var(--muted);
         display: grid;
-        gap: 1rem;
+        gap: 1.5rem;
       }
 
-      .ad-placeholder {
-        min-height: 90px;
-        border: 2px dashed rgba(214, 40, 40, 0.4);
-        border-radius: 16px;
-        display: grid;
-        place-items: center;
+      .sponsor-banner {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem 1.5rem;
+        padding: 1.75rem;
+        border-radius: 18px;
+        background: linear-gradient(135deg, rgba(214, 40, 40, 0.12), rgba(214, 40, 40, 0.05));
+        border: 1.5px solid rgba(214, 40, 40, 0.25);
+      }
+
+      .sponsor-banner h3 {
+        margin: 0;
+        font-size: 1.4rem;
         color: var(--primary);
-        font-weight: 600;
+      }
+
+      .sponsor-banner p {
+        margin: 0.35rem 0 0;
+        color: var(--muted);
+        max-width: 540px;
+        line-height: 1.5;
+      }
+
+      .sponsor-banner .banner-cta {
+        margin-left: auto;
       }
 
       .donation-btn {
         justify-self: center;
         max-width: 240px;
+      }
+
+      .support-payment-list {
+        display: grid;
+        gap: 1rem;
+        margin-top: 1.25rem;
+      }
+
+      .support-payment-card {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.85rem 1rem;
+        border-radius: 12px;
+        background: rgba(214, 40, 40, 0.08);
+        border: 1px solid rgba(214, 40, 40, 0.2);
+      }
+
+      .support-payment-card strong {
+        font-size: 1.05rem;
+        color: var(--primary);
+      }
+
+      .support-payment-card p {
+        margin: 0.25rem 0 0;
+        font-weight: 600;
+        font-size: 1.05rem;
+        letter-spacing: 0.4px;
+      }
+
+      .payment-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: rgba(214, 40, 40, 0.12);
+        color: var(--primary);
+        font-size: 1.1rem;
       }
 
       @media (max-width: 720px) {
@@ -621,9 +695,9 @@
         </section>
 
         <section id="donor-dashboard" class="card hidden">
-          <div class="dashboard-header" style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap">
+          <div class="dashboard-header">
             <div>
-              <h2 class="section-title" style="margin-bottom: 0"><i class="fa-solid fa-hand-holding-droplet"></i> Donor Dashboard</h2>
+              <h2 class="section-title"><i class="fa-solid fa-hand-holding-droplet"></i> Donor Dashboard</h2>
               <p style="margin: 0; color: var(--muted)">Welcome, <span id="donor-name"></span>!</p>
             </div>
             <button id="btn-logout-donor" class="ghost-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
@@ -668,8 +742,8 @@
             </div>
 
             <div class="info-card">
-              <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap">
-                <h3 style="margin-bottom: 0"><i class="fa-solid fa-triangle-exclamation"></i> Emergency Blood Request</h3>
+              <div class="dashboard-header">
+                <h3><i class="fa-solid fa-triangle-exclamation"></i> Emergency Blood Request</h3>
                 <button id="open-blood-request" class="primary-btn"><i class="fa-solid fa-siren-on"></i> Request Emergency Blood</button>
               </div>
               <p style="margin: 0.75rem 0 0; color: var(--muted)">
@@ -680,9 +754,9 @@
         </section>
 
         <section id="admin-dashboard" class="card hidden">
-          <div class="dashboard-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem">
+          <div class="dashboard-header">
             <div>
-              <h2 class="section-title" style="margin-bottom: 0"><i class="fa-solid fa-user-shield"></i> Admin Panel</h2>
+              <h2 class="section-title"><i class="fa-solid fa-user-shield"></i> Admin Panel</h2>
               <p style="margin: 0; color: var(--muted)">Centralized administration controls</p>
             </div>
             <button id="btn-logout-admin" class="ghost-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
@@ -746,16 +820,61 @@
               </form>
               <div class="search-results" id="admin-partner-list"></div>
             </div>
+
+            <div class="info-card">
+              <h3><i class="fa-solid fa-screwdriver-wrench"></i> App Settings & Banner</h3>
+              <form id="admin-config-form" class="form-grid">
+                <label class="field">WhatsApp Number<input type="tel" id="admin-config-whatsapp" placeholder="e.g. +8801XXXXXXXXX" /></label>
+                <label class="field">Bkash Number<input type="tel" id="admin-config-bkash" placeholder="e.g. 016XXXXXXX" /></label>
+                <label class="field">Nagad Number<input type="tel" id="admin-config-nagad" placeholder="e.g. 016XXXXXXX" /></label>
+                <label class="field">Banner Headline<input type="text" id="admin-config-banner-title" placeholder="Headline" /></label>
+                <label class="field">Banner Subtitle<input type="text" id="admin-config-banner-subtitle" placeholder="Short description" /></label>
+                <label class="field">Banner Button Label<input type="text" id="admin-config-banner-cta-label" placeholder="Button label" /></label>
+                <label class="field">Banner Button Link<input type="url" id="admin-config-banner-cta-link" placeholder="https://" /></label>
+                <label class="field">Support Message<textarea id="admin-config-support-message" rows="4" placeholder="Custom support message"></textarea></label>
+                <label class="field">Password Reset Webhook<input type="url" id="admin-config-password-webhook" placeholder="https://your-secure-function" /></label>
+                <div class="actions">
+                  <button type="submit" class="primary-btn"><i class="fa-solid fa-floppy-disk"></i> Save Settings</button>
+                </div>
+              </form>
+              <p class="muted-text" style="margin: 0.75rem 0 0; font-size: 0.9rem">
+                Password reset requests will POST to your secure webhook with the phone number and new password. Keep this endpoint protected.
+              </p>
+            </div>
+
+            <div class="info-card">
+              <h3><i class="fa-solid fa-key"></i> Reset Donor Password</h3>
+              <form id="admin-password-form">
+                <div class="form-grid">
+                  <label class="field">Donor Phone<input type="tel" id="admin-pass-phone" placeholder="e.g. 017XXXXXXXX" required /></label>
+                  <label class="field">New Password<input type="password" id="admin-pass-new" minlength="6" required /></label>
+                </div>
+                <div class="actions">
+                  <button type="submit" class="secondary-btn"><i class="fa-solid fa-key"></i> Send Reset Request</button>
+                </div>
+              </form>
+              <p class="muted-text" style="margin: 0.75rem 0 0; font-size: 0.9rem">
+                Configure the secure webhook above to process password updates through Firebase Admin SDK.
+              </p>
+            </div>
           </div>
         </section>
       </main>
 
       <footer>
-        <div class="ad-placeholder">Google AdSense Placeholder</div>
-        <button id="support-developer" class="primary-btn donation-btn" type="button" data-link="https://buymeacoffee.com/rokto">
+        <div class="sponsor-banner">
+          <div>
+            <h3 id="banner-title">Your organization can feature here</h3>
+            <p id="banner-subtitle">Reach verified donors and volunteers across Bangladesh with your health campaigns.</p>
+          </div>
+          <a id="banner-cta" class="secondary-btn banner-cta" target="_blank" rel="noopener">
+            <i class="fa-brands fa-whatsapp"></i> Book Your Ad
+          </a>
+        </div>
+        <button id="support-developer" class="primary-btn donation-btn" type="button">
           <i class="fa-solid fa-hand-holding-heart"></i> Support the Developer
         </button>
-        <small>&copy; <span id="footer-year"></span> Need Blood? | Designed & Developed with &lt;3</small>
+        <small>&copy; <span id="footer-year"></span> Need Blood? | Designed &amp; Developed with &lt;3</small>
       </footer>
     </div>
 
@@ -820,6 +939,32 @@
       </div>
     </div>
 
+    <div class="modal-backdrop" id="support-modal">
+      <div class="modal">
+        <button class="modal-close" data-close="support-modal"><i class="fa-solid fa-xmark"></i></button>
+        <h3><i class="fa-solid fa-hand-holding-heart"></i> Support Our Work</h3>
+        <p id="support-modal-message">
+          This initiative runs on community support. Please consider contributing via the channels below.
+        </p>
+        <div class="support-payment-list">
+          <div class="support-payment-card">
+            <div class="payment-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+            <div>
+              <strong>Bkash</strong>
+              <p id="support-bkash">01647049711</p>
+            </div>
+          </div>
+          <div class="support-payment-card">
+            <div class="payment-icon"><i class="fa-solid fa-money-bills"></i></div>
+            <div>
+              <strong>Nagad</strong>
+              <p id="support-nagad">01647049711</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="toast" id="toast">
       <i class="fa-solid fa-circle-info"></i>
       <span id="toast-message"></span>
@@ -868,13 +1013,25 @@
 
       const sessionKey = "rokto-lagbe-session";
 
+      const ADMIN_CONFIG_DEFAULTS = {
+        whatsappNumber: "+8801647049711",
+        donationLink: "",
+        bannerTitle:
+          "\u0986\u09aa\u09a8\u09be\u09b0\u0020\u0995\u09cb\u09ae\u09cd\u09aa\u09be\u09a8\u09bf\u0020\u09ac\u09be\u0020\u09aa\u09cd\u09b0\u09a4\u09bf\u09b7\u09cd\u09a0\u09be\u09a8\u0020\u098f\u09b0\u0020\u098f\u09a1\u0020\u09a6\u09bf\u09a8",
+        bannerSubtitle: "Promote your services to thousands of donors nationwide.",
+        bannerCtaLabel: "Book Your Ad",
+        bannerCtaLink: "",
+        bkashNumber: "01647049711",
+        nagadNumber: "01647049711",
+        passwordResetWebhook: "",
+        supportMessage:
+          "\u0986\u09b8\u09b8\u09be\u09b2\u09be\u09ae\u09c1\u0020\u0986\u09b2\u09be\u0987\u0995\u09c1\u09ae\u002c\u0020\u0986\u09ae\u09be\u09a6\u09c7\u09b0\u0020\u098f\u0987\u0020\u09b8\u09c7\u09ac\u09be\u09ae\u09c2\u09b2\u0995\u0020\u098f\u09aa\u099f\u09bf\u0020\u09a8\u09a8\u002d\u09aa\u09cd\u09b0\u09ab\u09bf\u099f\u0964\u0020\u098f\u099f\u09bf\u0995\u09c7\u0020\u09aa\u09b0\u09bf\u099a\u09be\u09b2\u09a8\u09be\u0020\u0995\u09b0\u09a4\u09c7\u0020\u0986\u09ae\u09be\u09a6\u09c7\u09b0\u0020\u09b8\u09be\u09b9\u09be\u09af\u09cd\u09af\u0020\u0995\u09b0\u09c1\u09a8\u0964\u0020\u09ac\u09bf\u0995\u09cd\u09af\u09be\u09b6\u0020\u002f\u0020\u09a8\u0997\u09a6\u003a\u0020\u0030\u0031\u0036\u0034\u0037\u0030\u0034\u0039\u0037\u0031\u0031"
+      };
+
       const state = {
         currentUser: null,
         role: null,
-        adminConfig: {
-          whatsappNumber: "+966544575530",
-          donationLink: ""
-        },
+        adminConfig: { ...ADMIN_CONFIG_DEFAULTS },
         partnerGroups: [],
         unsubscribe: {
           requests: null,
@@ -891,7 +1048,7 @@
         { value: "other", label: "Other" }
       ];
 
-      const locationHierarchy = {
+      const fallbackLocationHierarchy = {
         Dhaka: {
           districts: {
             Dhaka: {
@@ -1026,9 +1183,7 @@
         }
       };
 
-
-      const DEFAULT_DONATION_URL = "https://buymeacoffee.com/rokto";
-
+      let locationHierarchy = JSON.parse(JSON.stringify(fallbackLocationHierarchy));
       const el = (id) => document.getElementById(id);
       const footerYearEl = el("footer-year");
       const toastEl = el("toast");
@@ -1047,7 +1202,8 @@
         invite: el("invite-modal"),
         bloodRequest: el("blood-request-modal"),
         requestSuccess: el("request-success-modal"),
-        passwordHelp: el("reset-info-modal")
+        passwordHelp: el("reset-info-modal"),
+        support: el("support-modal")
       };
 
       const forms = {
@@ -1058,6 +1214,8 @@
         adminSuspend: el("admin-suspend-form"),
         adminNotice: el("admin-notice-form"),
         adminPartner: el("admin-partner-form"),
+        adminConfig: el("admin-config-form"),
+        adminPassword: el("admin-password-form"),
         bloodRequest: el("blood-request-form")
       };
 
@@ -1075,6 +1233,12 @@
       const donorLastDonationEl = el("donor-last-donation");
       const contactAdminWhatsappEl = el("contact-admin-whatsapp");
       const passwordHelpWhatsappEl = el("password-help-whatsapp");
+      const bannerTitleEl = el("banner-title");
+      const bannerSubtitleEl = el("banner-subtitle");
+      const bannerCtaEl = el("banner-cta");
+      const supportModalMessageEl = el("support-modal-message");
+      const supportBkashEl = el("support-bkash");
+      const supportNagadEl = el("support-nagad");
 
       const donorProfileFields = {
         name: el("donor-profile-name"),
@@ -1157,6 +1321,49 @@
         });
       }
 
+      async function loadLocationHierarchy() {
+        try {
+          const response = await fetch("https://bdapis.com/api/v1.1/divisions");
+          if (!response.ok) throw new Error(`Failed to load location data: ${response.status}`);
+          const payload = await response.json();
+          const divisions = payload?.data || payload?.result || [];
+          if (!Array.isArray(divisions) || !divisions.length) throw new Error("Invalid location payload");
+          const built = {};
+          divisions.forEach((divisionEntry) => {
+            const divisionName = divisionEntry?.division || divisionEntry?.name;
+            if (!divisionName) return;
+            const districtMap = {};
+            const districts = divisionEntry.districts || [];
+            districts.forEach((districtEntry) => {
+              const districtName = districtEntry?.district || districtEntry?.name;
+              if (!districtName) return;
+              const thanaMap = {};
+              const upazillas = districtEntry.upazillas || districtEntry.upazilas || districtEntry.upazila || [];
+              if (Array.isArray(upazillas) && upazillas.length) {
+                upazillas.forEach((upazillaItem) => {
+                  const upazillaName = typeof upazillaItem === "string" ? upazillaItem : upazillaItem?.name || upazillaItem?.upazilla;
+                  if (!upazillaName) return;
+                  thanaMap[upazillaName] = [upazillaName];
+                });
+              }
+              if (!Object.keys(thanaMap).length) {
+                thanaMap[districtName] = [districtName];
+              }
+              districtMap[districtName] = { thanas: thanaMap };
+            });
+            if (Object.keys(districtMap).length) {
+              built[divisionName] = { districts: districtMap };
+            }
+          });
+          if (Object.keys(built).length) {
+            locationHierarchy = built;
+          }
+        } catch (error) {
+          console.warn("Using fallback location data", error);
+          locationHierarchy = JSON.parse(JSON.stringify(fallbackLocationHierarchy));
+        }
+      }
+
       function createLocationBinding({ division, district, thana, upazila }) {
         populateSelect(division, Object.keys(locationHierarchy), "Select division");
         resetSelect(district, "Select district");
@@ -1191,6 +1398,9 @@
             ? locationHierarchy[selectedDivision]?.districts?.[selectedDistrict]?.thanas?.[selectedThana] || []
             : [];
           populateSelect(upazila, upazilas, "Select upazila");
+          if (upazilas.length === 1) {
+            upazila.value = upazilas[0];
+          }
         });
 
         return {
@@ -1246,6 +1456,33 @@
           month: "long",
           day: "numeric"
         });
+      }
+
+      function calculateAgeFromDob(dob) {
+        if (!dob) return null;
+        let birthDate = null;
+        if (dob instanceof Date) {
+          birthDate = dob;
+        } else if (typeof dob === "string") {
+          birthDate = new Date(dob);
+        } else if (typeof dob?.toDate === "function") {
+          birthDate = dob.toDate();
+        }
+        if (!birthDate || Number.isNaN(birthDate.getTime())) return null;
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+          age -= 1;
+        }
+        return age >= 0 ? age : null;
+      }
+
+      function formatLocation(address = {}) {
+        const parts = [address.division, address.district, address.thana, address.upazila]
+          .filter(Boolean)
+          .map((value) => escapeHtml(value));
+        return parts.length ? parts.join(" \u2192 ") : "--";
       }
 
       function calculateCountdown(lastDonation) {
@@ -1413,10 +1650,17 @@
       function watchPartnerGroups() {
         if (state.unsubscribe.partnerGroups) return;
         const partnerRef = collection(db, "partnerGroups");
-        state.unsubscribe.partnerGroups = onSnapshot(partnerRef, (snapshot) => {
-          state.partnerGroups = snapshot.docs.map((docSnap) => ({ id: docSnap.id, ...docSnap.data() }));
-          populatePartnerGroups();
-        });
+        state.unsubscribe.partnerGroups = onSnapshot(
+          partnerRef,
+          (snapshot) => {
+            state.partnerGroups = snapshot.docs.map((docSnap) => ({ id: docSnap.id, ...docSnap.data() }));
+            populatePartnerGroups();
+          },
+          (error) => {
+            console.error("Partner group listener error", error);
+            showToast("Unable to load partner groups", "error");
+          }
+        );
       }
 
       function watchNoticeBoard() {
@@ -1437,22 +1681,29 @@
       function watchAdminConfig() {
         if (state.unsubscribe.adminConfig) return;
         const configRef = doc(db, "appConfig", "adminConfig");
-        state.unsubscribe.adminConfig = onSnapshot(configRef, (snapshot) => {
-          if (snapshot.exists()) {
-            const data = snapshot.data() || {};
-            state.adminConfig.whatsappNumber = data.whatsappNumber || "+966544575530";
-            state.adminConfig.donationLink = data.donationLink || "";
-          } else {
-            state.adminConfig.whatsappNumber = "+966544575530";
-            state.adminConfig.donationLink = "";
+        state.unsubscribe.adminConfig = onSnapshot(
+          configRef,
+          (snapshot) => {
+            const data = snapshot.exists() ? snapshot.data() || {} : {};
+            Object.assign(state.adminConfig, ADMIN_CONFIG_DEFAULTS, data);
+            updateAdminContactLink();
+            updateSupportContent();
+            updateBannerContent();
+            populateAdminConfigForm();
+          },
+          (error) => {
+            console.error("Admin config listener error", error);
+            Object.assign(state.adminConfig, ADMIN_CONFIG_DEFAULTS);
+            updateAdminContactLink();
+            updateSupportContent();
+            updateBannerContent();
+            populateAdminConfigForm();
           }
-          updateAdminContactLink();
-          updateDonationLink();
-        });
+        );
       }
 
       function updateAdminContactLink() {
-        const number = state.adminConfig.whatsappNumber || "+966544575530";
+        const number = state.adminConfig.whatsappNumber || ADMIN_CONFIG_DEFAULTS.whatsappNumber;
         const sanitized = number.replace(/[^0-9]/g, "");
         contactAdminWhatsappEl.href = `https://wa.me/${sanitized}`;
         if (passwordHelpWhatsappEl) {
@@ -1460,20 +1711,64 @@
         }
       }
 
-      function updateDonationLink() {
-        const donationBtn = el("support-developer");
-        if (!donationBtn) return;
-        const configuredLink = state.adminConfig.donationLink?.trim();
-        const fallbackLink = donationBtn.dataset.link || DEFAULT_DONATION_URL;
-        donationBtn.dataset.link = configuredLink || fallbackLink || DEFAULT_DONATION_URL;
+      function updateSupportContent() {
+        const message = state.adminConfig.supportMessage || ADMIN_CONFIG_DEFAULTS.supportMessage;
+        if (supportModalMessageEl) {
+          supportModalMessageEl.textContent = message;
+        }
+        if (supportBkashEl) {
+          supportBkashEl.textContent = state.adminConfig.bkashNumber || ADMIN_CONFIG_DEFAULTS.bkashNumber;
+        }
+        if (supportNagadEl) {
+          supportNagadEl.textContent = state.adminConfig.nagadNumber || ADMIN_CONFIG_DEFAULTS.nagadNumber;
+        }
+      }
+
+      function updateBannerContent() {
+        if (bannerTitleEl) {
+          bannerTitleEl.textContent = state.adminConfig.bannerTitle || ADMIN_CONFIG_DEFAULTS.bannerTitle;
+        }
+        if (bannerSubtitleEl) {
+          bannerSubtitleEl.textContent = state.adminConfig.bannerSubtitle || ADMIN_CONFIG_DEFAULTS.bannerSubtitle;
+        }
+        if (bannerCtaEl) {
+          const label = state.adminConfig.bannerCtaLabel || ADMIN_CONFIG_DEFAULTS.bannerCtaLabel;
+          const link = state.adminConfig.bannerCtaLink?.trim();
+          bannerCtaEl.textContent = label;
+          const sanitizedWhatsapp = (state.adminConfig.whatsappNumber || ADMIN_CONFIG_DEFAULTS.whatsappNumber).replace(/[^0-9]/g, "");
+          const fallbackLink = sanitizedWhatsapp ? `https://wa.me/${sanitizedWhatsapp}` : "";
+          if (link) {
+            bannerCtaEl.href = link;
+          } else if (fallbackLink) {
+            bannerCtaEl.href = fallbackLink;
+          } else {
+            bannerCtaEl.removeAttribute("href");
+          }
+          bannerCtaEl.classList.toggle("hidden", !link && !fallbackLink);
+        }
+      }
+
+      function populateAdminConfigForm() {
+        if (!forms.adminConfig) return;
+        el("admin-config-whatsapp").value = state.adminConfig.whatsappNumber || "";
+        el("admin-config-banner-title").value = state.adminConfig.bannerTitle || "";
+        el("admin-config-banner-subtitle").value = state.adminConfig.bannerSubtitle || "";
+        el("admin-config-banner-cta-label").value = state.adminConfig.bannerCtaLabel || "";
+        el("admin-config-banner-cta-link").value = state.adminConfig.bannerCtaLink || "";
+        el("admin-config-support-message").value = state.adminConfig.supportMessage || "";
+        el("admin-config-bkash").value = state.adminConfig.bkashNumber || "";
+        el("admin-config-nagad").value = state.adminConfig.nagadNumber || "";
+        el("admin-config-password-webhook").value = state.adminConfig.passwordResetWebhook || "";
       }
 
       async function afterLogin() {
         persistSession(state.currentUser);
         populatePartnerGroups();
         updateAdminContactLink();
-        updateDonationLink();
+        updateSupportContent();
+        updateBannerContent();
         if (state.role === "admin") {
+          populateAdminConfigForm();
           watchAdminConfig();
           await loadAdminDashboard();
           views.adminDashboard.classList.remove("hidden");
@@ -1527,10 +1822,20 @@
       async function refreshDonorCount() {
         try {
           const donorsRef = collection(db, "donors");
-          const aggregate = await getCountFromServer(donorsRef);
-          totalDonorsEl.textContent = aggregate.data().count;
+          let total = 0;
+          try {
+            const aggregate = await getCountFromServer(donorsRef);
+            total = aggregate.data().count;
+          } catch (aggregateError) {
+            console.warn("Count aggregation fallback", aggregateError);
+            const activeQuery = query(donorsRef, where("status", "==", "active"));
+            const snapshot = await getDocs(activeQuery);
+            total = snapshot.size;
+          }
+          totalDonorsEl.textContent = total;
         } catch (error) {
           console.error("Count fetch error", error);
+          totalDonorsEl.textContent = "--";
         }
       }
 
@@ -1543,7 +1848,7 @@
             <div>
               <h4 style="margin:0 0 .5rem; color:var(--primary)">${escapeHtml(request.patientDetails || "")}</h4>
               <p style="margin:0; color:var(--muted)"><i class="fa-solid fa-droplet" style="color:var(--primary)"></i> Blood Group: <strong>${escapeHtml(request.bloodGroup || "")}</strong></p>
-              <p style="margin:0; color:var(--muted)"><i class="fa-solid fa-location-dot" style="color:var(--primary)"></i> Address: ${escapeHtml(request.address?.division || "")} ? ${escapeHtml(request.address?.district || "")} ? ${escapeHtml(request.address?.thana || "")} ? ${escapeHtml(request.address?.upazila || "")}</p>
+              <p style="margin:0; color:var(--muted)"><i class="fa-solid fa-location-dot" style="color:var(--primary)"></i> Address: ${formatLocation(request.address || {})}</p>
               <p style="margin:0; color:var(--muted)"><i class="fa-solid fa-hospital"></i> Hospital: ${escapeHtml(request.hospital || "")}</p>
               <p style="margin:0; color:var(--muted)"><i class="fa-solid fa-phone"></i> Contact: ${escapeHtml(request.contactNumber || "")} | ${escapeHtml(request.bagsNeeded || "")} bag(s) needed</p>
               <p style="margin:0; color:var(--muted)"><i class="fa-regular fa-clock"></i> ${formatDate(createdAt)}</p>
@@ -1758,15 +2063,20 @@
 
       async function donorHasRecentRequest() {
         if (!state.currentUser) return false;
-        const since = Timestamp.fromDate(new Date(Date.now() - 24 * 60 * 60 * 1000));
-        const requestsRef = collection(db, "bloodRequests");
-        const throttleQuery = query(
-          requestsRef,
-          where("donorId", "==", state.currentUser.id),
-          where("createdAt", ">=", since)
-        );
-        const snapshot = await getDocs(throttleQuery);
-        return !snapshot.empty;
+        try {
+          const since = Timestamp.fromDate(new Date(Date.now() - 24 * 60 * 60 * 1000));
+          const requestsRef = collection(db, "bloodRequests");
+          const throttleQuery = query(
+            requestsRef,
+            where("donorId", "==", state.currentUser.id),
+            where("createdAt", ">=", since)
+          );
+          const snapshot = await getDocs(throttleQuery);
+          return !snapshot.empty;
+        } catch (error) {
+          console.warn("Throttle check skipped", error);
+          return false;
+        }
       }
 
       async function handleOpenBloodRequest() {
@@ -1777,8 +2087,10 @@
             showToast("You can submit only one request every 24 hours", "error");
             return;
           }
+          bindingMap.bloodRequest.reset();
           bindingMap.bloodRequest.set(state.currentUser.address || {});
           el("req-blood-group").value = state.currentUser.bloodGroup || "";
+          el("req-contact").value = state.currentUser.phone || "";
           openModal("bloodRequest");
         } catch (error) {
           console.error(error);
@@ -1845,44 +2157,33 @@
 
       async function hierarchicalDonorSearch({ bloodGroup, address }) {
         const donorsRef = collection(db, "donors");
-        const queries = [];
-        queries.push(
-          query(
-            donorsRef,
-            where("bloodGroup", "==", bloodGroup),
-            where("status", "==", "active"),
-            where("address.upazila", "==", address.upazila)
-          )
-        );
-        queries.push(
-          query(
-            donorsRef,
-            where("bloodGroup", "==", bloodGroup),
-            where("status", "==", "active"),
-            where("address.thana", "==", address.thana)
-          )
-        );
-        queries.push(
-          query(
-            donorsRef,
-            where("bloodGroup", "==", bloodGroup),
-            where("status", "==", "active"),
-            where("address.district", "==", address.district)
-          )
-        );
+        const snap = await getDocs(query(donorsRef, where("bloodGroup", "==", bloodGroup)));
+        const division = address.division;
+        const district = address.district;
+        const thana = address.thana;
+        const upazila = address.upazila;
 
-        const seen = new Set();
-        const results = [];
-        for (const qRef of queries) {
-          const snap = await getDocs(qRef);
-          snap.forEach((docSnap) => {
-            if (seen.has(docSnap.id)) return;
-            seen.add(docSnap.id);
-            results.push({ id: docSnap.id, ...docSnap.data() });
-          });
-          if (results.length) break;
+        const enriched = snap.docs
+          .map((docSnap) => ({ id: docSnap.id, ...docSnap.data() }))
+          .filter((donor) => (donor.status || "active") === "active");
+
+        const scored = enriched
+          .map((donor) => {
+            let score = 0;
+            if (donor.address?.division && division && donor.address.division === division) score += 4;
+            if (donor.address?.district && district && donor.address.district === district) score += 3;
+            if (donor.address?.thana && thana && donor.address.thana === thana) score += 2;
+            if (donor.address?.upazila && upazila && donor.address.upazila === upazila) score += 1;
+            return { donor, score };
+          })
+          .filter(({ score }) => score > 0 || !division)
+          .sort((a, b) => b.score - a.score);
+
+        if (!scored.length) {
+          return enriched;
         }
-        return results;
+
+        return scored.map(({ donor }) => donor);
       }
 
       function renderDonorResults(donors, container) {
@@ -1899,6 +2200,7 @@
           card.className = "info-card";
           const statusBadge = donor.status === "suspended" ? '<span class="status-suspended">Suspended</span>' : '<span class="badge"><i class="fa-solid fa-droplet"></i> Active</span>';
           const lastDonation = donor.lastDonationDate?.toDate?.() || (donor.lastDonationDate ? new Date(donor.lastDonationDate) : null);
+          const age = calculateAgeFromDob(donor.dateOfBirth);
           card.innerHTML = `
             <div style="display:flex; flex-direction:column; gap:0.6rem">
               <div style="display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap">
@@ -1910,7 +2212,8 @@
               </div>
               <div style="color:var(--muted); display:grid; gap:0.35rem">
                 <span><i class="fa-solid fa-droplet" style="color:var(--primary)"></i> ${escapeHtml(donor.bloodGroup || "")}</span>
-                <span><i class="fa-solid fa-location-dot" style="color:var(--primary)"></i> ${escapeHtml(donor.address?.division || "")} ? ${escapeHtml(donor.address?.district || "")} ? ${escapeHtml(donor.address?.thana || "")} ? ${escapeHtml(donor.address?.upazila || "")}</span>
+                <span><i class="fa-solid fa-location-dot" style="color:var(--primary)"></i> ${formatLocation(donor.address || {})}</span>
+                <span><i class="fa-solid fa-cake-candles" style="color:var(--primary)"></i> Age: ${age !== null ? `${age} years` : "Not provided"}</span>
                 <span><i class="fa-regular fa-calendar"></i> Last donation: ${lastDonation ? formatDate(lastDonation) : "-"}</span>
               </div>
               <textarea class="field" data-donor-note="${donor.id}" placeholder="Write note here" style="min-height:80px; padding:0.75rem 1rem; border-radius:12px; border:1px solid rgba(214,40,40,0.2); background:#fff">${escapeHtml(donor.note || "")}</textarea>
@@ -2008,6 +2311,91 @@
         } catch (error) {
           console.error(error);
           showToast("Failed to add partner group", "error");
+        }
+      }
+
+      async function handleAdminConfigSubmit(event) {
+        event.preventDefault();
+        const whatsapp = sanitizePhone(el("admin-config-whatsapp").value);
+        const bannerTitle = el("admin-config-banner-title").value.trim();
+        const bannerSubtitle = el("admin-config-banner-subtitle").value.trim();
+        const bannerCtaLabel = el("admin-config-banner-cta-label").value.trim();
+        const bannerCtaLink = el("admin-config-banner-cta-link").value.trim();
+        const supportMessage = el("admin-config-support-message").value.trim();
+        const bkashNumber = sanitizePhone(el("admin-config-bkash").value);
+        const nagadNumber = sanitizePhone(el("admin-config-nagad").value);
+        const passwordWebhook = el("admin-config-password-webhook").value.trim();
+
+        try {
+          await setDoc(
+            doc(db, "appConfig", "adminConfig"),
+            {
+              whatsappNumber: whatsapp || ADMIN_CONFIG_DEFAULTS.whatsappNumber,
+              bannerTitle: bannerTitle || ADMIN_CONFIG_DEFAULTS.bannerTitle,
+              bannerSubtitle: bannerSubtitle || ADMIN_CONFIG_DEFAULTS.bannerSubtitle,
+              bannerCtaLabel: bannerCtaLabel || ADMIN_CONFIG_DEFAULTS.bannerCtaLabel,
+              bannerCtaLink,
+              supportMessage: supportMessage || ADMIN_CONFIG_DEFAULTS.supportMessage,
+              bkashNumber: bkashNumber || ADMIN_CONFIG_DEFAULTS.bkashNumber,
+              nagadNumber: nagadNumber || ADMIN_CONFIG_DEFAULTS.nagadNumber,
+              passwordResetWebhook: passwordWebhook
+            },
+            { merge: true }
+          );
+          showToast("App settings updated", "success");
+        } catch (error) {
+          console.error("Admin config update error", error);
+          showToast("Failed to update app settings", "error");
+        }
+      }
+
+      async function handleAdminPasswordReset(event) {
+        event.preventDefault();
+        const phone = sanitizePhone(el("admin-pass-phone").value);
+        const newPassword = el("admin-pass-new").value;
+        if (!phone || !newPassword) {
+          showToast("Please enter phone number and new password", "error");
+          return;
+        }
+        if (newPassword.length < 6) {
+          showToast("Password must be at least 6 characters", "error");
+          return;
+        }
+        const webhook = state.adminConfig.passwordResetWebhook?.trim();
+        if (!webhook) {
+          showToast("Configure password reset webhook in App Settings first", "error");
+          return;
+        }
+        const payload = {
+          phone,
+          email: phoneToEmail(phone),
+          newPassword,
+          requestedBy: state.currentUser?.id || null,
+          requestedAt: new Date().toISOString()
+        };
+        try {
+          const currentAuthUser = auth.currentUser;
+          if (currentAuthUser?.getIdToken) {
+            payload.adminToken = await currentAuthUser.getIdToken(true);
+          }
+        } catch (tokenError) {
+          console.warn("Unable to attach admin token", tokenError);
+        }
+
+        try {
+          const response = await fetch(webhook, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+          if (!response.ok) {
+            throw new Error(`Webhook responded with status ${response.status}`);
+          }
+          showToast("Password reset request sent", "success");
+          forms.adminPassword?.reset();
+        } catch (error) {
+          console.error("Password reset webhook error", error);
+          showToast("Unable to send password reset request", "error");
         }
       }
 
@@ -2134,6 +2522,12 @@
         forms.adminSuspend.addEventListener("submit", handleAdminSuspend);
         forms.adminNotice.addEventListener("submit", handleAdminNotice);
         forms.adminPartner.addEventListener("submit", handleAdminPartner);
+        if (forms.adminConfig) {
+          forms.adminConfig.addEventListener("submit", handleAdminConfigSubmit);
+        }
+        if (forms.adminPassword) {
+          forms.adminPassword.addEventListener("submit", handleAdminPasswordReset);
+        }
         el("admin-reset-search").addEventListener("click", resetAdminSearch);
         adminRequestList.addEventListener("click", handleAdminRequestAction);
         adminSearchResults.addEventListener("click", handleDonorAction);
@@ -2151,12 +2545,8 @@
         const donationBtn = el("support-developer");
         if (!donationBtn) return;
         donationBtn.addEventListener("click", () => {
-          const targetLink = donationBtn.dataset.link || DEFAULT_DONATION_URL;
-          if (!targetLink) {
-            showToast("Donation link not configured yet", "info");
-            return;
-          }
-          window.open(targetLink, "_blank", "noopener");
+          updateSupportContent();
+          openModal("support");
         });
       }
 
@@ -2187,21 +2577,26 @@
         });
       }
 
-      function init() {
+      async function init() {
+        await loadLocationHierarchy();
         setUpSelectOptions();
         initLocationBindings();
         bindNavigation();
         bindForms();
         bindMisc();
         updateAdminContactLink();
-        updateDonationLink();
+        updateSupportContent();
+        updateBannerContent();
         scheduleCountdownUpdate();
         watchPartnerGroups();
         watchNoticeBoard();
         restoreSession();
       }
 
-      init();
+      init().catch((error) => {
+        console.error("Initialization error", error);
+        showToast("Failed to initialize fully", "error");
+      });
     </script>
   </body>
 </html>
