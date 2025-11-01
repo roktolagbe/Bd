@@ -524,6 +524,10 @@
             <form id="login-form" class="dashboard-section">
               <div class="form-grid">
                 <label class="field">
+                  Phone Number
+                  <input type="tel" id="login-phone" placeholder="e.g. 017xxxxxxxx" required />
+                </label>
+                <label class="field">
                   Email Address
                   <input type="email" id="login-email" placeholder="you@example.com" required />
                 </label>
@@ -570,7 +574,6 @@
                 <label class="field">Email Address<input type="email" id="reg-email" required /></label>
                 <label class="field">Date of Birth<input type="date" id="reg-dob" required /></label>
                 <label class="field">Password<input type="password" id="reg-password" minlength="6" required /></label>
-                <label class="field">Age<input type="number" id="reg-age" min="18" required /></label>
                 <label class="field">
                   Gender
                   <select id="reg-gender" required>
@@ -651,7 +654,6 @@
                 <label class="field">Full Name<input type="text" id="donor-profile-name" required /></label>
                 <label class="field">Email/Phone<span class="badge" id="donor-profile-email"></span></label>
                 <label class="field">Alternate Phone<input type="tel" id="donor-profile-alt-phone" placeholder="Optional" /></label>
-                <label class="field">Age<input type="number" id="donor-profile-age" min="18" required /></label>
                 <label class="field">Address Division<select id="donor-profile-division" required></select></label>
                 <label class="field">Address District<select id="donor-profile-district" required></select></label>
                 <label class="field">Address Thana<select id="donor-profile-thana" required></select></label>
@@ -1084,7 +1086,6 @@
         name: el("donor-profile-name"),
         emailBadge: el("donor-profile-email"),
         altPhone: el("donor-profile-alt-phone"),
-        age: el("donor-profile-age"),
         gender: el("donor-profile-gender"),
         blood: el("donor-profile-blood")
       };
@@ -1514,7 +1515,6 @@
         donorProfileFields.emailBadge.textContent = state.currentUser.email || state.currentUser.phone || "-";
         donorProfileFields.name.value = state.currentUser.name || "";
         donorProfileFields.altPhone.value = state.currentUser.altPhone || "";
-        donorProfileFields.age.value = state.currentUser.age || "";
         donorProfileFields.gender.value = state.currentUser.gender || "";
         donorProfileFields.blood.value = state.currentUser.bloodGroup || "";
 
@@ -1597,10 +1597,11 @@
 
       async function handleLogin(event) {
         event.preventDefault();
+        const phone = sanitizePhone(el("login-phone").value);
         const email = el("login-email").value.trim().toLowerCase();
         const password = el("login-password").value;
-        if (!email || !password) {
-          showToast("Please enter both email and password", "error");
+        if (!phone || !email || !password) {
+          showToast("Please enter phone number, email, and password", "error");
           return;
         }
         if (!validateEmail(email)) {
@@ -1617,6 +1618,11 @@
             return;
           }
           const donorData = docSnap.data();
+          if (sanitizePhone(donorData.phone || "") !== phone) {
+            showToast("Phone number does not match this account", "error");
+            await firebaseSignOut(auth);
+            return;
+          }
           if (donorData.status === "suspended") {
             showToast("This account is suspended", "error");
             await firebaseSignOut(auth);
@@ -1683,7 +1689,6 @@
             phone,
             email,
             dateOfBirth: dob,
-            age,
             gender,
             bloodGroup,
             role: "donor",
@@ -1742,12 +1747,11 @@
         if (!state.currentUser) return;
         const name = donorProfileFields.name.value.trim();
         const altPhone = sanitizePhone(donorProfileFields.altPhone.value);
-        const age = parseInt(donorProfileFields.age.value, 10) || null;
         const gender = donorProfileFields.gender.value;
         const bloodGroup = donorProfileFields.blood.value;
         const address = bindingMap.donorProfile.get();
 
-        if (!name || !age || !gender || !bloodGroup || !address.division || !address.district || !address.thana || !address.upazila) {
+        if (!name || !gender || !bloodGroup || !address.division || !address.district || !address.thana || !address.upazila) {
           showToast("Please complete all profile details", "error");
           return;
         }
@@ -1757,7 +1761,6 @@
           await updateDoc(docRef, {
             name,
             altPhone,
-            age,
             gender,
             bloodGroup,
             address
@@ -1766,7 +1769,6 @@
             ...state.currentUser,
             name,
             altPhone,
-            age,
             gender,
             bloodGroup,
             address
