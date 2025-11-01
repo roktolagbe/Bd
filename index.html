@@ -36,6 +36,7 @@
         min-height: 100vh;
         display: flex;
         flex-direction: column;
+        overflow-x: hidden;
       }
 
       .app-shell {
@@ -98,12 +99,12 @@
 
       main {
         flex: 1;
-        width: min(100%, 1100px);
-        margin: -3.8rem auto 0;
-        padding: 0 1rem 5rem;
+        width: min(100%, 960px);
+        margin: -3rem auto 0;
+        padding: 0 1rem 4rem;
         display: flex;
         flex-direction: column;
-        gap: 2rem;
+        gap: 1.75rem;
       }
 
       .card {
@@ -470,41 +471,14 @@
 
       footer {
         margin-top: auto;
-        padding: 2.5rem 1rem;
+        padding: 2rem 1rem 2.5rem;
         background: #fafafa;
         border-top: 1px solid rgba(214, 40, 40, 0.15);
         color: var(--muted);
+        text-align: center;
         display: grid;
-        gap: 1.5rem;
-      }
-
-      .sponsor-banner {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1rem 1.5rem;
-        padding: 1.75rem;
-        border-radius: 18px;
-        background: linear-gradient(135deg, rgba(214, 40, 40, 0.12), rgba(214, 40, 40, 0.05));
-        border: 1.5px solid rgba(214, 40, 40, 0.25);
-      }
-
-      .sponsor-banner h3 {
-        margin: 0;
-        font-size: 1.4rem;
-        color: var(--primary);
-      }
-
-      .sponsor-banner p {
-        margin: 0.35rem 0 0;
-        color: var(--muted);
-        max-width: 540px;
-        line-height: 1.5;
-      }
-
-      .sponsor-banner .banner-cta {
-        margin-left: auto;
+        gap: 1.25rem;
+        justify-items: center;
       }
 
       .donation-btn {
@@ -557,8 +531,9 @@
         }
 
         main {
-          margin-top: -4.5rem;
-          padding: 0 1rem 4rem;
+          margin-top: -3.5rem;
+          padding: 0 1rem 3.5rem;
+          gap: 1.5rem;
         }
 
         .card {
@@ -571,6 +546,18 @@
 
         header.app-header h1 {
           font-size: 1.6rem;
+        }
+
+        footer {
+          padding: 1.75rem 1rem 2.25rem;
+        }
+      }
+
+      @media (max-width: 540px) {
+        main {
+          margin-top: -3rem;
+          padding: 0 0.9rem 3rem;
+          gap: 1.35rem;
         }
       }
     </style>
@@ -822,15 +809,11 @@
             </div>
 
             <div class="info-card">
-              <h3><i class="fa-solid fa-screwdriver-wrench"></i> App Settings & Banner</h3>
+              <h3><i class="fa-solid fa-screwdriver-wrench"></i> App Settings</h3>
               <form id="admin-config-form" class="form-grid">
                 <label class="field">WhatsApp Number<input type="tel" id="admin-config-whatsapp" placeholder="e.g. +8801XXXXXXXXX" /></label>
                 <label class="field">Bkash Number<input type="tel" id="admin-config-bkash" placeholder="e.g. 016XXXXXXX" /></label>
                 <label class="field">Nagad Number<input type="tel" id="admin-config-nagad" placeholder="e.g. 016XXXXXXX" /></label>
-                <label class="field">Banner Headline<input type="text" id="admin-config-banner-title" placeholder="Headline" /></label>
-                <label class="field">Banner Subtitle<input type="text" id="admin-config-banner-subtitle" placeholder="Short description" /></label>
-                <label class="field">Banner Button Label<input type="text" id="admin-config-banner-cta-label" placeholder="Button label" /></label>
-                <label class="field">Banner Button Link<input type="url" id="admin-config-banner-cta-link" placeholder="https://" /></label>
                 <label class="field">Support Message<textarea id="admin-config-support-message" rows="4" placeholder="Custom support message"></textarea></label>
                 <label class="field">Password Reset Webhook<input type="url" id="admin-config-password-webhook" placeholder="https://your-secure-function" /></label>
                 <div class="actions">
@@ -862,15 +845,6 @@
       </main>
 
       <footer>
-        <div class="sponsor-banner">
-          <div>
-            <h3 id="banner-title">Your organization can feature here</h3>
-            <p id="banner-subtitle">Reach verified donors and volunteers across Bangladesh with your health campaigns.</p>
-          </div>
-          <a id="banner-cta" class="secondary-btn banner-cta" target="_blank" rel="noopener">
-            <i class="fa-brands fa-whatsapp"></i> Book Your Ad
-          </a>
-        </div>
         <button id="support-developer" class="primary-btn donation-btn" type="button">
           <i class="fa-solid fa-hand-holding-heart"></i> Support the Developer
         </button>
@@ -1015,12 +989,6 @@
 
       const ADMIN_CONFIG_DEFAULTS = {
         whatsappNumber: "+8801647049711",
-        donationLink: "",
-        bannerTitle:
-          "\u0986\u09aa\u09a8\u09be\u09b0\u0020\u0995\u09cb\u09ae\u09cd\u09aa\u09be\u09a8\u09bf\u0020\u09ac\u09be\u0020\u09aa\u09cd\u09b0\u09a4\u09bf\u09b7\u09cd\u09a0\u09be\u09a8\u0020\u098f\u09b0\u0020\u098f\u09a1\u0020\u09a6\u09bf\u09a8",
-        bannerSubtitle: "Promote your services to thousands of donors nationwide.",
-        bannerCtaLabel: "Book Your Ad",
-        bannerCtaLink: "",
         bkashNumber: "01647049711",
         nagadNumber: "01647049711",
         passwordResetWebhook: "",
@@ -1233,9 +1201,6 @@
       const donorLastDonationEl = el("donor-last-donation");
       const contactAdminWhatsappEl = el("contact-admin-whatsapp");
       const passwordHelpWhatsappEl = el("password-help-whatsapp");
-      const bannerTitleEl = el("banner-title");
-      const bannerSubtitleEl = el("banner-subtitle");
-      const bannerCtaEl = el("banner-cta");
       const supportModalMessageEl = el("support-modal-message");
       const supportBkashEl = el("support-bkash");
       const supportNagadEl = el("support-nagad");
@@ -1719,7 +1684,6 @@
             Object.assign(state.adminConfig, ADMIN_CONFIG_DEFAULTS, data);
             updateAdminContactLink();
             updateSupportContent();
-            updateBannerContent();
             populateAdminConfigForm();
           },
           (error) => {
@@ -1727,7 +1691,6 @@
             Object.assign(state.adminConfig, ADMIN_CONFIG_DEFAULTS);
             updateAdminContactLink();
             updateSupportContent();
-            updateBannerContent();
             populateAdminConfigForm();
           }
         );
@@ -1755,40 +1718,12 @@
         }
       }
 
-      function updateBannerContent() {
-        if (bannerTitleEl) {
-          bannerTitleEl.textContent = state.adminConfig.bannerTitle || ADMIN_CONFIG_DEFAULTS.bannerTitle;
-        }
-        if (bannerSubtitleEl) {
-          bannerSubtitleEl.textContent = state.adminConfig.bannerSubtitle || ADMIN_CONFIG_DEFAULTS.bannerSubtitle;
-        }
-        if (bannerCtaEl) {
-          const label = state.adminConfig.bannerCtaLabel || ADMIN_CONFIG_DEFAULTS.bannerCtaLabel;
-          const link = state.adminConfig.bannerCtaLink?.trim();
-          bannerCtaEl.textContent = label;
-          const sanitizedWhatsapp = (state.adminConfig.whatsappNumber || ADMIN_CONFIG_DEFAULTS.whatsappNumber).replace(/[^0-9]/g, "");
-          const fallbackLink = sanitizedWhatsapp ? `https://wa.me/${sanitizedWhatsapp}` : "";
-          if (link) {
-            bannerCtaEl.href = link;
-          } else if (fallbackLink) {
-            bannerCtaEl.href = fallbackLink;
-          } else {
-            bannerCtaEl.removeAttribute("href");
-          }
-          bannerCtaEl.classList.toggle("hidden", !link && !fallbackLink);
-        }
-      }
-
       function populateAdminConfigForm() {
         if (!forms.adminConfig) return;
         el("admin-config-whatsapp").value = state.adminConfig.whatsappNumber || "";
-        el("admin-config-banner-title").value = state.adminConfig.bannerTitle || "";
-        el("admin-config-banner-subtitle").value = state.adminConfig.bannerSubtitle || "";
-        el("admin-config-banner-cta-label").value = state.adminConfig.bannerCtaLabel || "";
-        el("admin-config-banner-cta-link").value = state.adminConfig.bannerCtaLink || "";
-        el("admin-config-support-message").value = state.adminConfig.supportMessage || "";
         el("admin-config-bkash").value = state.adminConfig.bkashNumber || "";
         el("admin-config-nagad").value = state.adminConfig.nagadNumber || "";
+        el("admin-config-support-message").value = state.adminConfig.supportMessage || "";
         el("admin-config-password-webhook").value = state.adminConfig.passwordResetWebhook || "";
       }
 
@@ -1797,7 +1732,6 @@
         populatePartnerGroups();
         updateAdminContactLink();
         updateSupportContent();
-        updateBannerContent();
         ensureSharedWatchers();
         if (state.role === "admin") {
           populateAdminConfigForm();
@@ -2027,9 +1961,22 @@
             address,
             createdAt: serverTimestamp()
           });
-          await firebaseSignOut(auth);
-          showToast("Registration successful, please sign in", "success");
-          switchAuthView("login");
+          state.currentUser = {
+            id: user.uid,
+            email: authEmail,
+            name,
+            phone,
+            dateOfBirth: dob,
+            gender,
+            bloodGroup,
+            role: "donor",
+            status: "active",
+            altPhone: "",
+            address
+          };
+          state.role = "donor";
+          await afterLogin();
+          showToast("Registration successful! You're signed in.", "success");
           forms.register.reset();
           bindingMap.register.reset();
         } catch (error) {
@@ -2360,10 +2307,6 @@
       async function handleAdminConfigSubmit(event) {
         event.preventDefault();
         const whatsapp = sanitizePhone(el("admin-config-whatsapp").value);
-        const bannerTitle = el("admin-config-banner-title").value.trim();
-        const bannerSubtitle = el("admin-config-banner-subtitle").value.trim();
-        const bannerCtaLabel = el("admin-config-banner-cta-label").value.trim();
-        const bannerCtaLink = el("admin-config-banner-cta-link").value.trim();
         const supportMessage = el("admin-config-support-message").value.trim();
         const bkashNumber = sanitizePhone(el("admin-config-bkash").value);
         const nagadNumber = sanitizePhone(el("admin-config-nagad").value);
@@ -2374,10 +2317,6 @@
             doc(db, "appConfig", "adminConfig"),
             {
               whatsappNumber: whatsapp || ADMIN_CONFIG_DEFAULTS.whatsappNumber,
-              bannerTitle: bannerTitle || ADMIN_CONFIG_DEFAULTS.bannerTitle,
-              bannerSubtitle: bannerSubtitle || ADMIN_CONFIG_DEFAULTS.bannerSubtitle,
-              bannerCtaLabel: bannerCtaLabel || ADMIN_CONFIG_DEFAULTS.bannerCtaLabel,
-              bannerCtaLink,
               supportMessage: supportMessage || ADMIN_CONFIG_DEFAULTS.supportMessage,
               bkashNumber: bkashNumber || ADMIN_CONFIG_DEFAULTS.bkashNumber,
               nagadNumber: nagadNumber || ADMIN_CONFIG_DEFAULTS.nagadNumber,
@@ -2629,7 +2568,7 @@
         bindMisc();
         updateAdminContactLink();
         updateSupportContent();
-        updateBannerContent();
+        ensureSharedWatchers();
         scheduleCountdownUpdate();
         restoreSession();
       }
