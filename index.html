@@ -1536,6 +1536,14 @@
           state.unsubscribe.adminConfig();
           state.unsubscribe.adminConfig = null;
         }
+        if (state.unsubscribe.partnerGroups) {
+          state.unsubscribe.partnerGroups();
+          state.unsubscribe.partnerGroups = null;
+        }
+        if (state.unsubscribe.notice) {
+          state.unsubscribe.notice();
+          state.unsubscribe.notice = null;
+        }
         closeAllDashboards();
         switchAuthView("login");
         showToast("Signed out successfully", "info");
@@ -1659,6 +1667,10 @@
           (error) => {
             console.error("Partner group listener error", error);
             showToast("Unable to load partner groups", "error");
+            if (state.unsubscribe.partnerGroups) {
+              state.unsubscribe.partnerGroups();
+            }
+            state.unsubscribe.partnerGroups = null;
           }
         );
       }
@@ -1666,16 +1678,35 @@
       function watchNoticeBoard() {
         if (state.unsubscribe.notice) return;
         const noticeRef = doc(db, "appConfig", "noticeBoard");
-        state.unsubscribe.notice = onSnapshot(noticeRef, (snapshot) => {
-          if (snapshot.exists()) {
-            const { message = "" } = snapshot.data();
-            noticeMessageEl.textContent = message || "No notice available today";
-            adminNoticeMessageEl.value = message || "";
-          } else {
-            noticeMessageEl.textContent = "No notice available today";
-            adminNoticeMessageEl.value = "";
+        state.unsubscribe.notice = onSnapshot(
+          noticeRef,
+          (snapshot) => {
+            if (snapshot.exists()) {
+              const { message = "" } = snapshot.data();
+              noticeMessageEl.textContent = message || "No notice available today";
+              adminNoticeMessageEl.value = message || "";
+            } else {
+              noticeMessageEl.textContent = "No notice available today";
+              adminNoticeMessageEl.value = "";
+            }
+          },
+          (error) => {
+            console.error("Notice listener error", error);
+            if (state.unsubscribe.notice) {
+              state.unsubscribe.notice();
+            }
+            state.unsubscribe.notice = null;
           }
-        });
+        );
+      }
+
+      function ensureSharedWatchers() {
+        if (!state.unsubscribe.partnerGroups) {
+          watchPartnerGroups();
+        }
+        if (!state.unsubscribe.notice) {
+          watchNoticeBoard();
+        }
       }
 
       function watchAdminConfig() {
@@ -1767,6 +1798,7 @@
         updateAdminContactLink();
         updateSupportContent();
         updateBannerContent();
+        ensureSharedWatchers();
         if (state.role === "admin") {
           populateAdminConfigForm();
           watchAdminConfig();
@@ -1866,22 +1898,33 @@
         if (state.unsubscribe.requests) return;
         const requestsRef = collection(db, "bloodRequests");
         const requestsQuery = query(requestsRef, orderBy("createdAt", "desc"));
-        state.unsubscribe.requests = onSnapshot(requestsQuery, (snapshot) => {
-          adminRequestList.innerHTML = "";
-          if (snapshot.empty) {
-            const empty = document.createElement("p");
-            empty.style.color = "var(--muted)";
-            empty.textContent = "No pending requests";
-            adminRequestList.appendChild(empty);
-            return;
+        state.unsubscribe.requests = onSnapshot(
+          requestsQuery,
+          (snapshot) => {
+            adminRequestList.innerHTML = "";
+            if (snapshot.empty) {
+              const empty = document.createElement("p");
+              empty.style.color = "var(--muted)";
+              empty.textContent = "No pending requests";
+              adminRequestList.appendChild(empty);
+              return;
+            }
+            snapshot.docs.forEach((docSnap) => {
+              const request = { id: docSnap.id, ...docSnap.data() };
+              if (request.status && request.status !== "active") return;
+              const card = renderRequestCard(request);
+              adminRequestList.appendChild(card);
+            });
+          },
+          (error) => {
+            console.error("Request listener error", error);
+            showToast("Unable to load emergency requests", "error");
+            if (state.unsubscribe.requests) {
+              state.unsubscribe.requests();
+            }
+            state.unsubscribe.requests = null;
           }
-          snapshot.docs.forEach((docSnap) => {
-            const request = { id: docSnap.id, ...docSnap.data() };
-            if (request.status && request.status !== "active") return;
-            const card = renderRequestCard(request);
-            adminRequestList.appendChild(card);
-          });
-        });
+        );
       }
 
       function scheduleCountdownUpdate() {
@@ -2588,8 +2631,6 @@
         updateSupportContent();
         updateBannerContent();
         scheduleCountdownUpdate();
-        watchPartnerGroups();
-        watchNoticeBoard();
         restoreSession();
       }
 
