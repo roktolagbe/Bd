@@ -1,0 +1,2558 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Need Blood? | Donor Network</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      referrerpolicy="no-referrer"
+    />
+    <style>
+      :root {
+        --primary: #d62828;
+        --primary-dark: #a71c1c;
+        --accent: #f77f00;
+        --background: #fff7f7;
+        --surface: #ffffff;
+        --text: #2d2d2d;
+        --muted: #5f5f5f;
+        --border: #f0c7c7;
+        --success: #2b9348;
+        --danger: #9d0208;
+        font-family: "Hind Siliguri", "Noto Sans Bengali", system-ui, -apple-system,
+          BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--background);
+        color: var(--text);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+      }
+
+      .app-shell {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      header.app-header {
+        padding: 1.5rem 1rem;
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        color: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      header.app-header::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.15), transparent 55%),
+          radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.25), transparent 65%);
+        pointer-events: none;
+      }
+
+      .header-logo {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        margin-inline: auto;
+        text-align: center;
+        flex-wrap: wrap;
+      }
+
+      .header-logo .logo-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.18);
+        display: grid;
+        place-items: center;
+        font-size: 1.8rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+      }
+
+      .header-logo h1 {
+        margin: 0;
+        font-size: 1.9rem;
+        line-height: 1.2;
+      }
+
+      main {
+        flex: 1;
+        width: min(100%, 960px);
+        margin: -3rem auto 0;
+        padding: 0 1rem 4rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.75rem;
+      }
+
+      .card {
+        background: var(--surface);
+        border-radius: 22px;
+        box-shadow: 0 18px 50px rgba(214, 40, 40, 0.12);
+        padding: clamp(1.5rem, 3vw, 2.75rem);
+        position: relative;
+      }
+
+      .card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 22px;
+        border: 2px solid transparent;
+        background: linear-gradient(135deg, rgba(214, 40, 40, 0.18), rgba(247, 127, 0, 0.18)) border-box;
+        -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+      }
+
+      h2.section-title {
+        margin: 0 0 1.5rem;
+        font-size: 1.6rem;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      h2.section-title i {
+        font-size: 1.25rem;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 1rem;
+      }
+
+      label.field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      .field input,
+      .field select,
+      .field textarea {
+        padding: 0.8rem 1rem;
+        border-radius: 12px;
+        border: 1.5px solid rgba(214, 40, 40, 0.35);
+        font-size: 1rem;
+        background: rgba(214, 40, 40, 0.04);
+        transition: border 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      }
+
+      .field input:focus,
+      .field select:focus,
+      .field textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 4px rgba(214, 40, 40, 0.15);
+        background: #fff;
+      }
+
+      .field textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+      }
+
+      .auth-actions {
+        flex-direction: column;
+        align-items: stretch;
+        margin-top: 1.5rem;
+      }
+
+      .auth-primary-btn {
+        width: 100%;
+      }
+
+      .auth-switch-card {
+        width: 100%;
+        background: rgba(214, 40, 40, 0.08);
+        border: 1.5px solid rgba(214, 40, 40, 0.2);
+        border-radius: 14px;
+        padding: 1rem;
+        display: grid;
+        gap: 0.65rem;
+      }
+
+      .auth-switch-card button {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .primary-btn,
+      .secondary-btn,
+      .ghost-btn {
+        border: none;
+        border-radius: 14px;
+        padding: 0.9rem 1.6rem;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+      }
+
+      .primary-btn {
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        color: #ffffff;
+        box-shadow: 0 12px 30px rgba(214, 40, 40, 0.3);
+      }
+
+      .primary-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 16px 40px rgba(214, 40, 40, 0.35);
+      }
+
+      .secondary-btn {
+        background: rgba(214, 40, 40, 0.15);
+        color: var(--primary);
+      }
+
+      .secondary-btn:hover {
+        transform: translateY(-1px);
+        background: rgba(214, 40, 40, 0.22);
+      }
+
+      .ghost-btn {
+        background: transparent;
+        color: var(--muted);
+      }
+
+      .ghost-btn:hover {
+        color: var(--primary);
+      }
+
+      a.link {
+        color: var(--primary);
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      a.link:hover {
+        text-decoration: underline;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .split-layout {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        align-items: start;
+      }
+
+      .notice-board {
+        padding: 1.25rem;
+        border-radius: 16px;
+        background: rgba(214, 40, 40, 0.08);
+        border: 1px dashed rgba(214, 40, 40, 0.4);
+      }
+
+      .notice-board h3 {
+        margin: 0 0 0.75rem;
+        font-size: 1.25rem;
+        color: var(--primary);
+      }
+
+      .partner-groups ul {
+        list-style: none;
+        padding: 0;
+        margin: 1rem 0 0;
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .partner-groups li {
+        padding: 0.75rem 1rem;
+        border-radius: 12px;
+        background: rgba(214, 40, 40, 0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .partner-groups li span {
+        font-weight: 600;
+      }
+
+      .muted-text {
+        color: var(--muted);
+      }
+
+      .dashboard-section {
+        display: grid;
+        gap: 1.85rem;
+      }
+
+      .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1.25rem;
+        flex-wrap: wrap;
+      }
+
+      .dashboard-header .section-title {
+        margin-bottom: 0;
+      }
+
+      .info-card {
+        padding: 1.6rem 1.8rem;
+        border-radius: 20px;
+        background: linear-gradient(160deg, rgba(255, 255, 255, 0.97), rgba(255, 255, 255, 0.9));
+        border: 1px solid rgba(17, 24, 39, 0.08);
+        box-shadow: 0 20px 45px rgba(17, 24, 39, 0.08);
+      }
+
+      .info-card h3 {
+        margin: 0 0 0.75rem;
+        color: #1f2937;
+        font-weight: 700;
+      }
+
+      .profile-grid,
+      .request-grid,
+      .admin-grid,
+      .search-results {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .profile-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      }
+
+      table.data-table {
+        width: 100%;
+        border-collapse: collapse;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 10px 25px rgba(214, 40, 40, 0.1);
+      }
+
+      table.data-table thead {
+        background: rgba(214, 40, 40, 0.12);
+      }
+
+      table.data-table th,
+      table.data-table td {
+        padding: 0.9rem 0.8rem;
+        text-align: left;
+        border-bottom: 1px solid rgba(214, 40, 40, 0.15);
+      }
+
+      table.data-table tbody tr:hover {
+        background: rgba(214, 40, 40, 0.06);
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.35rem 0.75rem;
+        border-radius: 999px;
+        background: rgba(214, 40, 40, 0.1);
+        color: var(--primary);
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+
+      .status-suspended {
+        color: var(--danger);
+        font-weight: 700;
+      }
+
+      .countdown {
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: var(--primary);
+      }
+
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+        z-index: 99;
+      }
+
+      .modal-backdrop.active {
+        display: flex;
+      }
+
+      .modal {
+        background: #ffffff;
+        border-radius: 22px;
+        padding: 2rem;
+        position: relative;
+        width: min(100%, 420px);
+        box-shadow: 0 18px 60px rgba(214, 40, 40, 0.2);
+      }
+
+      .modal h3 {
+        margin-top: 0;
+        color: var(--primary);
+      }
+
+      .modal-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: transparent;
+        border: none;
+        font-size: 1.2rem;
+        cursor: pointer;
+        color: var(--muted);
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 1.5rem;
+        right: 1.5rem;
+        background: #ffffff;
+        padding: 1rem 1.25rem;
+        border-radius: 14px;
+        box-shadow: 0 12px 35px rgba(214, 40, 40, 0.18);
+        display: none;
+        align-items: center;
+        gap: 0.75rem;
+        border-left: 4px solid var(--primary);
+        z-index: 100;
+      }
+
+      .toast.show {
+        display: inline-flex;
+      }
+
+      footer {
+        margin-top: auto;
+        padding: 2rem 1rem 2.5rem;
+        background: #fafafa;
+        border-top: 1px solid rgba(214, 40, 40, 0.15);
+        color: var(--muted);
+        text-align: center;
+        display: grid;
+        gap: 1.25rem;
+        justify-items: center;
+      }
+
+      .donation-btn {
+        justify-self: center;
+        max-width: 240px;
+      }
+
+      .support-payment-list {
+        display: grid;
+        gap: 1rem;
+        margin-top: 1.25rem;
+      }
+
+      .support-payment-card {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.85rem 1rem;
+        border-radius: 12px;
+        background: rgba(214, 40, 40, 0.08);
+        border: 1px solid rgba(214, 40, 40, 0.2);
+      }
+
+      .support-payment-card strong {
+        font-size: 1.05rem;
+        color: var(--primary);
+      }
+
+      .support-payment-card p {
+        margin: 0.25rem 0 0;
+        font-weight: 600;
+        font-size: 1.05rem;
+        letter-spacing: 0.4px;
+      }
+
+      .payment-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: rgba(214, 40, 40, 0.12);
+        color: var(--primary);
+        font-size: 1.1rem;
+      }
+
+      @media (max-width: 720px) {
+        header.app-header {
+          padding: 1.25rem 1rem 6rem;
+        }
+
+        main {
+          margin-top: -3.5rem;
+          padding: 0 1rem 3.5rem;
+          gap: 1.5rem;
+        }
+
+        .card {
+          padding: 1.5rem;
+        }
+
+        h2.section-title {
+          font-size: 1.4rem;
+        }
+
+        header.app-header h1 {
+          font-size: 1.6rem;
+        }
+
+        footer {
+          padding: 1.75rem 1rem 2.25rem;
+        }
+      }
+
+      @media (max-width: 540px) {
+        main {
+          margin-top: -3rem;
+          padding: 0 0.9rem 3rem;
+          gap: 1.35rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <div class="header-logo">
+          <div class="logo-icon">
+            <i class="fa-solid fa-droplet"></i>
+          </div>
+          <div>
+            <h1>Need Blood?</h1>
+            <p style="margin: 0; font-weight: 500; font-size: 0.95rem">
+              Need Blood? | Blood Donation Network
+            </p>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section id="auth-section" class="card">
+          <div id="login-view">
+            <h2 class="section-title"><i class="fa-solid fa-stethoscope"></i> Sign In</h2>
+            <form id="login-form" class="dashboard-section">
+              <div class="form-grid">
+                <label class="field">
+                  Phone Number
+                  <input type="tel" id="login-phone" placeholder="e.g. 017xxxxxxxx" required />
+                </label>
+                <label class="field">
+                  Password
+                  <input type="password" id="login-password" placeholder="********" required />
+                </label>
+              </div>
+              <div class="actions auth-actions">
+                <button type="submit" class="primary-btn auth-primary-btn">
+                  <i class="fa-solid fa-right-to-bracket"></i> Sign In
+                </button>
+                <div class="auth-switch-card">
+                  <button type="button" id="open-register" class="secondary-btn">
+                    <i class="fa-solid fa-user-plus"></i> Register as Donor
+                  </button>
+                  <button type="button" id="open-reset" class="ghost-btn">
+                    <i class="fa-solid fa-unlock-keyhole"></i> Forgot Password?
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <div class="split-layout" style="margin-top: 2.5rem">
+              <div class="notice-board">
+                <h3><i class="fa-solid fa-thumbtack"></i> Notice Board</h3>
+                <p id="notice-message">Loading...</p>
+              </div>
+              <div class="partner-groups">
+                <h3 style="margin: 0 0 0.75rem; color: var(--primary)">
+                  <i class="fa-brands fa-facebook"></i> Our Partner Facebook Groups
+                </h3>
+                <ul id="partner-group-list"></ul>
+              </div>
+            </div>
+          </div>
+
+          <div id="register-view" class="hidden">
+            <h2 class="section-title"><i class="fa-solid fa-id-card"></i> Donor Registration</h2>
+            <form id="register-form" class="dashboard-section">
+              <div class="form-grid">
+                <label class="field">Full Name<input type="text" id="reg-name" required /></label>
+                <label class="field">Phone Number<input type="tel" id="reg-phone" required /></label>
+                <label class="field">Email Address<input type="email" id="reg-email" required /></label>
+                <label class="field">Date of Birth<input type="date" id="reg-dob" required /></label>
+                <label class="field">Password<input type="password" id="reg-password" minlength="6" required /></label>
+                <label class="field">
+                  Gender
+                  <select id="reg-gender" required>
+                    <option value="" disabled selected>Select gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                  </select>
+                </label>
+                <label class="field">
+                  Blood Group
+                  <select id="reg-bloodgroup" required>
+                    <option value="" disabled selected>Select blood group</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                  </select>
+                </label>
+                <label class="field">
+                  Division
+                  <select id="reg-division" required></select>
+                </label>
+                <label class="field">
+                  District
+                  <select id="reg-district" required></select>
+                </label>
+                <label class="field">
+                  Thana
+                  <select id="reg-thana" required></select>
+                </label>
+                <label class="field">
+                  Upazila
+                  <select id="reg-upazila" required></select>
+                </label>
+              </div>
+              <div class="actions">
+                <button type="submit" class="primary-btn"><i class="fa-solid fa-floppy-disk"></i> Register</button>
+                <button type="button" class="ghost-btn" id="back-to-login"><i class="fa-solid fa-arrow-left"></i> Back to Login</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Forgot password handled via modal -->
+        </section>
+
+        <section id="donor-dashboard" class="card hidden">
+          <div class="dashboard-header">
+            <div>
+              <h2 class="section-title"><i class="fa-solid fa-hand-holding-droplet"></i> Donor Dashboard</h2>
+              <p style="margin: 0; color: var(--muted)">Welcome, <span id="donor-name"></span>!</p>
+            </div>
+            <button id="btn-logout-donor" class="ghost-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+          </div>
+
+          <div class="dashboard-section" style="margin-top: 2rem">
+            <div class="info-card">
+              <h3><i class="fa-solid fa-user"></i> My Profile</h3>
+              <form id="donor-profile-form" class="profile-grid">
+                <label class="field">Full Name<input type="text" id="donor-profile-name" required /></label>
+                <label class="field">Primary Phone<span class="badge" id="donor-profile-email"></span></label>
+                <label class="field">Alternate Phone<input type="tel" id="donor-profile-alt-phone" placeholder="Optional" /></label>
+                <label class="field">Address Division<select id="donor-profile-division" required></select></label>
+                <label class="field">Address District<select id="donor-profile-district" required></select></label>
+                <label class="field">Address Thana<select id="donor-profile-thana" required></select></label>
+                <label class="field">Address Upazila<select id="donor-profile-upazila" required></select></label>
+                <label class="field">Blood Group<select id="donor-profile-blood" required></select></label>
+                <label class="field">Gender<select id="donor-profile-gender" required></select></label>
+              </form>
+              <div class="actions" style="margin-top: 1rem">
+                <button type="button" id="donor-profile-save" class="primary-btn"><i class="fa-solid fa-save"></i> Save Profile</button>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <h3><i class="fa-solid fa-calendar-heart"></i> Donation Tracking</h3>
+              <div class="request-grid">
+                <div>
+                  <p style="margin: 0 0 0.75rem; color: var(--muted)">Last Donation Date</p>
+                  <input type="date" id="donor-last-donation" class="tracking-input" />
+                </div>
+                <div>
+                  <p style="margin: 0 0 0.75rem; color: var(--muted)">Next Eligible Date</p>
+                  <p class="countdown" id="donor-countdown">--</p>
+                </div>
+              </div>
+              <div class="actions" style="margin-top: 1rem">
+                <button type="button" id="donor-save-donation" class="secondary-btn">
+                  <i class="fa-solid fa-rotate"></i> Update
+                </button>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="dashboard-header">
+                <h3><i class="fa-solid fa-triangle-exclamation"></i> Emergency Blood Request</h3>
+                <button id="open-blood-request" class="primary-btn"><i class="fa-solid fa-siren-on"></i> Request Emergency Blood</button>
+              </div>
+              <p style="margin: 0.75rem 0 0; color: var(--muted)">
+                You can submit one request every 24 hours.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section id="admin-dashboard" class="card hidden">
+          <div class="dashboard-header">
+            <div>
+              <h2 class="section-title"><i class="fa-solid fa-user-shield"></i> Admin Panel</h2>
+              <p style="margin: 0; color: var(--muted)">Centralized administration controls</p>
+            </div>
+            <button id="btn-logout-admin" class="ghost-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+          </div>
+
+          <div class="dashboard-section" style="margin-top: 2rem">
+            <div class="info-card" style="display: grid; gap: 0.5rem; max-width: 420px">
+              <span class="badge" style="width: fit-content"><i class="fa-solid fa-user-group"></i> Total Registered Donors</span>
+              <h3 style="margin-bottom: 0; font-size: 2rem" id="total-donors">0</h3>
+            </div>
+
+            <div class="info-card">
+              <h3><i class="fa-solid fa-list-check"></i> Pending Blood Requests</h3>
+              <div class="search-results" id="admin-request-list"></div>
+            </div>
+
+            
+
+            <div class="info-card">
+              <h3><i class="fa-solid fa-message"></i> Notice Board Update</h3>
+              <form id="admin-notice-form" class="form-grid">
+                <label class="field">Message<textarea id="admin-notice-message" rows="4"></textarea></label>
+                <div class="actions">
+                  <button type="submit" class="primary-btn"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="info-card">
+              <h3><i class="fa-brands fa-facebook"></i> Partner Facebook Groups</h3>
+              <form id="admin-partner-form" class="form-grid">
+                <label class="field">Group Name<input type="text" id="admin-partner-name" required /></label>
+                <label class="field">Group Link<input type="url" id="admin-partner-link" required /></label>
+                <div class="actions">
+                  <button type="submit" class="secondary-btn"><i class="fa-solid fa-plus"></i> Add Group</button>
+                </div>
+              </form>
+              <div class="search-results" id="admin-partner-list"></div>
+            </div>
+
+            <div class="info-card">
+              <h3><i class="fa-solid fa-screwdriver-wrench"></i> App Settings</h3>
+              <form id="admin-config-form" class="form-grid">
+                <label class="field">WhatsApp Number<input type="tel" id="admin-config-whatsapp" placeholder="e.g. +8801XXXXXXXXX" /></label>
+                <label class="field">Bkash Number<input type="tel" id="admin-config-bkash" placeholder="e.g. 016XXXXXXX" /></label>
+                <label class="field">Nagad Number<input type="tel" id="admin-config-nagad" placeholder="e.g. 016XXXXXXX" /></label>
+                <label class="field">Support Message<textarea id="admin-config-support-message" rows="4" placeholder="Custom support message"></textarea></label>
+                <label class="field">Password Reset Webhook<input type="url" id="admin-config-password-webhook" placeholder="https://your-secure-function" /></label>
+                <div class="actions">
+                  <button type="submit" class="primary-btn"><i class="fa-solid fa-floppy-disk"></i> Save Settings</button>
+                </div>
+              </form>
+              <p class="muted-text" style="margin: 0.75rem 0 0; font-size: 0.9rem">
+                Password reset requests will POST to your secure webhook with the phone number and new password. Keep this endpoint protected.
+              </p>
+            </div>
+
+            <div class="info-card">
+              <h3><i class="fa-solid fa-key"></i> Reset Donor Password</h3>
+              <form id="admin-password-form">
+                <div class="form-grid">
+                  <label class="field">Donor Phone<input type="tel" id="admin-pass-phone" placeholder="e.g. 017XXXXXXXX" required /></label>
+                  <label class="field">New Password<input type="password" id="admin-pass-new" minlength="6" required /></label>
+                </div>
+                <div class="actions">
+                  <button type="submit" class="secondary-btn"><i class="fa-solid fa-key"></i> Send Reset Request</button>
+                </div>
+              </form>
+              <p class="muted-text" style="margin: 0.75rem 0 0; font-size: 0.9rem">
+                Configure the secure webhook above to process password updates through Firebase Admin SDK.
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <button id="support-developer" class="primary-btn donation-btn" type="button">
+          <i class="fa-solid fa-hand-holding-heart"></i> Support the Developer
+        </button>
+        <small>&copy; <span id="footer-year"></span> Need Blood? | Designed &amp; Developed with &lt;3</small>
+      </footer>
+    </div>
+
+    <div class="modal-backdrop" id="invite-modal">
+      <div class="modal">
+        <button class="modal-close" data-close="invite-modal"><i class="fa-solid fa-xmark"></i></button>
+        <h3><i class="fa-solid fa-people-group"></i> Invite Your Friends</h3>
+        <p>
+          A single donor can inspire many others. Invite your friends and family to join our donor network.
+        </p>
+        <div class="actions">
+          <button class="primary-btn" id="invite-share"><i class="fa-solid fa-share-nodes"></i> Share Invite</button>
+          <button class="ghost-btn" data-close="invite-modal"><i class="fa-solid fa-check"></i> Maybe Later</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-backdrop" id="blood-request-modal">
+      <div class="modal" style="width: min(100%, 520px)">
+        <button class="modal-close" data-close="blood-request-modal"><i class="fa-solid fa-xmark"></i></button>
+        <h3><i class="fa-solid fa-suitcase-medical"></i> Emergency Blood Request</h3>
+        <form id="blood-request-form" class="dashboard-section" style="margin-top: 1rem">
+          <div class="form-grid">
+            <label class="field">Patient Details<textarea id="req-patient-details" required></textarea></label>
+            <label class="field">Blood Group<select id="req-blood-group" required></select></label>
+            <label class="field">Bags Needed<input type="number" id="req-bags" min="1" value="1" required /></label>
+            <label class="field">Hospital Address<input type="text" id="req-hospital" required /></label>
+            <label class="field">Contact Number<input type="tel" id="req-contact" required /></label>
+            <label class="field">Division<select id="req-division" required></select></label>
+            <label class="field">District<select id="req-district" required></select></label>
+            <label class="field">Thana<select id="req-thana" required></select></label>
+            <label class="field">Upazila<select id="req-upazila" required></select></label>
+          </div>
+          <div class="actions">
+            <button type="submit" class="primary-btn"><i class="fa-solid fa-paper-plane"></i> Submit Request</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal-backdrop" id="request-success-modal">
+      <div class="modal">
+        <button class="modal-close" data-close="request-success-modal"><i class="fa-solid fa-xmark"></i></button>
+        <h3><i class="fa-solid fa-circle-check"></i> Request Submitted</h3>
+        <p>Your request has been sent to the admin panel. For urgent help tap below to contact the admin via WhatsApp.</p>
+        <div class="actions">
+          <a class="primary-btn" id="contact-admin-whatsapp" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Contact Admin on WhatsApp</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-backdrop" id="reset-info-modal">
+      <div class="modal">
+        <button class="modal-close" data-close="reset-info-modal"><i class="fa-solid fa-xmark"></i></button>
+        <h3><i class="fa-solid fa-lock"></i> Need Password Help?</h3>
+        <p>
+          To update your password please reach out to the administrator with your phone number and date of birth.
+        </p>
+        <div class="actions">
+          <a class="primary-btn" id="password-help-whatsapp" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> WhatsApp Admin</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-backdrop" id="support-modal">
+      <div class="modal">
+        <button class="modal-close" data-close="support-modal"><i class="fa-solid fa-xmark"></i></button>
+        <h3><i class="fa-solid fa-hand-holding-heart"></i> Support Our Work</h3>
+        <p id="support-modal-message">
+          This initiative runs on community support. Please consider contributing via the channels below.
+        </p>
+        <div class="support-payment-list">
+          <div class="support-payment-card">
+            <div class="payment-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+            <div>
+              <strong>Bkash</strong>
+              <p id="support-bkash">01647049711</p>
+            </div>
+          </div>
+          <div class="support-payment-card">
+            <div class="payment-icon"><i class="fa-solid fa-money-bills"></i></div>
+            <div>
+              <strong>Nagad</strong>
+              <p id="support-nagad">01647049711</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast">
+      <i class="fa-solid fa-circle-info"></i>
+      <span id="toast-message"></span>
+    </div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        doc,
+        addDoc,
+        getDoc,
+        getDocs,
+        setDoc,
+        updateDoc,
+        deleteDoc,
+        query,
+        where,
+        onSnapshot,
+        serverTimestamp,
+        orderBy,
+        Timestamp,
+        getCountFromServer
+      } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+      import {
+        getAuth,
+        createUserWithEmailAndPassword,
+        signInWithEmailAndPassword,
+        signOut as firebaseSignOut
+      } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyD8SJhRZknt7s8H9L7ZzglteSCzPK7hFb8",
+        authDomain: "roktolagbe-356a5.firebaseapp.com",
+        projectId: "roktolagbe-356a5",
+        storageBucket: "roktolagbe-356a5.firebasestorage.app",
+        messagingSenderId: "685449667823",
+        appId: "1:685449667823:web:a082d06c41ad11bff0671a",
+        measurementId: "G-MC1QTXV6SB"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      const auth = getAuth(app);
+
+      const sessionKey = "rokto-lagbe-session";
+
+      const ADMIN_CONFIG_DEFAULTS = {
+        whatsappNumber: "+8801647049711",
+        bkashNumber: "01647049711",
+        nagadNumber: "01647049711",
+        passwordResetWebhook: "",
+        supportMessage:
+          "\u0986\u09b8\u09b8\u09be\u09b2\u09be\u09ae\u09c1\u0020\u0986\u09b2\u09be\u0987\u0995\u09c1\u09ae\u002c\u0020\u0986\u09ae\u09be\u09a6\u09c7\u09b0\u0020\u098f\u0987\u0020\u09b8\u09c7\u09ac\u09be\u09ae\u09c2\u09b2\u0995\u0020\u098f\u09aa\u099f\u09bf\u0020\u09a8\u09a8\u002d\u09aa\u09cd\u09b0\u09ab\u09bf\u099f\u0964\u0020\u098f\u099f\u09bf\u0995\u09c7\u0020\u09aa\u09b0\u09bf\u099a\u09be\u09b2\u09a8\u09be\u0020\u0995\u09b0\u09a4\u09c7\u0020\u0986\u09ae\u09be\u09a6\u09c7\u09b0\u0020\u09b8\u09be\u09b9\u09be\u09af\u09cd\u09af\u0020\u0995\u09b0\u09c1\u09a8\u0964\u0020\u09ac\u09bf\u0995\u09cd\u09af\u09be\u09b6\u0020\u002f\u0020\u09a8\u0997\u09a6\u003a\u0020\u0030\u0031\u0036\u0034\u0037\u0030\u0034\u0039\u0037\u0031\u0031"
+      };
+
+      const state = {
+        currentUser: null,
+        role: null,
+        adminConfig: { ...ADMIN_CONFIG_DEFAULTS },
+        partnerGroups: [],
+        unsubscribe: {
+          requests: null,
+          partnerGroups: null,
+          notice: null,
+          adminConfig: null
+        }
+      };
+
+      const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+      const genderOptions = [
+        { value: "male", label: "Male" },
+        { value: "female", label: "Female" },
+        { value: "other", label: "Other" }
+      ];
+
+      const fallbackLocationHierarchy = {
+        Dhaka: {
+          districts: {
+            Dhaka: {
+              thanas: {
+                "Dhaka North": ["Uttara", "Mirpur", "Gulshan"],
+                "Dhaka South": ["Dhanmondi", "Shahbag", "Motijheel"]
+              }
+            },
+            Gazipur: {
+              thanas: {
+                "Gazipur Sadar": ["Joydebpur", "Bhogra"],
+                Kaliakair: ["Chandra", "Fulbaria"]
+              }
+            },
+            Narayanganj: {
+              thanas: {
+                "Narayanganj Sadar": ["Narayanganj Zoo", "Fatullah"],
+                Sonargaon: ["Mograpara", "Kanchpur"]
+              }
+            }
+          }
+        },
+        Chattogram: {
+          districts: {
+            Chattogram: {
+              thanas: {
+                "Chattogram Metropolitan": ["Patenga", "Bahaddarhat", "Agrabad"],
+                Hathazari: ["Fatehpur", "Shikarpur"]
+              }
+            },
+            "Cox's Bazar": {
+              thanas: {
+                "Cox's Bazar Sadar": ["Cox's Bazar Town", "Jhilongja"],
+                Ukhiya: ["Ukhiya Sadar", "Palongkhali"]
+              }
+            }
+          }
+        },
+        Rajshahi: {
+          districts: {
+            Rajshahi: {
+              thanas: {
+                "Rajshahi Metropolitan": ["Shaheb Bazar", "Boalia"],
+                Godagari: ["Godagari", "Pakuria"]
+              }
+            },
+            Bogura: {
+              thanas: {
+                "Bogura Sadar": ["Nagar Bangla", "Shajahanpur"],
+                Sherpur: ["Sherpur Town", "Mirzapur"]
+              }
+            }
+          }
+        },
+        Khulna: {
+          districts: {
+            Khulna: {
+              thanas: {
+                "Khulna Metropolitan": ["Khalishpur", "Sonadanga"],
+                Dacope: ["Dacope Sadar", "Bashbunia"]
+              }
+            },
+            Jashore: {
+              thanas: {
+                "Jashore Sadar": ["Chachra", "Kasba"],
+                Monirampur: ["Horidaskati", "Khedapara"]
+              }
+            }
+          }
+        },
+        Barishal: {
+          districts: {
+            Barishal: {
+              thanas: {
+                "Barishal Metropolitan": ["Band Road", "Kaukhali"]
+              }
+            },
+            Patuakhali: {
+              thanas: {
+                "Patuakhali Sadar": ["Lalua", "Itbaria"],
+                Kalapara: ["Mohipur", "Dhulasar"]
+              }
+            }
+          }
+        },
+        Sylhet: {
+          districts: {
+            Sylhet: {
+              thanas: {
+                "Sylhet Metropolitan": ["Ambar Khana", "Bandar Bazar"],
+                Jaintapur: ["Charikata", "Dorbost"]
+              }
+            },
+            Moulvibazar: {
+              thanas: {
+                "Moulvibazar Sadar": ["Manu Shahjalal", "Kheya Ghat"],
+                Sreemangal: ["Bhanugach", "Kashban"]
+              }
+            }
+          }
+        },
+        Rangpur: {
+          districts: {
+            Rangpur: {
+              thanas: {
+                "Rangpur Metropolitan": ["Jhaj Company", "Parkmore"],
+                Pirgacha: ["Pirgacha Sadar", "Kailash Sadar"]
+              }
+            },
+            Dinajpur: {
+              thanas: {
+                "Dinajpur Sadar": ["Birganj", "Balubari"],
+                Saidpur: ["Boalia", "Uthhan"]
+              }
+            }
+          }
+        },
+        Mymensingh: {
+          districts: {
+            Mymensingh: {
+              thanas: {
+                "Mymensingh Metropolitan": ["South Mymensingh", "Ashandi"]
+              }
+            },
+            Sherpur: {
+              thanas: {
+                "Sherpur Sadar": ["Kamarpara", "Gorjoripa"],
+                Nalitabari: ["Baghber", "Baroshia"]
+              }
+            }
+          }
+        }
+      };
+
+      let locationHierarchy = JSON.parse(JSON.stringify(fallbackLocationHierarchy));
+      const el = (id) => document.getElementById(id);
+      const footerYearEl = el("footer-year");
+      const toastEl = el("toast");
+      const toastMessageEl = el("toast-message");
+
+      let toastTimer = null;
+
+      const views = {
+        login: el("login-view"),
+        register: el("register-view"),
+        donorDashboard: el("donor-dashboard"),
+        adminDashboard: el("admin-dashboard")
+      };
+
+      const modals = {
+        invite: el("invite-modal"),
+        bloodRequest: el("blood-request-modal"),
+        requestSuccess: el("request-success-modal"),
+        passwordHelp: el("reset-info-modal"),
+        support: el("support-modal")
+      };
+
+      const forms = {
+        login: el("login-form"),
+        register: el("register-form"),
+        donorProfile: el("donor-profile-form"),
+        adminSearch: el("admin-search-form"),
+        adminSuspend: el("admin-suspend-form"),
+        adminNotice: el("admin-notice-form"),
+        adminPartner: el("admin-partner-form"),
+        adminConfig: el("admin-config-form"),
+        adminPassword: el("admin-password-form"),
+        bloodRequest: el("blood-request-form")
+      };
+
+      const bindingMap = {};
+
+      const partnerGroupListPublic = el("partner-group-list");
+      const partnerGroupListAdmin = el("admin-partner-list");
+      const noticeMessageEl = el("notice-message");
+      const adminNoticeMessageEl = el("admin-notice-message");
+      const adminRequestList = el("admin-request-list");
+      const adminSearchResults = el("admin-search-results");
+      const totalDonorsEl = el("total-donors");
+      const donorNameEl = el("donor-name");
+      const donorCountdownEl = el("donor-countdown");
+      const donorLastDonationEl = el("donor-last-donation");
+      const contactAdminWhatsappEl = el("contact-admin-whatsapp");
+      const passwordHelpWhatsappEl = el("password-help-whatsapp");
+      const supportModalMessageEl = el("support-modal-message");
+      const supportBkashEl = el("support-bkash");
+      const supportNagadEl = el("support-nagad");
+
+      const donorProfileFields = {
+        name: el("donor-profile-name"),
+        emailBadge: el("donor-profile-email"),
+        altPhone: el("donor-profile-alt-phone"),
+        gender: el("donor-profile-gender"),
+        blood: el("donor-profile-blood")
+      };
+
+      footerYearEl.textContent = new Date().getFullYear();
+
+      function showToast(message, type = "info") {
+        toastMessageEl.textContent = message;
+        toastEl.classList.remove("show", "toast-success", "toast-error");
+        if (type === "success") {
+          toastEl.classList.add("toast-success");
+          toastEl.style.borderLeftColor = "var(--success)";
+          toastEl.querySelector("i").className = "fa-solid fa-circle-check";
+        } else if (type === "error") {
+          toastEl.classList.add("toast-error");
+          toastEl.style.borderLeftColor = "var(--danger)";
+          toastEl.querySelector("i").className = "fa-solid fa-triangle-exclamation";
+        } else {
+          toastEl.style.borderLeftColor = "var(--primary)";
+          toastEl.querySelector("i").className = "fa-solid fa-circle-info";
+        }
+        toastEl.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toastEl.classList.remove("show"), 4500);
+      }
+
+      function hideToast() {
+        toastEl.classList.remove("show");
+        clearTimeout(toastTimer);
+      }
+
+      function sanitizePhone(value) {
+        if (!value) return "";
+        return value.replace(/[^0-9+]/g, "").trim();
+      }
+
+      function phoneToEmail(phone) {
+        const clean = sanitizePhone(phone).replace(/^\+/, "");
+        if (!clean) return "";
+        return `${clean}@rokto.ok`;
+      }
+
+      function escapeHtml(str = "") {
+        return str
+          .toString()
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function resetSelect(select, placeholder) {
+        select.innerHTML = "";
+        const option = document.createElement("option");
+        option.value = "";
+        option.textContent = placeholder;
+        option.disabled = true;
+        option.selected = true;
+        select.appendChild(option);
+      }
+
+      function populateSelect(select, items, placeholder) {
+        resetSelect(select, placeholder);
+        items.forEach((item) => {
+          const option = document.createElement("option");
+          if (typeof item === "string") {
+            option.value = item;
+            option.textContent = item;
+          } else {
+            option.value = item.value;
+            option.textContent = item.label;
+          }
+          select.appendChild(option);
+        });
+      }
+
+      async function loadLocationHierarchy() {
+        try {
+          const response = await fetch("https://bdapis.com/api/v1.1/divisions");
+          if (!response.ok) throw new Error(`Failed to load location data: ${response.status}`);
+          const payload = await response.json();
+          const divisions = payload?.data || payload?.result || [];
+          if (!Array.isArray(divisions) || !divisions.length) throw new Error("Invalid location payload");
+          const built = {};
+          divisions.forEach((divisionEntry) => {
+            const divisionName = divisionEntry?.division || divisionEntry?.name;
+            if (!divisionName) return;
+            const districtMap = {};
+            const districts = divisionEntry.districts || [];
+            districts.forEach((districtEntry) => {
+              const districtName = districtEntry?.district || districtEntry?.name;
+              if (!districtName) return;
+              const thanaMap = {};
+              const upazillas = districtEntry.upazillas || districtEntry.upazilas || districtEntry.upazila || [];
+              if (Array.isArray(upazillas) && upazillas.length) {
+                upazillas.forEach((upazillaItem) => {
+                  const upazillaName = typeof upazillaItem === "string" ? upazillaItem : upazillaItem?.name || upazillaItem?.upazilla;
+                  if (!upazillaName) return;
+                  thanaMap[upazillaName] = [upazillaName];
+                });
+              }
+              if (!Object.keys(thanaMap).length) {
+                thanaMap[districtName] = [districtName];
+              }
+              districtMap[districtName] = { thanas: thanaMap };
+            });
+            if (Object.keys(districtMap).length) {
+              built[divisionName] = { districts: districtMap };
+            }
+          });
+          if (Object.keys(built).length) {
+            locationHierarchy = built;
+          }
+        } catch (error) {
+          console.warn("Using fallback location data", error);
+          locationHierarchy = JSON.parse(JSON.stringify(fallbackLocationHierarchy));
+        }
+      }
+
+      function createLocationBinding({ division, district, thana, upazila }) {
+        populateSelect(division, Object.keys(locationHierarchy), "Select division");
+        resetSelect(district, "Select district");
+        resetSelect(thana, "Select thana");
+        resetSelect(upazila, "Select upazila");
+
+        division.addEventListener("change", () => {
+          const selectedDivision = division.value;
+          const districts = selectedDivision
+            ? Object.keys(locationHierarchy[selectedDivision]?.districts || {})
+            : [];
+          populateSelect(district, districts, "Select district");
+          resetSelect(thana, "Select thana");
+          resetSelect(upazila, "Select upazila");
+        });
+
+        district.addEventListener("change", () => {
+          const selectedDivision = division.value;
+          const selectedDistrict = district.value;
+          const thanas = selectedDivision && selectedDistrict
+            ? Object.keys(locationHierarchy[selectedDivision]?.districts?.[selectedDistrict]?.thanas || {})
+            : [];
+          populateSelect(thana, thanas, "Select thana");
+          resetSelect(upazila, "Select upazila");
+        });
+
+        thana.addEventListener("change", () => {
+          const selectedDivision = division.value;
+          const selectedDistrict = district.value;
+          const selectedThana = thana.value;
+          const upazilas = selectedDivision && selectedDistrict && selectedThana
+            ? locationHierarchy[selectedDivision]?.districts?.[selectedDistrict]?.thanas?.[selectedThana] || []
+            : [];
+          populateSelect(upazila, upazilas, "Select upazila");
+          if (upazilas.length === 1) {
+            upazila.value = upazilas[0];
+          }
+        });
+
+        return {
+          division,
+          district,
+          thana,
+          upazila,
+          reset() {
+            division.value = "";
+            division.dispatchEvent(new Event("change"));
+          },
+          get() {
+            return {
+              division: division.value,
+              district: district.value,
+              thana: thana.value,
+              upazila: upazila.value
+            };
+          },
+          set(address = {}) {
+            division.value = address.division || "";
+            division.dispatchEvent(new Event("change"));
+            if (address.district) {
+              district.value = address.district;
+              district.dispatchEvent(new Event("change"));
+            }
+            if (address.thana) {
+              thana.value = address.thana;
+              thana.dispatchEvent(new Event("change"));
+            }
+            if (address.upazila) {
+              upazila.value = address.upazila;
+            }
+          }
+        };
+      }
+
+      function setUpSelectOptions() {
+        populateSelect(el("reg-bloodgroup"), bloodGroups, "Select blood group");
+        populateSelect(el("req-blood-group"), bloodGroups, "Select blood group");
+        populateSelect(donorProfileFields.blood, bloodGroups, "Select blood group");
+        populateSelect(el("admin-search-blood"), bloodGroups, "Select blood group");
+        populateSelect(el("reg-gender"), genderOptions, "Select gender");
+        populateSelect(donorProfileFields.gender, genderOptions, "Select gender");
+      }
+
+      function formatDate(date) {
+        if (!date) return "--";
+        const d = typeof date === "string" ? new Date(date) : date;
+        if (Number.isNaN(d.getTime())) return "--";
+        return d.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        });
+      }
+
+      function calculateAgeFromDob(dob) {
+        if (!dob) return null;
+        let birthDate = null;
+        if (dob instanceof Date) {
+          birthDate = dob;
+        } else if (typeof dob === "string") {
+          birthDate = new Date(dob);
+        } else if (typeof dob?.toDate === "function") {
+          birthDate = dob.toDate();
+        }
+        if (!birthDate || Number.isNaN(birthDate.getTime())) return null;
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+          age -= 1;
+        }
+        return age >= 0 ? age : null;
+      }
+
+      function formatLocation(address = {}) {
+        const parts = [address.division, address.district, address.thana, address.upazila]
+          .filter(Boolean)
+          .map((value) => escapeHtml(value));
+        return parts.length ? parts.join(" \u2192 ") : "--";
+      }
+
+      function calculateCountdown(lastDonation) {
+        if (!lastDonation) return "No donation record";
+        const lastDate = typeof lastDonation === "string" ? new Date(lastDonation) : lastDonation;
+        if (Number.isNaN(lastDate.getTime())) return "--";
+        const nextEligible = new Date(lastDate.getTime() + 120 * 24 * 60 * 60 * 1000);
+        const now = new Date();
+        const diffMs = nextEligible.getTime() - now.getTime();
+        if (diffMs <= 0) {
+          return "Eligible to donate now";
+        }
+        const diffDays = Math.ceil(diffMs / (24 * 60 * 60 * 1000));
+        return `${diffDays} day(s) remaining`;
+      }
+
+      function switchAuthView(target) {
+        views.login.classList.toggle("hidden", target !== "login");
+        views.register.classList.toggle("hidden", target !== "register");
+      }
+
+      function closeAllDashboards() {
+        views.donorDashboard.classList.add("hidden");
+        views.adminDashboard.classList.add("hidden");
+      }
+
+      function openModal(key) {
+        const modal = modals[key];
+        if (modal) modal.classList.add("active");
+      }
+
+      function closeModal(key) {
+        const modal = modals[key];
+        if (modal) modal.classList.remove("active");
+      }
+
+      async function signOut() {
+        try {
+          await firebaseSignOut(auth);
+        } catch (error) {
+          console.error("Sign out error", error);
+        }
+        localStorage.removeItem(sessionKey);
+        state.currentUser = null;
+        state.role = null;
+        if (state.unsubscribe.requests) {
+          state.unsubscribe.requests();
+          state.unsubscribe.requests = null;
+        }
+        if (state.unsubscribe.adminConfig) {
+          state.unsubscribe.adminConfig();
+          state.unsubscribe.adminConfig = null;
+        }
+        if (state.unsubscribe.partnerGroups) {
+          state.unsubscribe.partnerGroups();
+          state.unsubscribe.partnerGroups = null;
+        }
+        if (state.unsubscribe.notice) {
+          state.unsubscribe.notice();
+          state.unsubscribe.notice = null;
+        }
+        closeAllDashboards();
+        switchAuthView("login");
+        showToast("Signed out successfully", "info");
+      }
+
+      async function getDonorDocByPhone(phone) {
+        const donorsRef = collection(db, "donors");
+        const phoneQuery = query(donorsRef, where("phone", "==", phone));
+        const snapshot = await getDocs(phoneQuery);
+        if (snapshot.empty) return null;
+        const docSnap = snapshot.docs[0];
+        return { id: docSnap.id, ...docSnap.data() };
+      }
+
+      function persistSession(user) {
+        if (!user) return;
+        localStorage.setItem(
+          sessionKey,
+          JSON.stringify({
+            id: user.id,
+            role: user.role,
+            phone: user.phone,
+            email: user.email || phoneToEmail(user.phone || "")
+          })
+        );
+      }
+
+      async function restoreSession() {
+        const raw = localStorage.getItem(sessionKey);
+        if (!raw) return;
+        try {
+          const session = JSON.parse(raw);
+          const docRef = doc(db, "donors", session.id);
+          const snap = await getDoc(docRef);
+          if (!snap.exists()) {
+            localStorage.removeItem(sessionKey);
+            return;
+          }
+          const data = snap.data();
+          state.currentUser = { id: snap.id, ...data };
+          if (!state.currentUser.email) {
+            state.currentUser.email = phoneToEmail(state.currentUser.phone || "");
+          }
+          state.role = data.role || "donor";
+          await afterLogin();
+        } catch (error) {
+          console.error("Session restore error", error);
+          localStorage.removeItem(sessionKey);
+        }
+      }
+
+      function populatePartnerGroups() {
+        const groups = state.partnerGroups;
+        partnerGroupListPublic.innerHTML = "";
+        if (!groups.length) {
+          const li = document.createElement("li");
+          li.textContent = "No partner groups available";
+          partnerGroupListPublic.appendChild(li);
+        } else {
+          groups.forEach((group) => {
+            const li = document.createElement("li");
+            const name = document.createElement("span");
+            name.textContent = group.groupName;
+            const link = document.createElement("a");
+            link.href = group.groupLink;
+            link.target = "_blank";
+            link.rel = "noopener";
+            link.className = "link";
+            link.innerHTML = '<i class="fa-brands fa-facebook"></i> View Group';
+            li.appendChild(name);
+            li.appendChild(link);
+            partnerGroupListPublic.appendChild(li);
+          });
+        }
+
+        if (state.role === "admin") {
+          partnerGroupListAdmin.innerHTML = "";
+          groups.forEach((group) => {
+            const row = document.createElement("div");
+            row.className = "info-card";
+            row.style.borderLeftColor = "rgba(214,40,40,0.3)";
+            row.innerHTML = `
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap">
+                <div>
+                  <strong>${escapeHtml(group.groupName)}</strong>
+                  <div><a class="link" href="${escapeHtml(group.groupLink)}" target="_blank" rel="noopener">${escapeHtml(group.groupLink)}</a></div>
+                </div>
+                <button class="ghost-btn" data-delete-partner="${group.id}"><i class="fa-solid fa-trash"></i> Delete</button>
+              </div>
+            `;
+            partnerGroupListAdmin.appendChild(row);
+          });
+        }
+      }
+
+      function bindPartnerListClicks() {
+        partnerGroupListAdmin.addEventListener("click", async (event) => {
+          const target = event.target.closest("[data-delete-partner]");
+          if (!target) return;
+          const id = target.dataset.deletePartner;
+          if (!confirm("Are you sure you want to delete this group?")) return;
+          try {
+            await deleteDoc(doc(db, "partnerGroups", id));
+            showToast("Partner group removed", "success");
+          } catch (error) {
+            console.error(error);
+            showToast("Failed to remove group", "error");
+          }
+        });
+      }
+
+      function watchPartnerGroups() {
+        if (state.unsubscribe.partnerGroups) return;
+        const partnerRef = collection(db, "partnerGroups");
+        state.unsubscribe.partnerGroups = onSnapshot(
+          partnerRef,
+          (snapshot) => {
+            state.partnerGroups = snapshot.docs.map((docSnap) => ({ id: docSnap.id, ...docSnap.data() }));
+            populatePartnerGroups();
+          },
+          (error) => {
+            console.error("Partner group listener error", error);
+            showToast("Unable to load partner groups", "error");
+            if (state.unsubscribe.partnerGroups) {
+              state.unsubscribe.partnerGroups();
+            }
+            state.unsubscribe.partnerGroups = null;
+          }
+        );
+      }
+
+      function watchNoticeBoard() {
+        if (state.unsubscribe.notice) return;
+        const noticeRef = doc(db, "appConfig", "noticeBoard");
+        state.unsubscribe.notice = onSnapshot(
+          noticeRef,
+          (snapshot) => {
+            if (snapshot.exists()) {
+              const { message = "" } = snapshot.data();
+              noticeMessageEl.textContent = message || "No notice available today";
+              adminNoticeMessageEl.value = message || "";
+            } else {
+              noticeMessageEl.textContent = "No notice available today";
+              adminNoticeMessageEl.value = "";
+            }
+          },
+          (error) => {
+            console.error("Notice listener error", error);
+            if (state.unsubscribe.notice) {
+              state.unsubscribe.notice();
+            }
+            state.unsubscribe.notice = null;
+          }
+        );
+      }
+
+      function ensureSharedWatchers() {
+        if (!state.unsubscribe.partnerGroups) {
+          watchPartnerGroups();
+        }
+        if (!state.unsubscribe.notice) {
+          watchNoticeBoard();
+        }
+      }
+
+      function watchAdminConfig() {
+        if (state.unsubscribe.adminConfig) return;
+        const configRef = doc(db, "appConfig", "adminConfig");
+        state.unsubscribe.adminConfig = onSnapshot(
+          configRef,
+          (snapshot) => {
+            const data = snapshot.exists() ? snapshot.data() || {} : {};
+            Object.assign(state.adminConfig, ADMIN_CONFIG_DEFAULTS, data);
+            updateAdminContactLink();
+            updateSupportContent();
+            populateAdminConfigForm();
+          },
+          (error) => {
+            console.error("Admin config listener error", error);
+            Object.assign(state.adminConfig, ADMIN_CONFIG_DEFAULTS);
+            updateAdminContactLink();
+            updateSupportContent();
+            populateAdminConfigForm();
+          }
+        );
+      }
+
+      function updateAdminContactLink() {
+        const number = state.adminConfig.whatsappNumber || ADMIN_CONFIG_DEFAULTS.whatsappNumber;
+        const sanitized = number.replace(/[^0-9]/g, "");
+        contactAdminWhatsappEl.href = `https://wa.me/${sanitized}`;
+        if (passwordHelpWhatsappEl) {
+          passwordHelpWhatsappEl.href = `https://wa.me/${sanitized}`;
+        }
+      }
+
+      function updateSupportContent() {
+        const message = state.adminConfig.supportMessage || ADMIN_CONFIG_DEFAULTS.supportMessage;
+        if (supportModalMessageEl) {
+          supportModalMessageEl.textContent = message;
+        }
+        if (supportBkashEl) {
+          supportBkashEl.textContent = state.adminConfig.bkashNumber || ADMIN_CONFIG_DEFAULTS.bkashNumber;
+        }
+        if (supportNagadEl) {
+          supportNagadEl.textContent = state.adminConfig.nagadNumber || ADMIN_CONFIG_DEFAULTS.nagadNumber;
+        }
+      }
+
+      function populateAdminConfigForm() {
+        if (!forms.adminConfig) return;
+        el("admin-config-whatsapp").value = state.adminConfig.whatsappNumber || "";
+        el("admin-config-bkash").value = state.adminConfig.bkashNumber || "";
+        el("admin-config-nagad").value = state.adminConfig.nagadNumber || "";
+        el("admin-config-support-message").value = state.adminConfig.supportMessage || "";
+        el("admin-config-password-webhook").value = state.adminConfig.passwordResetWebhook || "";
+      }
+
+      async function afterLogin() {
+        persistSession(state.currentUser);
+        populatePartnerGroups();
+        updateAdminContactLink();
+        updateSupportContent();
+        ensureSharedWatchers();
+        if (state.role === "admin") {
+          populateAdminConfigForm();
+          watchAdminConfig();
+          await loadAdminDashboard();
+          views.adminDashboard.classList.remove("hidden");
+        } else {
+          if (state.unsubscribe.adminConfig) {
+            state.unsubscribe.adminConfig();
+            state.unsubscribe.adminConfig = null;
+          }
+          await loadDonorDashboard();
+          views.donorDashboard.classList.remove("hidden");
+          maybeShowInviteModal();
+        }
+        switchAuthView("login");
+        el("auth-section").classList.add("hidden");
+      }
+
+      function showAuthCard() {
+        el("auth-section").classList.remove("hidden");
+      }
+
+      function maybeShowInviteModal() {
+        const shownKey = `${sessionKey}-invite`; 
+        if (sessionStorage.getItem(shownKey)) return;
+        sessionStorage.setItem(shownKey, "1");
+        openModal("invite");
+      }
+
+      async function loadDonorDashboard() {
+        if (!state.currentUser) return;
+        donorNameEl.textContent = state.currentUser.name || "Donor";
+        donorProfileFields.emailBadge.textContent = state.currentUser.phone || "-";
+        donorProfileFields.name.value = state.currentUser.name || "";
+        donorProfileFields.altPhone.value = state.currentUser.altPhone || "";
+        donorProfileFields.gender.value = state.currentUser.gender || "";
+        donorProfileFields.blood.value = state.currentUser.bloodGroup || "";
+
+        bindingMap.donorProfile.set(state.currentUser.address || {});
+
+        const lastDonation = state.currentUser.lastDonationDate?.toDate?.() || (state.currentUser.lastDonationDate ? new Date(state.currentUser.lastDonationDate) : null);
+        donorLastDonationEl.value = lastDonation ? new Date(lastDonation.getTime() - lastDonation.getTimezoneOffset() * 60000).toISOString().split("T")[0] : "";
+        donorCountdownEl.textContent = calculateCountdown(lastDonation);
+      }
+
+      async function loadAdminDashboard() {
+        await refreshDonorCount();
+        subscribeToRequests();
+        populatePartnerGroups();
+        adminSearchResults.innerHTML = "";
+      }
+
+      async function refreshDonorCount() {
+        try {
+          const donorsRef = collection(db, "donors");
+          let total = 0;
+          try {
+            const aggregate = await getCountFromServer(donorsRef);
+            total = aggregate.data().count;
+          } catch (aggregateError) {
+            console.warn("Count aggregation fallback", aggregateError);
+            const activeQuery = query(donorsRef, where("status", "==", "active"));
+            const snapshot = await getDocs(activeQuery);
+            total = snapshot.size;
+          }
+          totalDonorsEl.textContent = total;
+        } catch (error) {
+          console.error("Count fetch error", error);
+          totalDonorsEl.textContent = "--";
+        }
+      }
+
+      function renderRequestCard(request) {
+        const createdAt = request.createdAt?.toDate?.() || new Date();
+        const wrapper = document.createElement("div");
+        wrapper.className = "info-card";
+        wrapper.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem">
+            <div>
+              <h4 style="margin:0 0 .5rem; color:var(--primary)">${escapeHtml(request.patientDetails || "")}</h4>
+              <p style="margin:0; color:var(--muted)"><i class="fa-solid fa-droplet" style="color:var(--primary)"></i> Blood Group: <strong>${escapeHtml(request.bloodGroup || "")}</strong></p>
+              <p style="margin:0; color:var(--muted)"><i class="fa-solid fa-location-dot" style="color:var(--primary)"></i> Address: ${formatLocation(request.address || {})}</p>
+              <p style="margin:0; color:var(--muted)"><i class="fa-solid fa-hospital"></i> Hospital: ${escapeHtml(request.hospital || "")}</p>
+              <p style="margin:0; color:var(--muted)"><i class="fa-solid fa-phone"></i> Contact: ${escapeHtml(request.contactNumber || "")} | ${escapeHtml(request.bagsNeeded || "")} bag(s) needed</p>
+              <p style="margin:0; color:var(--muted)"><i class="fa-regular fa-clock"></i> ${formatDate(createdAt)}</p>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:0.5rem">
+              <button class="primary-btn" data-request-search="${request.id}"><i class="fa-solid fa-user-magnifying-glass"></i> Find Matching Donors</button>
+              <button class="ghost-btn" data-request-delete="${request.id}"><i class="fa-solid fa-trash-can"></i> Delete</button>
+            </div>
+          </div>
+        `;
+        return wrapper;
+      }
+
+      function subscribeToRequests() {
+        if (state.unsubscribe.requests) return;
+        const requestsRef = collection(db, "bloodRequests");
+        const requestsQuery = query(requestsRef, orderBy("createdAt", "desc"));
+        state.unsubscribe.requests = onSnapshot(
+          requestsQuery,
+          (snapshot) => {
+            adminRequestList.innerHTML = "";
+            if (snapshot.empty) {
+              const empty = document.createElement("p");
+              empty.style.color = "var(--muted)";
+              empty.textContent = "No pending requests";
+              adminRequestList.appendChild(empty);
+              return;
+            }
+            snapshot.docs.forEach((docSnap) => {
+              const request = { id: docSnap.id, ...docSnap.data() };
+              if (request.status && request.status !== "active") return;
+              const card = renderRequestCard(request);
+              adminRequestList.appendChild(card);
+            });
+          },
+          (error) => {
+            console.error("Request listener error", error);
+            showToast("Unable to load emergency requests", "error");
+            if (state.unsubscribe.requests) {
+              state.unsubscribe.requests();
+            }
+            state.unsubscribe.requests = null;
+          }
+        );
+      }
+
+      function scheduleCountdownUpdate() {
+        setInterval(() => {
+          if (!state.currentUser || state.role !== "donor") return;
+          const last = state.currentUser.lastDonationDate?.toDate?.() || (state.currentUser.lastDonationDate ? new Date(state.currentUser.lastDonationDate) : null);
+          donorCountdownEl.textContent = calculateCountdown(last);
+        }, 60 * 60 * 1000);
+      }
+
+      async function handleLogin(event) {
+        event.preventDefault();
+        const phone = sanitizePhone(el("login-phone").value);
+        const password = el("login-password").value;
+        if (!phone || !password) {
+          showToast("Please enter both phone number and password", "error");
+          return;
+        }
+        const authEmail = phoneToEmail(phone);
+        try {
+          const credential = await signInWithEmailAndPassword(auth, authEmail, password);
+          const user = credential.user;
+          const docSnap = await getDoc(doc(db, "donors", user.uid));
+          if (!docSnap.exists()) {
+            showToast("Account profile not found", "error");
+            await firebaseSignOut(auth);
+            return;
+          }
+          const donorData = docSnap.data();
+          if (sanitizePhone(donorData.phone || "") !== phone) {
+            showToast("Phone number does not match this account", "error");
+            await firebaseSignOut(auth);
+            return;
+          }
+          if (donorData.status === "suspended") {
+            showToast("This account is suspended", "error");
+            await firebaseSignOut(auth);
+            return;
+          }
+          state.currentUser = { id: docSnap.id, email: authEmail, ...donorData };
+          state.role = donorData.role || "donor";
+          await afterLogin();
+          forms.login.reset();
+          showToast("Logged in successfully", "success");
+        } catch (error) {
+          console.error("Login error", error);
+          const code = error?.code || "";
+          if (code === "auth/invalid-credential" || code === "auth/wrong-password") {
+            showToast("Incorrect phone number or password", "error");
+          } else if (code === "auth/user-not-found") {
+            showToast("No donor found with that phone number", "error");
+          } else {
+            showToast("Unable to sign in right now", "error");
+          }
+        }
+      }
+
+      async function handleRegister(event) {
+        event.preventDefault();
+        const name = el("reg-name").value.trim();
+        const phone = sanitizePhone(el("reg-phone").value);
+        const dob = el("reg-dob").value;
+        const password = el("reg-password").value;
+        const gender = el("reg-gender").value;
+        const bloodGroup = el("reg-bloodgroup").value;
+        const address = bindingMap.register.get();
+
+        if (!name || !phone || !dob || !password || !gender || !bloodGroup || !address.division || !address.district || !address.thana || !address.upazila) {
+          showToast("Please fill in all required fields", "error");
+          return;
+        }
+
+        try {
+          const authEmail = phoneToEmail(phone);
+          let user;
+          try {
+            const credential = await createUserWithEmailAndPassword(auth, authEmail, password);
+            user = credential.user;
+          } catch (error) {
+            const code = error?.code || "";
+            if (code === "auth/email-already-in-use") {
+              showToast("This phone number is already registered", "error");
+            } else if (code === "auth/weak-password") {
+              showToast("Password must be at least 6 characters", "error");
+            } else {
+              showToast("Registration failed, please try again", "error");
+            }
+            throw error;
+          }
+          await setDoc(doc(db, "donors", user.uid), {
+            name,
+            phone,
+            email: authEmail,
+            dateOfBirth: dob,
+            gender,
+            bloodGroup,
+            role: "donor",
+            status: "active",
+            altPhone: "",
+            address,
+            createdAt: serverTimestamp()
+          });
+          state.currentUser = {
+            id: user.uid,
+            email: authEmail,
+            name,
+            phone,
+            dateOfBirth: dob,
+            gender,
+            bloodGroup,
+            role: "donor",
+            status: "active",
+            altPhone: "",
+            address
+          };
+          state.role = "donor";
+          await afterLogin();
+          showToast("Registration successful! You're signed in.", "success");
+          forms.register.reset();
+          bindingMap.register.reset();
+        } catch (error) {
+          console.error("Registration error", error);
+          const code = error?.code || "";
+          if (code === "auth/email-already-in-use") {
+            showToast("This phone number is already registered", "error");
+          } else if (code === "auth/weak-password") {
+            showToast("Password must be at least 6 characters", "error");
+          } else {
+            showToast("Registration failed, please try again", "error");
+          }
+        }
+      }
+
+      async function handleProfileSave() {
+        if (!state.currentUser) return;
+        const name = donorProfileFields.name.value.trim();
+        const altPhone = sanitizePhone(donorProfileFields.altPhone.value);
+        const gender = donorProfileFields.gender.value;
+        const bloodGroup = donorProfileFields.blood.value;
+        const address = bindingMap.donorProfile.get();
+
+        if (!name || !gender || !bloodGroup || !address.division || !address.district || !address.thana || !address.upazila) {
+          showToast("Please complete all profile details", "error");
+          return;
+        }
+
+        try {
+          const docRef = doc(db, "donors", state.currentUser.id);
+          await updateDoc(docRef, {
+            name,
+            altPhone,
+            gender,
+            bloodGroup,
+            address
+          });
+          state.currentUser = {
+            ...state.currentUser,
+            name,
+            altPhone,
+            gender,
+            bloodGroup,
+            address
+          };
+          donorNameEl.textContent = name;
+          showToast("Profile updated successfully", "success");
+        } catch (error) {
+          console.error("Profile update error", error);
+          showToast("Failed to update profile", "error");
+        }
+      }
+
+      async function handleDonationUpdate() {
+        if (!state.currentUser) return;
+        const dateValue = donorLastDonationEl.value;
+        if (!dateValue) {
+          showToast("Please choose a donation date", "error");
+          return;
+        }
+        try {
+          const docRef = doc(db, "donors", state.currentUser.id);
+          await updateDoc(docRef, {
+            lastDonationDate: Timestamp.fromDate(new Date(dateValue))
+          });
+          state.currentUser.lastDonationDate = Timestamp.fromDate(new Date(dateValue));
+          donorCountdownEl.textContent = calculateCountdown(new Date(dateValue));
+          showToast("Donation date saved", "success");
+        } catch (error) {
+          console.error("Donation update error", error);
+          showToast("Unable to save donation date", "error");
+        }
+      }
+
+      async function donorHasRecentRequest() {
+        if (!state.currentUser) return false;
+        try {
+          const since = Timestamp.fromDate(new Date(Date.now() - 24 * 60 * 60 * 1000));
+          const requestsRef = collection(db, "bloodRequests");
+          const throttleQuery = query(
+            requestsRef,
+            where("donorId", "==", state.currentUser.id),
+            where("createdAt", ">=", since)
+          );
+          const snapshot = await getDocs(throttleQuery);
+          return !snapshot.empty;
+        } catch (error) {
+          console.warn("Throttle check skipped", error);
+          return false;
+        }
+      }
+
+      async function handleOpenBloodRequest() {
+        if (!state.currentUser) return;
+        try {
+          const limited = await donorHasRecentRequest();
+          if (limited) {
+            showToast("You can submit only one request every 24 hours", "error");
+            return;
+          }
+          bindingMap.bloodRequest.reset();
+          bindingMap.bloodRequest.set(state.currentUser.address || {});
+          el("req-blood-group").value = state.currentUser.bloodGroup || "";
+          el("req-contact").value = state.currentUser.phone || "";
+          openModal("bloodRequest");
+        } catch (error) {
+          console.error(error);
+          showToast("Unable to open request form", "error");
+        }
+      }
+
+      async function handleBloodRequestSubmit(event) {
+        event.preventDefault();
+        if (!state.currentUser) return;
+        const patientDetails = el("req-patient-details").value.trim();
+        const bloodGroup = el("req-blood-group").value;
+        const bagsNeeded = parseInt(el("req-bags").value, 10) || 1;
+        const hospital = el("req-hospital").value.trim();
+        const contactNumber = sanitizePhone(el("req-contact").value);
+        const address = bindingMap.bloodRequest.get();
+
+        if (!patientDetails || !bloodGroup || !hospital || !contactNumber || !address.division || !address.district || !address.thana || !address.upazila) {
+          showToast("Please complete all request details", "error");
+          return;
+        }
+
+        try {
+          const requestsRef = collection(db, "bloodRequests");
+          await addDoc(requestsRef, {
+            donorId: state.currentUser.id,
+            patientDetails,
+            bloodGroup,
+            bagsNeeded,
+            hospital,
+            contactNumber,
+            address,
+            status: "active",
+            createdAt: serverTimestamp()
+          });
+          closeModal("bloodRequest");
+          forms.bloodRequest.reset();
+          bindingMap.bloodRequest.reset();
+          openModal("requestSuccess");
+          showToast("Request submitted successfully", "success");
+        } catch (error) {
+          console.error("Blood request error", error);
+          showToast("Unable to submit request", "error");
+        }
+      }
+
+      async function handleAdminSearch(event, context = null) {
+        if (event) event.preventDefault();
+        const binding = context?.binding || bindingMap.adminSearch;
+        const bloodGroup = (context?.bloodGroupEl || el("admin-search-blood")).value;
+        const address = binding.get();
+        if (!bloodGroup || !address.division) {
+          showToast("Please select blood group and location", "error");
+          return;
+        }
+        try {
+          const results = await hierarchicalDonorSearch({ bloodGroup, address });
+          renderDonorResults(results, adminSearchResults);
+        } catch (error) {
+          console.error(error);
+          showToast("Unable to search donors", "error");
+        }
+      }
+
+      async function hierarchicalDonorSearch({ bloodGroup, address }) {
+        const donorsRef = collection(db, "donors");
+        const snap = await getDocs(query(donorsRef, where("bloodGroup", "==", bloodGroup)));
+        const division = address.division;
+        const district = address.district;
+        const thana = address.thana;
+        const upazila = address.upazila;
+
+        const enriched = snap.docs
+          .map((docSnap) => ({ id: docSnap.id, ...docSnap.data() }))
+          .filter((donor) => (donor.status || "active") === "active");
+
+        const scored = enriched
+          .map((donor) => {
+            let score = 0;
+            if (donor.address?.division && division && donor.address.division === division) score += 4;
+            if (donor.address?.district && district && donor.address.district === district) score += 3;
+            if (donor.address?.thana && thana && donor.address.thana === thana) score += 2;
+            if (donor.address?.upazila && upazila && donor.address.upazila === upazila) score += 1;
+            return { donor, score };
+          })
+          .filter(({ score }) => score > 0 || !division)
+          .sort((a, b) => b.score - a.score);
+
+        if (!scored.length) {
+          return enriched;
+        }
+
+        return scored.map(({ donor }) => donor);
+      }
+
+      function renderDonorResults(donors, container) {
+        container.innerHTML = "";
+        if (!donors.length) {
+          const p = document.createElement("p");
+          p.style.color = "var(--muted)";
+          p.textContent = "No donors found";
+          container.appendChild(p);
+          return;
+        }
+        donors.forEach((donor) => {
+          const card = document.createElement("div");
+          card.className = "info-card";
+          const statusBadge = donor.status === "suspended" ? '<span class="status-suspended">Suspended</span>' : '<span class="badge"><i class="fa-solid fa-droplet"></i> Active</span>';
+          const lastDonation = donor.lastDonationDate?.toDate?.() || (donor.lastDonationDate ? new Date(donor.lastDonationDate) : null);
+          const age = calculateAgeFromDob(donor.dateOfBirth);
+          card.innerHTML = `
+            <div style="display:flex; flex-direction:column; gap:0.6rem">
+              <div style="display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap">
+                <div>
+                  <strong>${escapeHtml(donor.name || "Donor")}</strong>
+                  <div style="color:var(--muted)">${escapeHtml(donor.phone || "")}</div>
+                </div>
+                ${statusBadge}
+              </div>
+              <div style="color:var(--muted); display:grid; gap:0.35rem">
+                <span><i class="fa-solid fa-droplet" style="color:var(--primary)"></i> ${escapeHtml(donor.bloodGroup || "")}</span>
+                <span><i class="fa-solid fa-location-dot" style="color:var(--primary)"></i> ${formatLocation(donor.address || {})}</span>
+                <span><i class="fa-solid fa-cake-candles" style="color:var(--primary)"></i> Age: ${age !== null ? `${age} years` : "Not provided"}</span>
+                <span><i class="fa-regular fa-calendar"></i> Last donation: ${lastDonation ? formatDate(lastDonation) : "-"}</span>
+              </div>
+              <textarea class="field" data-donor-note="${donor.id}" placeholder="Write note here" style="min-height:80px; padding:0.75rem 1rem; border-radius:12px; border:1px solid rgba(214,40,40,0.2); background:#fff">${escapeHtml(donor.note || "")}</textarea>
+              <div class="actions">
+                <button class="secondary-btn" data-donor-star="${donor.id}" data-starred="${donor.starred ? "1" : "0"}">
+                  <i class="fa-solid ${donor.starred ? "fa-star" : "fa-star-half-stroke"}"></i> ${donor.starred ? "Unstar Donor" : "Star Donor"}
+                </button>
+                <button class="ghost-btn" data-donor-note-save="${donor.id}"><i class="fa-solid fa-floppy-disk"></i> Save Note</button>
+                <button class="ghost-btn" data-donor-update-donation="${donor.id}"><i class="fa-solid fa-calendar-plus"></i> Update Donation</button>
+              </div>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      }
+
+      async function handleAdminRequestAction(event) {
+        const searchBtn = event.target.closest("[data-request-search]");
+        const deleteBtn = event.target.closest("[data-request-delete]");
+        if (searchBtn) {
+          const requestId = searchBtn.dataset.requestSearch;
+          const requestDoc = await getDoc(doc(db, "bloodRequests", requestId));
+          if (!requestDoc.exists()) return;
+          const data = requestDoc.data();
+          const results = await hierarchicalDonorSearch({
+            bloodGroup: data.bloodGroup,
+            address: data.address || {}
+          });
+          renderDonorResults(results, adminSearchResults);
+          showToast("Matching donors loaded", "success");
+        }
+        if (deleteBtn) {
+          const requestId = deleteBtn.dataset.requestDelete;
+          if (!confirm("Delete this request?")) return;
+          try {
+            await deleteDoc(doc(db, "bloodRequests", requestId));
+            showToast("Request removed", "success");
+          } catch (error) {
+            console.error(error);
+            showToast("Failed to remove request", "error");
+          }
+        }
+      }
+
+      async function handleAdminSuspend(event) {
+        event.preventDefault();
+        const phone = sanitizePhone(el("admin-suspend-phone").value);
+        if (!phone) {
+          showToast("Please enter a phone number", "error");
+          return;
+        }
+        try {
+          const donor = await getDonorDocByPhone(phone);
+          if (!donor) {
+            showToast("No donor found", "error");
+            return;
+          }
+          await updateDoc(doc(db, "donors", donor.id), { status: "suspended" });
+          showToast("Donor suspended", "success");
+          forms.adminSuspend.reset();
+        } catch (error) {
+          console.error(error);
+          showToast("Unable to suspend donor", "error");
+        }
+      }
+
+      async function handleAdminNotice(event) {
+        event.preventDefault();
+        const message = adminNoticeMessageEl.value.trim();
+        try {
+          await setDoc(doc(db, "appConfig", "noticeBoard"), { message });
+          showToast("Notice updated", "success");
+        } catch (error) {
+          console.error(error);
+          showToast("Failed to update notice", "error");
+        }
+      }
+
+      async function handleAdminPartner(event) {
+        event.preventDefault();
+        const name = el("admin-partner-name").value.trim();
+        const link = el("admin-partner-link").value.trim();
+        if (!name || !link) {
+          showToast("Please enter group name and link", "error");
+          return;
+        }
+        try {
+          await addDoc(collection(db, "partnerGroups"), {
+            groupName: name,
+            groupLink: link,
+            createdAt: serverTimestamp()
+          });
+          showToast("Partner group added", "success");
+          forms.adminPartner.reset();
+        } catch (error) {
+          console.error(error);
+          showToast("Failed to add partner group", "error");
+        }
+      }
+
+      async function handleAdminConfigSubmit(event) {
+        event.preventDefault();
+        const whatsapp = sanitizePhone(el("admin-config-whatsapp").value);
+        const supportMessage = el("admin-config-support-message").value.trim();
+        const bkashNumber = sanitizePhone(el("admin-config-bkash").value);
+        const nagadNumber = sanitizePhone(el("admin-config-nagad").value);
+        const passwordWebhook = el("admin-config-password-webhook").value.trim();
+
+        try {
+          await setDoc(
+            doc(db, "appConfig", "adminConfig"),
+            {
+              whatsappNumber: whatsapp || ADMIN_CONFIG_DEFAULTS.whatsappNumber,
+              supportMessage: supportMessage || ADMIN_CONFIG_DEFAULTS.supportMessage,
+              bkashNumber: bkashNumber || ADMIN_CONFIG_DEFAULTS.bkashNumber,
+              nagadNumber: nagadNumber || ADMIN_CONFIG_DEFAULTS.nagadNumber,
+              passwordResetWebhook: passwordWebhook
+            },
+            { merge: true }
+          );
+          showToast("App settings updated", "success");
+        } catch (error) {
+          console.error("Admin config update error", error);
+          showToast("Failed to update app settings", "error");
+        }
+      }
+
+      async function handleAdminPasswordReset(event) {
+        event.preventDefault();
+        const phone = sanitizePhone(el("admin-pass-phone").value);
+        const newPassword = el("admin-pass-new").value;
+        if (!phone || !newPassword) {
+          showToast("Please enter phone number and new password", "error");
+          return;
+        }
+        if (newPassword.length < 6) {
+          showToast("Password must be at least 6 characters", "error");
+          return;
+        }
+        const webhook = state.adminConfig.passwordResetWebhook?.trim();
+        if (!webhook) {
+          showToast("Configure password reset webhook in App Settings first", "error");
+          return;
+        }
+        const payload = {
+          phone,
+          email: phoneToEmail(phone),
+          newPassword,
+          requestedBy: state.currentUser?.id || null,
+          requestedAt: new Date().toISOString()
+        };
+        try {
+          const currentAuthUser = auth.currentUser;
+          if (currentAuthUser?.getIdToken) {
+            payload.adminToken = await currentAuthUser.getIdToken(true);
+          }
+        } catch (tokenError) {
+          console.warn("Unable to attach admin token", tokenError);
+        }
+
+        try {
+          const response = await fetch(webhook, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+          if (!response.ok) {
+            throw new Error(`Webhook responded with status ${response.status}`);
+          }
+          showToast("Password reset request sent", "success");
+          forms.adminPassword?.reset();
+        } catch (error) {
+          console.error("Password reset webhook error", error);
+          showToast("Unable to send password reset request", "error");
+        }
+      }
+
+      function resetAdminSearch() {
+        forms.adminSearch.reset();
+        bindingMap.adminSearch.reset();
+        adminSearchResults.innerHTML = "";
+      }
+
+      async function handleDonorAction(event) {
+        const starBtn = event.target.closest("[data-donor-star]");
+        const noteBtn = event.target.closest("[data-donor-note-save]");
+        const donationBtn = event.target.closest("[data-donor-update-donation]");
+        if (starBtn) {
+          const donorId = starBtn.dataset.donorStar;
+          const currentlyStarred = starBtn.dataset.starred === "1";
+          try {
+            await updateDoc(doc(db, "donors", donorId), { starred: !currentlyStarred });
+            starBtn.dataset.starred = currentlyStarred ? "0" : "1";
+            const label = currentlyStarred ? "Star Donor" : "Unstar Donor";
+            const icon = currentlyStarred ? "fa-star-half-stroke" : "fa-star";
+            starBtn.innerHTML = `<i class="fa-solid ${icon}"></i> ${label}`;
+            showToast("Star status updated", "success");
+          } catch (error) {
+            console.error(error);
+            showToast("Unable to update star status", "error");
+          }
+        }
+        if (noteBtn) {
+          const donorId = noteBtn.dataset.donorNoteSave;
+          const textarea = adminSearchResults.querySelector(`textarea[data-donor-note="${donorId}"]`);
+          if (!textarea) return;
+          try {
+            await updateDoc(doc(db, "donors", donorId), { note: textarea.value.trim() });
+            showToast("Note saved", "success");
+          } catch (error) {
+            console.error(error);
+            showToast("Failed to save note", "error");
+          }
+        }
+        if (donationBtn) {
+          const donorId = donationBtn.dataset.donorUpdateDonation;
+          const newDate = prompt("Enter donation date (YYYY-MM-DD)");
+          if (!newDate) return;
+          try {
+            await updateDoc(doc(db, "donors", donorId), {
+              lastDonationDate: Timestamp.fromDate(new Date(newDate))
+            });
+            showToast("Donation date updated", "success");
+          } catch (error) {
+            console.error(error);
+            showToast("Failed to update donation date", "error");
+          }
+        }
+      }
+
+      function bindInviteShare() {
+        el("invite-share").addEventListener("click", async () => {
+          const shareData = {
+            title: "Need Blood?",
+            text: "Join the Need Blood? donor network and help save lives.",
+            url: window.location.href
+          };
+          if (navigator.share) {
+            try {
+              await navigator.share(shareData);
+              showToast("Invite shared", "success");
+            } catch (error) {
+              console.error(error);
+            }
+          } else {
+            try {
+              await navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
+              showToast("Link copied", "success");
+            } catch (error) {
+              showToast("Unable to copy link", "error");
+            }
+          }
+        });
+      }
+
+      function bindModalClose() {
+        document.body.addEventListener("click", (event) => {
+          const closeBtn = event.target.closest("[data-close]");
+          if (closeBtn) {
+            closeModal(closeBtn.dataset.close);
+          }
+        });
+        Object.values(modals).forEach((modal) => {
+          modal.addEventListener("click", (event) => {
+            if (event.target === modal) modal.classList.remove("active");
+          });
+        });
+      }
+
+      function bindNavigation() {
+        el("open-register").addEventListener("click", () => {
+          forms.register.reset();
+          bindingMap.register.reset();
+          switchAuthView("register");
+        });
+        el("open-reset").addEventListener("click", () => {
+          openModal("passwordHelp");
+        });
+        el("back-to-login").addEventListener("click", () => switchAuthView("login"));
+        el("btn-logout-donor").addEventListener("click", () => {
+          showAuthCard();
+          signOut();
+        });
+        el("btn-logout-admin").addEventListener("click", () => {
+          showAuthCard();
+          signOut();
+        });
+      }
+
+      function bindForms() {
+        forms.login.addEventListener("submit", handleLogin);
+        forms.register.addEventListener("submit", handleRegister);
+        el("donor-profile-save").addEventListener("click", handleProfileSave);
+        el("donor-save-donation").addEventListener("click", handleDonationUpdate);
+        el("open-blood-request").addEventListener("click", handleOpenBloodRequest);
+        forms.bloodRequest.addEventListener("submit", handleBloodRequestSubmit);
+        forms.adminSearch.addEventListener("submit", handleAdminSearch);
+        forms.adminSuspend.addEventListener("submit", handleAdminSuspend);
+        forms.adminNotice.addEventListener("submit", handleAdminNotice);
+        forms.adminPartner.addEventListener("submit", handleAdminPartner);
+        if (forms.adminConfig) {
+          forms.adminConfig.addEventListener("submit", handleAdminConfigSubmit);
+        }
+        if (forms.adminPassword) {
+          forms.adminPassword.addEventListener("submit", handleAdminPasswordReset);
+        }
+        el("admin-reset-search").addEventListener("click", resetAdminSearch);
+        adminRequestList.addEventListener("click", handleAdminRequestAction);
+        adminSearchResults.addEventListener("click", handleDonorAction);
+      }
+
+      function bindMisc() {
+        el("blood-request-modal").addEventListener("submit", hideToast);
+        bindPartnerListClicks();
+        bindInviteShare();
+        bindDonationButton();
+        bindModalClose();
+      }
+
+      function bindDonationButton() {
+        const donationBtn = el("support-developer");
+        if (!donationBtn) return;
+        donationBtn.addEventListener("click", () => {
+          updateSupportContent();
+          openModal("support");
+        });
+      }
+
+      function initLocationBindings() {
+        bindingMap.register = createLocationBinding({
+          division: el("reg-division"),
+          district: el("reg-district"),
+          thana: el("reg-thana"),
+          upazila: el("reg-upazila")
+        });
+        bindingMap.donorProfile = createLocationBinding({
+          division: el("donor-profile-division"),
+          district: el("donor-profile-district"),
+          thana: el("donor-profile-thana"),
+          upazila: el("donor-profile-upazila")
+        });
+        bindingMap.adminSearch = createLocationBinding({
+          division: el("admin-search-division"),
+          district: el("admin-search-district"),
+          thana: el("admin-search-thana"),
+          upazila: el("admin-search-upazila")
+        });
+        bindingMap.bloodRequest = createLocationBinding({
+          division: el("req-division"),
+          district: el("req-district"),
+          thana: el("req-thana"),
+          upazila: el("req-upazila")
+        });
+      }
+
+      async function init() {
+        await loadLocationHierarchy();
+        setUpSelectOptions();
+        initLocationBindings();
+        bindNavigation();
+        bindForms();
+        bindMisc();
+        updateAdminContactLink();
+        updateSupportContent();
+        ensureSharedWatchers();
+        scheduleCountdownUpdate();
+        restoreSession();
+      }
+
+      init().catch((error) => {
+        console.error("Initialization error", error);
+        showToast("Failed to initialize fully", "error");
+      });
+    </script>
+  </body>
+</html>
